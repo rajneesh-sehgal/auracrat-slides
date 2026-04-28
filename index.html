@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Raj Sehgal — Presentations</title>
+  <meta name="description" content="Presentations by Raj Sehgal, The AI Guy. Practical AI for local businesses." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:         #F8F7F3;
+      --bg-card:    #FFFFFF;
+      --navy:       #1D3557;
+      --navy-mid:   #2E4E78;
+      --navy-pale:  #EBF0F7;
+      --text:       #1A1A28;
+      --muted:      #6B7280;
+      --lighter:    #9CA3AF;
+      --rule:       #DDD9D0;
+      --green:      #1E7A4A;
+      --font-head:  'Playfair Display', Georgia, serif;
+      --font-body:  'DM Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ─────────────────────────────────────────── */
+    header {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 56px 40px 48px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 40px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .brand-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--navy);
+      opacity: 0.6;
+    }
+
+    .brand-name {
+      font-family: var(--font-head);
+      font-size: clamp(28px, 3.5vw, 42px);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.1;
+    }
+
+    .brand-name em {
+      font-style: italic;
+      color: var(--navy);
+    }
+
+    .brand-tagline {
+      font-size: 15px;
+      color: var(--muted);
+      font-weight: 300;
+      margin-top: 4px;
+      max-width: 400px;
+      line-height: 1.55;
+    }
+
+    .header-contact {
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding-top: 8px;
+    }
+
+    .header-contact a {
+      font-size: 14px;
+      color: var(--navy);
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+
+    .header-contact a:hover { opacity: 0.6; }
+
+    .header-contact span {
+      font-size: 13px;
+      color: var(--lighter);
+    }
+
+    /* ── Divider ─────────────────────────────────────────── */
+    .divider {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 40px;
+      border: none;
+      border-top: 1px solid var(--rule);
+    }
+
+    /* ── Main Content ────────────────────────────────────── */
+    main {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 52px 40px 80px;
+    }
+
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--navy);
+      opacity: 0.6;
+      margin-bottom: 28px;
+    }
+
+    /* ── Presentation Grid ───────────────────────────────── */
+    .presentations-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 24px;
+    }
+
+    /* ── Presentation Card ───────────────────────────────── */
+    .pres-card {
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow 0.25s ease, transform 0.25s ease;
+    }
+
+    .pres-card:hover {
+      box-shadow: 0 8px 32px rgba(29, 53, 87, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Thumbnail strip */
+    .pres-thumb {
+      height: 8px;
+      background: var(--navy);
+    }
+
+    .pres-thumb.green { background: var(--green); }
+
+    /* Card body */
+    .pres-body {
+      padding: 28px 28px 0;
+      flex: 1;
+    }
+
+    .pres-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .pres-tag {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--navy);
+      background: var(--navy-pale);
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .pres-tag.green {
+      color: var(--green);
+      background: #E8F5EE;
+    }
+
+    .pres-date {
+      font-size: 12px;
+      color: var(--lighter);
+    }
+
+    .pres-title {
+      font-family: var(--font-head);
+      font-size: clamp(20px, 2.2vw, 26px);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.25;
+      margin-bottom: 10px;
+    }
+
+    .pres-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 16px;
+    }
+
+    /* Details row */
+    .pres-details {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 16px 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .pres-detail {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .pres-detail-icon {
+      font-size: 14px;
+      width: 20px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    /* Card actions */
+    .pres-actions {
+      padding: 20px 28px 24px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-open {
+      flex: 1;
+      background: var(--navy);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 11px 20px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: background 0.2s, opacity 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .btn-open:hover { opacity: 0.85; }
+
+    .btn-secondary {
+      background: var(--bg);
+      color: var(--navy);
+      border: 1.5px solid var(--rule);
+      border-radius: 8px;
+      padding: 11px 16px;
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      text-align: center;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .btn-secondary:hover {
+      background: var(--navy-pale);
+      border-color: var(--navy);
+    }
+
+    /* ── Slide count badge ───────────────────────────────── */
+    .slide-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--lighter);
+      margin-top: 6px;
+    }
+
+    /* ── Empty state ─────────────────────────────────────── */
+    .empty-state {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--muted);
+      font-size: 15px;
+      border: 1.5px dashed var(--rule);
+      border-radius: 16px;
+    }
+
+    /* ── About strip ─────────────────────────────────────── */
+    .about-strip {
+      max-width: 1080px;
+      margin: 0 auto 0;
+      padding: 0 40px 64px;
+    }
+
+    .about-card {
+      background: var(--navy);
+      border-radius: 16px;
+      padding: 36px 40px;
+      display: flex;
+      align-items: center;
+      gap: 40px;
+    }
+
+    .about-text { flex: 1; }
+
+    .about-heading {
+      font-family: var(--font-head);
+      font-size: clamp(20px, 2.5vw, 28px);
+      font-weight: 700;
+      color: white;
+      margin-bottom: 10px;
+    }
+
+    .about-heading em {
+      font-style: italic;
+      opacity: 0.75;
+    }
+
+    .about-body {
+      font-size: 14px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.7;
+      max-width: 560px;
+    }
+
+    .about-cta {
+      background: white;
+      color: var(--navy);
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+      flex-shrink: 0;
+    }
+
+    .about-cta:hover { opacity: 0.85; }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 24px 40px;
+      max-width: 1080px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .footer-left {
+      font-size: 13px;
+      color: var(--lighter);
+    }
+
+    .footer-left strong {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .footer-right {
+      font-size: 13px;
+      color: var(--lighter);
+    }
+
+    /* ── Fade-in on load ─────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    header  { animation: fadeUp 0.45s ease both; }
+    main    { animation: fadeUp 0.45s 0.1s ease both; }
+
+    .pres-card {
+      animation: fadeUp 0.4s ease both;
+    }
+
+    .pres-card:nth-child(1) { animation-delay: 0.15s; }
+    .pres-card:nth-child(2) { animation-delay: 0.22s; }
+    .pres-card:nth-child(3) { animation-delay: 0.29s; }
+    .pres-card:nth-child(4) { animation-delay: 0.36s; }
+
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 680px) {
+      header { flex-direction: column; padding: 36px 24px 32px; gap: 24px; }
+      .header-contact { text-align: left; }
+      main { padding: 36px 24px 60px; }
+      .about-strip { padding: 0 24px 48px; }
+      .about-card { flex-direction: column; gap: 24px; }
+      footer { flex-direction: column; align-items: flex-start; padding: 20px 24px; }
+      .divider { padding: 0 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="brand">
+      <span class="brand-label">AURAcrat Solutions LLC</span>
+      <div class="brand-name">Raj Sehgal<br><em>The AI Guy</em></div>
+      <p class="brand-tagline">Practical AI for local businesses. Simple systems, real results, no hype.</p>
+    </div>
+    <div class="header-contact">
+      <a href="mailto:rajneesh@auracrat.com">rajneesh@auracrat.com</a>
+      <span>Schaumburg / Chicago</span>
+    </div>
+  </header>
+
+  <hr class="divider" />
+
+  <!-- Main -->
+  <main>
+    <div class="section-label">Presentations</div>
+
+    <div class="presentations-grid" id="grid">
+
+      <!-- ── Presentation Card 1 ── -->
+      <div class="pres-card">
+        <div class="pres-thumb"></div>
+        <div class="pres-body">
+          <div class="pres-meta">
+            <span class="pres-tag">Lunch &amp; Learn</span>
+            <span class="pres-date">April 2026</span>
+          </div>
+          <div class="pres-title">Fundamentals of AI<br>for Business</div>
+          <p class="pres-subtitle">A simple, practical session for local business owners who want clarity before tools. Covers what AI really is, how LLMs were built, and how to start using it in real workflows today.</p>
+          <div class="pres-details">
+            <div class="pres-detail"><span class="pres-detail-icon">🎯</span> Professional services — accounting, legal, local SMBs</div>
+            <div class="pres-detail"><span class="pres-detail-icon">⏱️</span> 50 min presentation + 10 min Q&amp;A</div>
+            <div class="pres-detail"><span class="pres-detail-icon">📍</span> 25N Coworking, Schaumburg</div>
+            <div class="pres-detail"><span class="pres-detail-icon">📑</span> 27 slides</div>
+          </div>
+        </div>
+        <div class="pres-actions">
+          <a class="btn-open" href="presentations/ai-fundamentals-raj-sehgal.html" target="_blank">
+            <span>▶</span> Open Slides
+          </a>
+          <a class="btn-secondary" href="presentations/ai-fundamentals-raj-sehgal.html" download="AI-Fundamentals-Raj-Sehgal.html">
+            <span>⬇</span> HTML
+          </a>
+        </div>
+      </div>
+
+      <!-- Add new presentation cards above this comment -->
+
+    </div>
+  </main>
+
+  <!-- About strip -->
+  <div class="about-strip">
+    <div class="about-card">
+      <div class="about-text">
+        <div class="about-heading">Want help applying this<br><em>to your business?</em></div>
+        <p class="about-body">I offer hands-on consulting and training sessions for local businesses who want to get started with AI practically — no jargon, no pressure, just clear guidance at your own pace.</p>
+      </div>
+      <a class="about-cta" href="mailto:rajneesh@auracrat.com">Let us talk</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-left"><strong>Raj Sehgal</strong> · AURAcrat Solutions LLC · The AI Guy</div>
+    <div class="footer-right">Schaumburg / Chicago</div>
+  </footer>
+
+</body>
+</html>
