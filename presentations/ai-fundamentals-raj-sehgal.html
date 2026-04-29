@@ -192,6 +192,14 @@
       width: 100%;
     }
 
+    .cards-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 28px;
+      width: 100%;
+    }
+
     .card {
       background: var(--bg-card);
       border: 1px solid var(--rule);
@@ -728,12 +736,27 @@
 
     /* ─── Responsive ─────────────────────────────────────── */
     @media (max-width: 768px) {
-      .slide { padding: 40px 28px 72px; }
+      html, body { overflow: hidden; }
+
+      .slide {
+        padding: 52px 24px 80px;
+        justify-content: flex-start;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-y: contain;
+      }
+
+      .slide-content { padding-bottom: 16px; }
+
       .two-col { grid-template-columns: 1fr; }
       .photo-col { flex-direction: row; align-items: center; }
       .avatar { width: 80px; height: 80px; font-size: 26px; }
       .cards { grid-template-columns: 1fr; }
+      .cards-4 { grid-template-columns: repeat(2, 1fr); }
       .split { grid-template-columns: 1fr; }
+
+      #pdf-btn { padding: 8px 10px; gap: 0; top: 14px; right: 14px; }
+      #pdf-label { display: none; }
       .flow-steps { flex-direction: column; gap: 20px; }
       .flow-step::after { display: none; }
     }
@@ -748,7 +771,8 @@
 
   <!-- PDF button -->
   <button id="pdf-btn" onclick="downloadPDF()">
-    <span id="pdf-icon">⬇</span> <span id="pdf-label">Download PDF</span>
+    <svg id="pdf-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M7 1v8M4 6.5l3 3 3-3M1.5 12.5h11"/></svg>
+    <span id="pdf-label">Download PDF</span>
   </button>
 
   <!-- ══════════════════════════════════════════════════════
@@ -1088,7 +1112,7 @@
       <div class="label">Beyond text</div>
       <div class="slide-title">The same idea.<br><em>Every format.</em></div>
 
-      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:24px; width:100%;">
+      <div class="cards-4" style="gap:14px; margin-top:24px;">
 
         <!-- Text -->
         <div style="background:var(--bg-card); border:1px solid var(--rule); border-top:3px solid var(--navy); border-radius:12px; padding:20px 18px 18px; display:flex; flex-direction:column;">
@@ -1237,7 +1261,7 @@
       <div class="label">Your path forward</div>
       <div class="slide-title">The <em>AURA</em> Way.</div>
 
-      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-top:28px; width:100%;">
+      <div class="cards-4">
 
         <!-- A — Activate -->
         <div style="background:var(--bg-card); border:1px solid var(--rule); border-top:3px solid var(--navy); border-radius:12px; padding:24px 22px 22px; display:flex; flex-direction:column;">
@@ -1297,7 +1321,7 @@
       <div class="label">Simple systems that work today</div>
       <div class="slide-title">Four places to start.</div>
 
-      <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:24px; width:100%;">
+      <div class="cards-4" style="gap:14px; margin-top:24px;">
 
         <!-- 1 — Incoming Emails -->
         <div class="card">
@@ -1489,6 +1513,7 @@
     slides[current].classList.remove('active');
     current = n;
     slides[current].classList.add('active');
+    slides[current].scrollTop = 0;
     counter.textContent = (current + 1) + ' / ' + TOTAL;
     btnPrev.disabled = current === 0;
     btnNext.disabled = current === TOTAL - 1;
@@ -1506,13 +1531,19 @@
     if (e.key === 'ArrowUp')    { e.preventDefault(); navigate(-1); }
   });
 
-  // Touch / swipe
-  let touchX = 0;
-  document.addEventListener('touchstart',  e => { touchX = e.changedTouches[0].screenX; }, { passive: true });
+  // Touch / swipe — only fire if horizontal movement dominates (avoids triggering during vertical scroll)
+  let touchX = 0, touchY = 0;
+  document.addEventListener('touchstart', e => {
+    touchX = e.changedTouches[0].screenX;
+    touchY = e.changedTouches[0].screenY;
+  }, { passive: true });
   document.addEventListener('touchend', e => {
     const dx = e.changedTouches[0].screenX - touchX;
-    if (dx < -60) navigate(1);
-    if (dx >  60) navigate(-1);
+    const dy = e.changedTouches[0].screenY - touchY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 60) {
+      if (dx < 0) navigate(1);
+      else navigate(-1);
+    }
   });
 
   // Init
@@ -1526,7 +1557,6 @@
     const label = document.getElementById('pdf-label');
 
     btn.disabled      = true;
-    icon.textContent  = '⏳';
     label.textContent = 'Opening print view…';
 
     // Collect all style sheets from the current document
@@ -1619,7 +1649,6 @@
     if (!pw) {
       alert('Please allow popups for this page, then try again.');
       btn.disabled      = false;
-      icon.textContent  = '⬇';
       label.textContent = 'Download PDF';
       return;
     }
@@ -1629,7 +1658,7 @@
     pw.document.close();
 
     btn.disabled      = false;
-    icon.textContent  = '⬇';
+    icon.textContent  = '📥';
     label.textContent = 'Download PDF';
   }
 </script>
