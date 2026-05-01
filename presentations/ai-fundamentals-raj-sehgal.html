@@ -12,7 +12,7 @@
   <meta property="og:image" content="https://slides.theaiguy.dev/og-presentation.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:site_name" content="AURAcrat Solutions LLC" />
+  <meta property="og:site_name" content="The AI Guy" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Fundamentals of AI for Business — Raj Sehgal" />
   <meta name="twitter:description" content="A simple, practical Lunch and Learn for local business owners. 27 slides. No hype." />
@@ -736,17 +736,30 @@
 
     /* ─── Responsive ─────────────────────────────────────── */
     @media (max-width: 768px) {
-      html, body { overflow: hidden; }
-
-      .slide {
-        padding: 52px 24px 80px;
-        justify-content: flex-start;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        overscroll-behavior-y: contain;
+      html, body {
+        overflow: hidden;
+        height: 100%;
+        height: 100svh; /* excludes browser chrome on iOS/Android */
       }
 
-      .slide-content { padding-bottom: 16px; }
+      #app {
+        height: 100%;
+        height: 100svh;
+      }
+
+      .slide {
+        /* fixed positioning is the most reliable scroll container on iOS Safari */
+        position: fixed;
+        inset: 0;
+        height: 100%;
+        height: 100svh;
+        padding: 52px 24px 80px;
+        justify-content: flex-start;
+        overflow-y: scroll; /* scroll (not auto) forces a scroll layer on iOS */
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .slide-content { padding-bottom: 32px; }
 
       .two-col { grid-template-columns: 1fr; }
       .photo-col { flex-direction: row; align-items: center; }
@@ -809,14 +822,15 @@
           <div class="bio-items">
             <div class="bio-item"><span class="bio-dot"></span><span>20+ years of enterprise software leadership. Flexera. Teams across the USA, UK, Australia, and India. Developer at heart — still writes code today.</span></div>
             <div class="bio-item"><span class="bio-dot"></span><span>4 marathons. 15 half-marathons. 3-time Moth StorySLAM Champion.</span></div>
-            <div class="bio-item"><span class="bio-dot"></span><span>Founder, <a href="https://www.auracrat.com" target="_blank" rel="noopener" style="color:inherit;">AURAcrat Solutions LLC</a>. Helping local businesses use AI simply, practically, and without the hype.</span></div>
+            <div class="bio-item"><span class="bio-dot"></span><span>Founder of <a href="https://www.theaiguy.dev" target="_blank" rel="noopener" style="color:inherit; font-weight:600;">The AI Guy</a>. Helping local businesses use AI simply, practically, and without the hype.</span></div>
+            <div class="bio-item"><span class="bio-dot"></span><span>Proud member of the <strong>Schaumburg Business Association</strong>. Rooted in the Chicagoland community.</span></div>
           </div>
           <div class="highlight-box" style="margin-top:20px;">
             <p>Running and storytelling gave me something I did not expect — community. The kind that shows up for you. I want to bring that same energy to local business. You deserve the same tools the big companies are building for themselves.</p>
           </div>
         </div>
       </div>
-      <p class="slide-support">Raj Sehgal has 20+ years of enterprise software experience, most recently leading product development at Flexera with teams across four countries. He has run 4 marathons and 15 half-marathons, and is a 3-time Moth StorySLAM Champion. Those communities shaped how he thinks about showing up for people — which led him here, helping local businesses navigate AI in a practical, human way.</p>
+      <p class="slide-support">Raj Sehgal has 20+ years of enterprise software experience, most recently leading product development at Flexera with teams across four countries. He has run 4 marathons and 15 half-marathons, and is a 3-time Moth StorySLAM Champion. Those communities shaped how he thinks about showing up for people — which led him here, helping local businesses navigate AI in a practical, human way. He is a proud member of the Schaumburg Business Association.</p>
     </div>
   </div>
 
@@ -1478,8 +1492,9 @@
         <p style="font-family:var(--font-head); font-size:clamp(16px,1.9vw,21px); font-style:italic; color:var(--navy); font-weight:600; line-height:1.3;">That is why I am here.</p>
       </div>
       <div class="close-contact">
-        <div class="contact-item"><strong>Raj Sehgal</strong> &nbsp;·&nbsp; The AI Guy &nbsp;·&nbsp; AURAcrat Solutions LLC</div>
-        <div class="contact-item" style="font-size:14px; color:var(--lighter);">Schaumburg / Chicago &nbsp;·&nbsp; <em>raj@theaiguy.dev</em></div>
+        <div class="contact-item"><strong>The AI Guy</strong> &nbsp;·&nbsp; Raj Sehgal</div>
+        <div class="contact-item"><a href="mailto:raj@theaiguy.dev" style="color:var(--navy); text-decoration:none; font-weight:600;">raj@theaiguy.dev</a> &nbsp;·&nbsp; <a href="https://www.theaiguy.dev" target="_blank" rel="noopener" style="color:var(--navy); text-decoration:none;">theaiguy.dev</a></div>
+        <div class="contact-item" style="font-size:13px; color:var(--muted);">Chicagoland &nbsp;·&nbsp; Proud member, Schaumburg Business Association</div>
       </div>
       <p class="slide-support">If this session raised questions about your own business and where AI could help, reach out. The best next step is usually a short conversation — not a sales process.</p>
     </div>
