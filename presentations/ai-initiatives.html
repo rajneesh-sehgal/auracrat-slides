@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The AI Guy — AI Initiatives</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta name="description" content="Six focused AI initiatives for local SMBs — a candid conversation with Raj Sehgal, The AI Guy." />
+<!-- Open Graph / WhatsApp / iMessage previews -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://slides.theaiguy.dev/presentations/ai-initiatives.html" />
+<meta property="og:title" content="AI Initiatives — Raj Sehgal, The AI Guy" />
+<meta property="og:description" content="Six focused AI initiatives for local SMBs. BizMind, AIverse, White-Label Assessment, LaymanCRM, Inboxero, and Missed Call Text-Back." />
+<meta property="og:image" content="https://slides.theaiguy.dev/og-ai-initiatives.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="The AI Guy" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="AI Initiatives — Raj Sehgal, The AI Guy" />
+<meta name="twitter:description" content="Six focused AI initiatives for local SMBs. A candid conversation about what I'm building." />
+<meta name="twitter:image" content="https://slides.theaiguy.dev/og-ai-initiatives.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0C0D15;
+  --amber: #E8A030;
+  --amber-dim: rgba(232,160,48,0.08);
+  --text: #ECEEF4;
+  --text-2: #B8C2D8;
+  --text-muted: #5A6380;
+  --border: rgba(255,255,255,0.07);
+  --border-2: rgba(255,255,255,0.12);
+  --card-bg: rgba(255,255,255,0.045);
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', -apple-system, sans-serif;
+}
+
+.progress-bar {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--amber), #F5C76A);
+  transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+  z-index: 200;
+}
+
+.counter {
+  position: fixed;
+  top: 18px; right: 28px;
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  z-index: 200;
+  font-variant-numeric: tabular-nums;
+}
+
+.dots-nav {
+  position: fixed;
+  bottom: 22px; left: 50%;
+  transform: translateX(-50%);
+  display: flex; gap: 6px;
+  align-items: center;
+  z-index: 200;
+}
+
+.dot {
+  height: 5px; width: 5px;
+  border-radius: 3px;
+  background: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.35s ease;
+}
+
+.dot.active {
+  background: var(--amber);
+  width: 20px;
+}
+
+.arrow-nav {
+  position: fixed;
+  bottom: 16px; right: 24px;
+  display: flex; gap: 8px;
+  z-index: 200;
+}
+
+.arr {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-2);
+  background: transparent;
+  color: var(--text-2);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.arr:hover:not(:disabled) {
+  border-color: var(--amber);
+  color: var(--amber);
+  background: var(--amber-dim);
+}
+
+.arr:disabled { opacity: 0.18; cursor: default; }
+
+.deck { width: 100%; height: 100%; position: relative; }
+
+.slide {
+  position: absolute;
+  inset: 0;
+  padding: 44px 58px 68px;
+  display: flex;
+  flex-direction: column;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.38s ease;
+}
+
+.slide.active { opacity: 1; pointer-events: all; }
+
+.tag {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 8px;
+}
+
+.glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* ── OPENING ── */
+.open-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+  max-width: 680px;
+}
+
+.open-wordmark {
+  font-family: 'Lora', serif;
+  font-size: 56px;
+  font-weight: 600;
+  color: var(--amber);
+  line-height: 1;
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.open-headline {
+  font-size: 19px;
+  color: var(--text-2);
+  font-weight: 300;
+  margin-bottom: 36px;
+}
+
+.divider {
+  width: 40px; height: 1.5px;
+  background: var(--amber);
+  opacity: 0.55;
+  margin-bottom: 28px;
+}
+
+.open-body {
+  font-size: 18px;
+  line-height: 1.85;
+  color: var(--text-2);
+}
+
+.open-body strong { color: var(--text); font-weight: 500; }
+
+.open-footer {
+  margin-top: 40px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+  display: flex; align-items: center; gap: 10px;
+}
+
+.key-hint {
+  margin-top: 28px;
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11.5px;
+  color: var(--text-muted);
+}
+
+.kbd {
+  border: 1px solid var(--border-2);
+  border-radius: 4px;
+  padding: 1px 8px;
+  font-size: 11px;
+  color: var(--text-2);
+}
+
+/* ── PRODUCT SLIDE ── */
+.prod-header {
+  margin-bottom: 18px;
+  flex-shrink: 0;
+}
+
+.prod-eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-2);
+  margin-bottom: 5px;
+}
+
+.prod-name {
+  font-family: 'Lora', serif;
+  font-size: 38px;
+  font-weight: 600;
+  line-height: 1;
+  margin-bottom: 7px;
+  letter-spacing: -0.01em;
+}
+
+.prod-tagline {
+  font-size: 15.5px;
+  color: var(--text-2);
+  font-style: italic;
+  font-weight: 300;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  flex: 1;
+  min-height: 0;
+}
+
+.cell {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.cell-label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+.cell-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.15;
+}
+
+.cell-body {
+  font-size: 16px;
+  color: var(--text-2);
+  line-height: 1.72;
+  flex: 1;
+  overflow: hidden;
+}
+
+.cell-body ul { list-style: none; }
+
+.cell-body li {
+  padding-left: 14px;
+  position: relative;
+  margin-bottom: 7px;
+}
+
+.cell-body li::before {
+  content: '–';
+  position: absolute;
+  left: 0;
+  font-size: 12px;
+  line-height: 1.68;
+  opacity: 0.4;
+}
+
+.cell-body p {
+  font-style: italic;
+  color: var(--text);
+  font-size: 16px;
+}
+
+/* ── WHY ME ── */
+.whyme-slide { justify-content: center; }
+
+.wm-title {
+  font-family: 'Lora', serif;
+  font-size: 42px;
+  font-weight: 600;
+  color: var(--amber);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+
+.wm-sub {
+  font-size: 15.5px;
+  color: var(--text-2);
+  margin-bottom: 30px;
+  font-style: italic;
+}
+
+.statements {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  max-width: 720px;
+}
+
+.stmt {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  font-size: 17px;
+  color: var(--text-2);
+  line-height: 1.65;
+}
+
+.stmt-n {
+  font-family: 'Lora', serif;
+  font-size: 11px;
+  color: var(--amber);
+  font-weight: 500;
+  min-width: 22px;
+  padding-top: 3px;
+  opacity: 0.65;
+}
+
+.stmt strong { color: var(--text); font-weight: 500; }
+
+.closing {
+  margin-top: 26px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
+  font-family: 'Lora', serif;
+  font-size: 18px;
+  font-style: italic;
+  color: var(--amber);
+  max-width: 560px;
+  opacity: 0.82;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto;
+    flex: none;
+  }
+
+  .slide {
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 640px) {
+  .slide {
+    padding: 52px 16px 88px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    gap: 10px;
+    flex: none;
+  }
+
+  .cell {
+    overflow: visible;
+    padding: 14px 16px;
+  }
+
+  .open-wrap { max-width: 100%; }
+  .open-wordmark { font-size: 38px; }
+  .open-headline { font-size: 16px; }
+  .open-body { font-size: 16px; }
+  .open-footer { font-size: 11px; flex-wrap: wrap; }
+  .key-hint { display: none; }
+
+  .prod-header { margin-bottom: 12px; }
+  .prod-name { font-size: 30px; }
+  .prod-tagline { font-size: 14px; }
+  .prod-eyebrow { font-size: 11px; }
+
+  .wm-title { font-size: 34px; }
+  .wm-sub { font-size: 14px; margin-bottom: 20px; }
+  .stmt { font-size: 15.5px; gap: 12px; }
+  .statements { gap: 10px; max-width: 100%; }
+  .closing { font-size: 15px; margin-top: 18px; }
+
+  .counter { top: 12px; right: 12px; font-size: 10px; }
+  .dots-nav { bottom: 16px; }
+  .arrow-nav { right: 8px; bottom: 10px; gap: 6px; }
+  .arr { width: 30px; height: 30px; font-size: 13px; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progress"></div>
+<div class="counter" id="counter">01 / 08</div>
+
+<div class="deck">
+
+  <!-- SLIDE 1: Opening -->
+  <div class="slide active" id="s0">
+    <div class="glow" style="width:500px;height:500px;background:radial-gradient(circle,rgba(232,160,48,0.07),transparent 70%);top:-120px;left:-80px;"></div>
+    <div class="open-wrap">
+      <div class="tag">The AI Guy</div>
+      <div class="open-wordmark">AI Initiatives</div>
+      <div class="open-headline">A candid conversation about what I'm building</div>
+      <div class="divider"></div>
+      <div class="open-body">
+        <strong>Anand</strong> — I've spent the past year embedded with local SMBs through the Schaumburg Business Association, listening to what actually slows them down. What started as conversations turned into six focused AI initiatives — each one targeting a real problem I've heard firsthand.
+        <br><br>
+        I'm not here to validate ideas. I want your honest read. <strong>Which of these has legs? Which would you throw out?</strong> You've always given it to me straight. That's exactly what I need.
+      </div>
+      <div class="open-footer">Raj Sehgal &nbsp;·&nbsp; The AI Guy &nbsp;·&nbsp; theaiguy.dev</div>
+      <div class="key-hint">
+        Navigate with <span class="kbd">←</span> <span class="kbd">→</span> or the arrows below
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: BizMind -->
+  <div class="slide" id="s1">
+    <div class="glow" style="width:380px;height:380px;background:radial-gradient(circle,rgba(46,207,168,0.06),transparent 70%);top:-80px;right:0;"></div>
+    <div class="prod-header">
+      <div class="prod-eyebrow">01 &nbsp;·&nbsp; AI Agents &amp; Knowledge</div>
+      <div class="prod-name" style="color:#2ECFA8">BizMind</div>
+      <div class="prod-tagline">AI agents that know your business and automate the work that drains your team</div>
+    </div>
+    <div class="grid">
+      <div class="cell">
+        <div class="cell-label" style="color:#2ECFA8">Vision</div>
+        <div class="cell-body"><p>A small business gets its own AI workforce — agents that know how they operate and automate real workflows, not just answer questions.</p></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#2ECFA8">Problem</div>
+        <div class="cell-body"><ul>
+          <li>Critical knowledge is scattered and never documented</li>
+          <li>Repetitive workflows eat hours that should go to customers</li>
+          <li>When key people are out, everything waits</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#2ECFA8">How it works</div>
+        <div class="cell-body"><ul>
+          <li>Captures the business's knowledge, processes, and decision rules</li>
+          <li>Builds AI agents from reusable Skills that automate real workflows</li>
+          <li>Agents handle intake, follow-ups, scheduling, and reporting — without a human in the loop</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#2ECFA8">Business model</div>
+        <div class="cell-body"><ul>
+          <li>Implementation fee plus monthly subscription</li>
+          <li>Each new workflow added increases switching cost</li>
+          <li>Their knowledge and agents are embedded — they won't leave</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#2ECFA8">Why me</div>
+        <div class="cell-body"><ul>
+          <li>I map their actual workflows and build agents around how they specifically operate</li>
+          <li>Not a template. Not a chatbot. A system built for their business.</li>
+          <li>Local presence means agents get refined over time, not abandoned after launch</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#2ECFA8">Growth potential</div>
+        <div class="cell-body"><ul>
+          <li>Skill library grows with every new client workflow I automate</li>
+          <li>Agents become more capable as they learn the business's patterns</li>
+          <li>Multi-location businesses and industry verticals are the natural next market</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: AIverse (the engine — shows distribution already exists) -->
+  <div class="slide" id="s2">
+    <div class="glow" style="width:380px;height:380px;background:radial-gradient(circle,rgba(155,114,255,0.06),transparent 70%);top:-80px;right:0;"></div>
+    <div class="prod-header">
+      <div class="prod-eyebrow">02 &nbsp;·&nbsp; Workshops &amp; Partners</div>
+      <div class="prod-name" style="color:#9B72FF">AIverse &amp; Founding Partner Program</div>
+      <div class="prod-tagline">Hands-on AI for local SMBs using trusted frontline tools</div>
+    </div>
+    <div class="grid">
+      <div class="cell">
+        <div class="cell-label" style="color:#9B72FF">Vision</div>
+        <div class="cell-body"><p>Local businesses get working AI tools for their situation — with a real person guiding them through it.</p></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#9B72FF">Problem</div>
+        <div class="cell-body"><ul>
+          <li>Businesses know AI matters but don't know where to start</li>
+          <li>Generic tools are confusing and impersonal</li>
+          <li>No trusted local person to guide them without overselling</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#9B72FF">How it works</div>
+        <div class="cell-body"><ul>
+          <li>Workshops using AIverse — my AI skill library on Claude Cowork and Codex</li>
+          <li>Each Founding Partner co-builds the system for their specific domain and use case</li>
+          <li>Only one Founding Partner per domain — first mover locks in the advantage</li>
+          <li>Partners get a referral program and become a case study — free marketing for them, proof for me</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#9B72FF">Business model</div>
+        <div class="cell-body"><ul>
+          <li>Workshop fees plus partner fees</li>
+          <li>Referrals drive the next client</li>
+          <li>Product upsell creates compounding revenue</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#9B72FF">Why me</div>
+        <div class="cell-body"><ul>
+          <li>Deep roots in the local business community through SBA — events, breakfasts, networking, and speaking</li>
+          <li>Clients trust Claude Cowork and Codex — transparent, not a black box</li>
+          <li>My products add what these tools can't: centralized security and data governance</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#9B72FF">Growth potential</div>
+        <div class="cell-body"><ul>
+          <li>Curriculum becomes a standalone paid course</li>
+          <li>Founding Partners become case studies that sell the next cohort</li>
+          <li>Builds a certified local network that feeds every other product</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 4: White-Label Assessment (smart scale/leverage play) -->
+  <div class="slide" id="s3">
+    <div class="glow" style="width:380px;height:380px;background:radial-gradient(circle,rgba(77,200,122,0.06),transparent 70%);top:-80px;right:0;"></div>
+    <div class="prod-header">
+      <div class="prod-eyebrow">03 &nbsp;·&nbsp; Partnerships</div>
+      <div class="prod-name" style="color:#4DC87A">White-Label AI Readiness Assessment</div>
+      <div class="prod-tagline">Scalable trust-building and consulting entry point</div>
+    </div>
+    <div class="grid">
+      <div class="cell">
+        <div class="cell-label" style="color:#4DC87A">Vision</div>
+        <div class="cell-body"><p>I reach more businesses than I can personally visit, and every assessment becomes a warm consulting lead.</p></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#4DC87A">Problem</div>
+        <div class="cell-body"><ul>
+          <li>As a solo operator, my reach has a ceiling</li>
+          <li>Cold outreach is slow and impersonal</li>
+          <li>I need to open doors at scale without losing the trust-first approach</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#4DC87A">How it works</div>
+        <div class="cell-body"><ul>
+          <li>I package my AI Readiness Assessment and license it to partners</li>
+          <li>Partners distribute it under their brand</li>
+          <li>Every completed assessment is a warm conversation waiting to happen</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#4DC87A">Business model</div>
+        <div class="cell-body"><ul>
+          <li>Licensing or revenue share with the distribution partner</li>
+          <li>Low overhead — each assessment is a lead, not a cost</li>
+          <li>Natural consulting follow-up that only I can provide</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#4DC87A">Why me</div>
+        <div class="cell-body"><ul>
+          <li>Assessment is built on firsthand SMB conversations — not templates</li>
+          <li>Partners license something already validated, not a promise to build</li>
+          <li>The consulting follow-up is a natural next step — trust is already there</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#4DC87A">Growth potential</div>
+        <div class="cell-body"><ul>
+          <li>More assessments build industry benchmark data I can use everywhere</li>
+          <li>High scorers feed directly into the Founding Partner Program</li>
+          <li>More distribution partners = more leads without more of my time</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: LaymanCRM -->
+  <div class="slide" id="s4">
+    <div class="glow" style="width:380px;height:380px;background:radial-gradient(circle,rgba(232,160,48,0.06),transparent 70%);top:-80px;right:0;"></div>
+    <div class="prod-header">
+      <div class="prod-eyebrow">04 &nbsp;·&nbsp; Contact Management</div>
+      <div class="prod-name" style="color:#E8A030">LaymanCRM</div>
+      <div class="prod-tagline">Simple AI contact management for small businesses</div>
+    </div>
+    <div class="grid">
+      <div class="cell">
+        <div class="cell-label" style="color:#E8A030">Vision</div>
+        <div class="cell-body"><p>Every contact a business collects turns into an active, managed relationship.</p></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#E8A030">Problem</div>
+        <div class="cell-body"><ul>
+          <li>Contacts collected at events sit untouched</li>
+          <li>No follow-up system in place</li>
+          <li>Relationships and revenue opportunities quietly die</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#E8A030">How it works</div>
+        <div class="cell-body"><ul>
+          <li>Scan a card or pull a LinkedIn profile</li>
+          <li>AI extracts details and suggests a follow-up</li>
+          <li>Tracks the relationship over time — no training needed</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#E8A030">Business model</div>
+        <div class="cell-body"><ul>
+          <li>Monthly subscription</li>
+          <li>Natural upsell path to BizMind as businesses grow</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#E8A030">Why me</div>
+        <div class="cell-body"><ul>
+          <li>I built this because I had the exact same problem at SBA events</li>
+          <li>Every feature validated by real use and select SBA members</li>
+          <li>Existing CRMs are built for sales teams — this is built for a small SMB team that wears every hat</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#E8A030">Growth potential</div>
+        <div class="cell-body"><ul>
+          <li>Surfaces who refers most and which contacts go cold</li>
+          <li>Evolves into a referral network map for the business</li>
+          <li>Integrates with Inboxero so CRM updates from email activity automatically</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 6: Inboxero -->
+  <div class="slide" id="s5">
+    <div class="glow" style="width:380px;height:380px;background:radial-gradient(circle,rgba(74,158,248,0.06),transparent 70%);top:-80px;right:0;"></div>
+    <div class="prod-header">
+      <div class="prod-eyebrow">05 &nbsp;·&nbsp; Email Management</div>
+      <div class="prod-name" style="color:#4A9EF8">Inboxero</div>
+      <div class="prod-tagline">AI email management for small businesses</div>
+    </div>
+    <div class="grid">
+      <div class="cell">
+        <div class="cell-label" style="color:#4A9EF8">Vision</div>
+        <div class="cell-body"><p>Small businesses stop losing time and money to inbox overload.</p></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#4A9EF8">Problem</div>
+        <div class="cell-body"><ul>
+          <li>Staff spend hours a day on email</li>
+          <li>Leads get missed, follow-ups fall through</li>
+          <li>Important messages get buried in noise</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#4A9EF8">How it works</div>
+        <div class="cell-body"><ul>
+          <li>Connects to Gmail or Outlook</li>
+          <li>AI surfaces what needs action, drafts replies in the business's voice</li>
+          <li>Staff review and send — no learning curve</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#4A9EF8">Business model</div>
+        <div class="cell-body"><ul>
+          <li>Monthly SaaS subscription per user</li>
+          <li>Recurring revenue with low churn</li>
+          <li>Becomes part of daily workflow fast</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#4A9EF8">Why me</div>
+        <div class="cell-body"><ul>
+          <li>I use it myself every day</li>
+          <li>Getting real feedback from select SBA members</li>
+          <li>Built for a small SMB team, not an enterprise with a dedicated IT department</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#4A9EF8">Growth potential</div>
+        <div class="cell-body"><ul>
+          <li>Moves from drafting to auto-sending routine replies</li>
+          <li>Builds a knowledge graph from email history</li>
+          <li>Evolves into relationship intelligence, not just inbox cleanup</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: Missed Call Text-Back -->
+  <div class="slide" id="s6">
+    <div class="glow" style="width:380px;height:380px;background:radial-gradient(circle,rgba(240,107,107,0.06),transparent 70%);top:-80px;right:0;"></div>
+    <div class="prod-header">
+      <div class="prod-eyebrow">06 &nbsp;·&nbsp; Lead Recovery</div>
+      <div class="prod-name" style="color:#F06B6B">Missed Call Text-Back</div>
+      <div class="prod-tagline">Automated lead recovery for small businesses</div>
+    </div>
+    <div class="grid">
+      <div class="cell">
+        <div class="cell-label" style="color:#F06B6B">Vision</div>
+        <div class="cell-body"><p>No small business loses a customer just because they could not pick up the phone.</p></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#F06B6B">Problem</div>
+        <div class="cell-body"><ul>
+          <li>Small businesses miss calls every day</li>
+          <li>The caller moves on to a competitor</li>
+          <li>The business never knows the opportunity existed</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#F06B6B">How it works</div>
+        <div class="cell-body"><ul>
+          <li>When a call goes unanswered, an AI text goes out immediately</li>
+          <li>Captures what the caller needs, answers basic questions</li>
+          <li>Books a callback if needed</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#F06B6B">Business model</div>
+        <div class="cell-body"><ul>
+          <li>Monthly service fee</li>
+          <li>Simple and predictable for the client</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#F06B6B">Why me</div>
+        <div class="cell-body"><ul>
+          <li>Local setup, local support — a real face to call if something goes wrong</li>
+          <li>No ticket system, no offshore team. Just me.</li>
+          <li>Can have it running for a local business within a week</li>
+        </ul></div>
+      </div>
+      <div class="cell">
+        <div class="cell-label" style="color:#F06B6B">Growth potential</div>
+        <div class="cell-body"><ul>
+          <li>Learns which call types convert best and when</li>
+          <li>Adds appointment booking so AI closes the first step</li>
+          <li>Every caller automatically becomes a managed CRM contact</li>
+        </ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Why Me -->
+  <div class="slide whyme-slide" id="s7">
+    <div class="glow" style="width:550px;height:550px;background:radial-gradient(circle,rgba(232,160,48,0.05),transparent 70%);bottom:-180px;right:-80px;"></div>
+    <div class="tag">The Big Answer</div>
+    <div class="wm-title">Why me?</div>
+    <div class="wm-sub">Since anyone can build an app in two weeks now — what's actually different here?</div>
+    <div class="statements">
+      <div class="stmt">
+        <span class="stmt-n">01</span>
+        <span>The bar to <strong>build an app</strong> is gone. The bar to <strong>earn trust</strong> has never been higher.</span>
+      </div>
+      <div class="stmt">
+        <span class="stmt-n">02</span>
+        <span>I have access to <strong>1,000+ local businesses</strong> through SBA. That took years to build. No one buys that with a budget.</span>
+      </div>
+      <div class="stmt">
+        <span class="stmt-n">03</span>
+        <span>I'm already <strong>getting inbound.</strong> Speaking invitations, workshop requests, a local podcast. That is earned attention, not paid attention.</span>
+      </div>
+      <div class="stmt">
+        <span class="stmt-n">04</span>
+        <span>I <strong>use every tool I sell.</strong> When a client asks how it works, I show them my own results — not a demo environment.</span>
+      </div>
+      <div class="stmt">
+        <span class="stmt-n">05</span>
+        <span>I don't talk like an AI company. I talk like a <strong>business person who uses AI</strong> practically. That is rare and that is what SMBs respond to.</span>
+      </div>
+      <div class="stmt">
+        <span class="stmt-n">06</span>
+        <span>Building this kind of <strong>local trust and presence</strong> takes time that money alone cannot shortcut.</span>
+      </div>
+      <div class="stmt">
+        <span class="stmt-n">07</span>
+        <span>My tools can be replicated. My relationships, my brand, and my local presence <strong>cannot.</strong> There is only one me in this market.</span>
+      </div>
+    </div>
+    <div class="closing">"The product is replicable. The person is not."</div>
+  </div>
+
+</div>
+
+<div class="dots-nav" id="dotnav"></div>
+<div class="arrow-nav">
+  <button class="arr" id="prev" onclick="navigate(-1)">&#8592;</button>
+  <button class="arr" id="next" onclick="navigate(1)">&#8594;</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  const dotnav = document.getElementById('dotnav');
+  const counter = document.getElementById('counter');
+  const progress = document.getElementById('progress');
+  let cur = 0;
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotnav.appendChild(d);
+  });
+
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+
+  function goTo(n) {
+    if (n < 0 || n >= total || n === cur) return;
+    slides[cur].classList.remove('active');
+    cur = n;
+    slides[cur].classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === cur));
+    counter.textContent = pad(cur + 1) + ' / ' + pad(total);
+    progress.style.width = ((cur + 1) / total * 100) + '%';
+    document.getElementById('prev').disabled = cur === 0;
+    document.getElementById('next').disabled = cur === total - 1;
+  }
+
+  function navigate(dir) { goTo(cur + dir); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') navigate(1);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') navigate(-1);
+  });
+
+  progress.style.width = (1 / total * 100) + '%';
+  document.getElementById('prev').disabled = true;
+</script>
+</body>
+</html>
+Done

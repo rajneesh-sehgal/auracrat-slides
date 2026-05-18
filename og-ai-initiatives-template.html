@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 1200px;
+  height: 630px;
+  overflow: hidden;
+  background: #0C0D15;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  color: #ECEEF4;
+  position: relative;
+}
+
+/* Ambient glows */
+.glow-tl {
+  position: absolute;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(232,160,48,0.09), transparent 65%);
+  top: -180px; left: -100px;
+  pointer-events: none;
+}
+.glow-br {
+  position: absolute;
+  width: 480px; height: 480px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(155,114,255,0.06), transparent 65%);
+  bottom: -200px; right: -100px;
+  pointer-events: none;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 46px 54px 40px;
+}
+
+/* ── TOP BAR ── */
+.top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.brand-tag {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #E8A030;
+}
+
+.brand-name {
+  font-family: 'Lora', serif;
+  font-size: 42px;
+  font-weight: 600;
+  color: #E8A030;
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.brand-sub {
+  font-size: 13px;
+  color: #B8C2D8;
+  font-weight: 300;
+  margin-top: 4px;
+  font-style: italic;
+}
+
+.presenter-block {
+  text-align: right;
+  padding-top: 4px;
+}
+
+.presenter-label {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #5A6380;
+  margin-bottom: 3px;
+}
+
+.presenter-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: #B8C2D8;
+}
+
+.presenter-url {
+  font-size: 11px;
+  color: #5A6380;
+  margin-top: 2px;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  width: 36px;
+  height: 1.5px;
+  background: #E8A030;
+  opacity: 0.55;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+/* ── GRID ── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 9px;
+  flex: 1;
+  min-height: 0;
+}
+
+.card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 9px;
+  padding: 13px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  border-radius: 9px 9px 0 0;
+}
+
+.card-n {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  font-variant-numeric: tabular-nums;
+}
+
+.card-title {
+  font-family: 'Lora', serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+
+.card-desc {
+  font-size: 11px;
+  color: #B8C2D8;
+  font-weight: 300;
+  line-height: 1.5;
+  margin-top: 2px;
+}
+
+/* Per-card accent colors */
+.c1 { --accent: #2ECFA8; }
+.c2 { --accent: #9B72FF; }
+.c3 { --accent: #4DC87A; }
+.c4 { --accent: #E8A030; }
+.c5 { --accent: #4A9EF8; }
+.c6 { --accent: #F06B6B; }
+
+.card::before { background: var(--accent); }
+.card-n { color: var(--accent); }
+.card-title { color: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="glow-tl"></div>
+  <div class="glow-br"></div>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="brand-tag">The AI Guy &nbsp;·&nbsp; Raj Sehgal</div>
+        <div class="brand-name">AI Initiatives</div>
+        <div class="brand-sub">Six focused ideas for local SMBs — a candid conversation</div>
+      </div>
+      <div class="presenter-block">
+        <div class="presenter-label">Presentation</div>
+        <div class="presenter-name">Raj Sehgal</div>
+        <div class="presenter-url">theaiguy.dev</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="grid">
+      <div class="card c1">
+        <div class="card-n">01</div>
+        <div class="card-title">BizMind</div>
+        <div class="card-desc">AI agents that know your business and automate real work</div>
+      </div>
+      <div class="card c2">
+        <div class="card-n">02</div>
+        <div class="card-title">AIverse &amp; Founding Partners</div>
+        <div class="card-desc">Hands-on workshops with one trusted partner per domain</div>
+      </div>
+      <div class="card c3">
+        <div class="card-n">03</div>
+        <div class="card-title">White-Label Assessment</div>
+        <div class="card-desc">AI readiness at scale through trusted distribution partners</div>
+      </div>
+      <div class="card c4">
+        <div class="card-n">04</div>
+        <div class="card-title">LaymanCRM</div>
+        <div class="card-desc">Simple AI contact management built for small teams</div>
+      </div>
+      <div class="card c5">
+        <div class="card-n">05</div>
+        <div class="card-title">Inboxero</div>
+        <div class="card-desc">AI email management that surfaces what actually needs action</div>
+      </div>
+      <div class="card c6">
+        <div class="card-n">06</div>
+        <div class="card-title">Missed Call Text-Back</div>
+        <div class="card-desc">Automated lead recovery — no missed call becomes a lost customer</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

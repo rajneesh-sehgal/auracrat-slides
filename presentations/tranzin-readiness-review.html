@@ -1,0 +1,1107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>AI Readiness Assessment · Tranzin Corporation</title>
+<link rel="icon" type="image/svg+xml" href="../favicon.svg">
+<meta name="description" content="A complete AI Readiness Assessment framework designed for Tranzin Corporation by Raj Sehgal — The AI Guy. 16 questions across 4 pillars: Strategic Alignment, Operational Readiness, Data and Systems Maturity, and Change and Investment Readiness.">
+
+<!-- Open Graph / Social Sharing -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://slides.theaiguy.dev/presentations/tranzin-readiness-review.html">
+<meta property="og:title" content="AI Readiness Assessment · Tranzin Corporation">
+<meta property="og:description" content="Discover where your organization stands on the AI transformation journey. A complete readiness framework across 4 key dimensions, prepared by The AI Guy.">
+<meta property="og:image" content="https://slides.theaiguy.dev/og-tranzin-readiness-review.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="AI Readiness Assessment for Tranzin Corporation by The AI Guy">
+<meta property="og:site_name" content="The AI Guy">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AI Readiness Assessment · Tranzin Corporation">
+<meta name="twitter:description" content="Discover where your organization stands on the AI transformation journey. Prepared by Raj Sehgal — The AI Guy.">
+<meta name="twitter:image" content="https://slides.theaiguy.dev/og-tranzin-readiness-review.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:           #060D1A;
+    --card:         rgba(255,255,255,0.05);
+    --card-border:  rgba(255,255,255,0.11);
+    --blue:         #2D6FDB;
+    --blue-bright:  #4A9EFF;
+    --white:        #FFFFFF;
+    --w80:          rgba(255,255,255,0.80);
+    --w60:          rgba(255,255,255,0.60);
+    --w35:          rgba(255,255,255,0.35);
+    --w15:          rgba(255,255,255,0.15);
+    --w06:          rgba(255,255,255,0.06);
+    --exploring:    #F59E0B;
+    --advancing:    #3B82F6;
+    --transforming: #10B981;
+    --gold:         #F5A623;
+    --display:      'Cormorant Garamond', Georgia, serif;
+    --body:         'Outfit', sans-serif;
+  }
+
+  html, body { width:100%; height:100%; overflow:hidden; background:var(--bg); color:var(--white); font-family:var(--body); }
+
+  body::before {
+    content:''; position:fixed; inset:0;
+    background-image: radial-gradient(circle, rgba(74,158,255,0.11) 1px, transparent 1px);
+    background-size: 36px 36px;
+    pointer-events:none; z-index:0;
+  }
+
+  .stage { position:fixed; inset:0; overflow:hidden; z-index:1; }
+
+  .slide {
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    transform:translateX(100%); opacity:0;
+    transition:transform 0.52s cubic-bezier(0.4,0,0.2,1), opacity 0.52s;
+    padding: 32px 60px 82px;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  .slide.active { transform:translateX(0); opacity:1; }
+  .slide.exit   { transform:translateX(-100%); opacity:0; }
+
+  .slide-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; flex-shrink:0; }
+  .section-label { font-size:0.72rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--blue-bright); }
+  .brand-mark { font-size:0.7rem; color:var(--w35); letter-spacing:0.06em; }
+  .brand-mark span { color:var(--gold); font-weight:600; }
+
+  .display { font-family:var(--display); font-size:clamp(3rem,5.5vw,5rem); font-weight:600; line-height:1.08; }
+  .headline { font-family:var(--display); font-size:clamp(1.9rem,3.2vw,2.8rem); font-weight:600; line-height:1.15; }
+  .label { font-size:0.74rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--blue-bright); }
+  .body-text { font-size:1.02rem; font-weight:300; line-height:1.72; color:var(--w80); }
+  .small { font-size:0.84rem; line-height:1.6; color:var(--w60); }
+  .rule { height:1px; background:var(--w15); margin:12px 0; flex-shrink:0; }
+
+  .card { background:var(--card); border:1px solid var(--card-border); border-radius:8px; padding:20px 24px; }
+  .card.left-accent { border-left:3px solid var(--blue-bright); }
+  .slide-content { position:relative; z-index:1; flex:1; display:flex; flex-direction:column; min-height:0; }
+
+  .pillar-watermark {
+    position:absolute; right:-2vw; bottom:-8vh;
+    font-family:var(--display); font-size:38vw; font-weight:700; line-height:0.85;
+    color:rgba(255,255,255,0.03); pointer-events:none; user-select:none; z-index:0;
+  }
+
+  /* OBSERVATIONS */
+  .obs-item { display:flex; gap:18px; align-items:flex-start; padding:14px 0; border-bottom:1px solid var(--w06); }
+  .obs-num { font-family:var(--display); font-size:2.2rem; font-weight:600; color:var(--blue-bright); opacity:0.45; flex-shrink:0; line-height:1; min-width:36px; }
+  .obs-body h4 { font-size:1rem; font-weight:600; color:var(--white); margin-bottom:5px; }
+  .obs-body p  { font-size:0.90rem; line-height:1.65; color:var(--w60); font-weight:300; }
+
+  /* ASSUMPTIONS */
+  .assumption { display:flex; gap:14px; align-items:flex-start; padding:11px 0; border-bottom:1px solid var(--w06); }
+  .dot { width:6px; height:6px; border-radius:50%; background:var(--blue-bright); flex-shrink:0; margin-top:8px; }
+  .assumption p { font-size:0.94rem; line-height:1.65; color:var(--w80); font-weight:300; }
+  .assumption p strong { color:var(--white); font-weight:500; }
+
+  /* STRUCTURE TABLE */
+  .struct-table { width:100%; border-collapse:collapse; }
+  .struct-table th, .struct-table td { padding:11px 16px; text-align:left; font-size:0.90rem; border-bottom:1px solid var(--w06); }
+  .struct-table th { font-size:0.68rem; font-weight:600; letter-spacing:0.12em; text-transform:uppercase; color:var(--blue-bright); background:rgba(74,158,255,0.07); }
+  .struct-table td { color:var(--w80); font-weight:300; }
+  .struct-table td:first-child { color:var(--white); font-weight:500; }
+  .struct-table tr:last-child td { color:var(--blue-bright); font-weight:600; border-top:1px solid rgba(74,158,255,0.3); border-bottom:none; }
+  .struct-table .scored-row td:first-child { color:var(--gold); }
+  .badge-scored   { display:inline-block; background:rgba(245,166,35,0.15); color:var(--gold); font-size:0.66rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; padding:2px 8px; border-radius:20px; }
+  .badge-unscored { display:inline-block; background:rgba(255,255,255,0.08); color:var(--w60); font-size:0.66rem; font-weight:600; letter-spacing:0.1em; text-transform:uppercase; padding:2px 8px; border-radius:20px; }
+
+  /* BAND SYSTEM */
+  .band-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; flex:1; min-height:0; }
+  .band-card { background:var(--card); border:1px solid var(--card-border); border-radius:10px; padding:20px 18px; display:flex; flex-direction:column; gap:10px; }
+  .band-card.exploring    { border-top:3px solid var(--exploring); }
+  .band-card.advancing    { border-top:3px solid var(--advancing); }
+  .band-card.transforming { border-top:3px solid var(--transforming); }
+  .band-badge { display:inline-block; font-size:0.68rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; padding:3px 10px; border-radius:20px; width:fit-content; }
+  .exploring  .band-badge  { background:rgba(245,158,11,0.18);  color:var(--exploring); }
+  .advancing  .band-badge  { background:rgba(59,130,246,0.18);  color:var(--advancing); }
+  .transforming .band-badge { background:rgba(16,185,129,0.18); color:var(--transforming); }
+  .band-insight { font-size:0.90rem; line-height:1.62; color:var(--w80); flex:1; }
+  .band-steps   { display:flex; flex-direction:column; gap:7px; }
+  .band-step    { display:flex; gap:8px; font-size:0.84rem; line-height:1.5; color:var(--w60); }
+  .band-step::before { content:'→'; flex-shrink:0; color:var(--blue-bright); }
+
+  /* QUESTION CARDS */
+  .q-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; flex:1; min-height:0; }
+  .q-card { background:var(--card); border:1px solid var(--card-border); border-radius:10px; padding:18px 16px; display:flex; flex-direction:column; overflow:hidden; }
+  .q-number { font-size:0.68rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--blue-bright); margin-bottom:8px; flex-shrink:0; }
+  .q-text   { font-size:0.96rem; font-weight:500; line-height:1.48; color:var(--white); margin-bottom:12px; flex-shrink:0; }
+  .q-options { display:flex; flex-direction:column; gap:3px; flex:1; margin-bottom:10px; }
+  .q-option { font-size:0.71rem; line-height:1.42; color:var(--w55); padding:3px 0 3px 9px; border-left:2px solid var(--w10); }
+  .q-option:first-child { color:rgba(245,158,11,0.88); border-left-color:rgba(245,158,11,0.4); }
+  .q-option:last-child  { color:rgba(16,185,129,0.82); border-left-color:rgba(16,185,129,0.4); }
+  .q-rationale { border-top:1px solid var(--w06); padding-top:8px; flex-shrink:0; }
+  .r-label { font-size:0.58rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--blue-bright); margin-bottom:3px; }
+  .r-text  { font-size:0.70rem; line-height:1.5; color:var(--w50); font-style:italic; }
+
+  /* PILLAR INTRO */
+  .pillar-intro { display:flex; flex-direction:column; justify-content:flex-end; flex:1; padding-bottom:12px; }
+  .pillar-tag    { font-size:0.70rem; font-weight:600; letter-spacing:0.18em; text-transform:uppercase; color:var(--blue-bright); margin-bottom:10px; }
+  .pillar-name   { font-family:var(--display); font-size:clamp(2.4rem,5vw,4rem); font-weight:600; line-height:1.1; color:var(--white); margin-bottom:14px; }
+  .pillar-summary { font-size:1.04rem; color:var(--w60); font-weight:300; margin-bottom:24px; max-width:540px; line-height:1.68; }
+  .pillar-why { background:var(--card); border:1px solid var(--card-border); border-left:3px solid var(--blue-bright); border-radius:0 8px 8px 0; padding:16px 20px; max-width:640px; }
+  .pillar-why .why-label { font-size:0.64rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--blue-bright); margin-bottom:6px; }
+  .pillar-why p { font-size:0.92rem; line-height:1.65; color:var(--w70); font-weight:300; }
+
+  /* THREE COL */
+  .three-col { display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; }
+
+  /* EXPERIENCE SIGNAL OPTIONS */
+  .exp-options { display:flex; flex-direction:column; gap:8px; flex:1; }
+  .exp-option { display:flex; gap:14px; align-items:flex-start; background:var(--card); border:1px solid var(--card-border); border-radius:8px; padding:13px 16px; }
+  .exp-dot { width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.64rem; font-weight:700; flex-shrink:0; }
+  .exp-option:nth-child(1) .exp-dot { background:rgba(245,158,11,0.2);  color:var(--exploring); }
+  .exp-option:nth-child(2) .exp-dot { background:rgba(255,255,255,0.08); color:var(--w60); }
+  .exp-option:nth-child(3) .exp-dot { background:rgba(255,255,255,0.08); color:var(--w60); }
+  .exp-option:nth-child(4) .exp-dot { background:rgba(59,130,246,0.2);  color:var(--advancing); }
+  .exp-option:nth-child(5) .exp-dot { background:rgba(16,185,129,0.2);  color:var(--transforming); }
+  .exp-option-text { font-size:0.94rem; line-height:1.55; color:var(--w80); font-weight:300; }
+  .exp-option-text strong { color:var(--white); font-weight:500; }
+
+  /* OVERALL BANDS */
+  .overall-grid { display:flex; gap:14px; flex:1; min-height:0; }
+  .overall-band { flex:1; border-radius:10px; padding:22px 20px; display:flex; flex-direction:column; gap:10px; }
+  .overall-band.exploring-bg    { background:rgba(245,158,11,0.09);  border:1px solid rgba(245,158,11,0.22); }
+  .overall-band.advancing-bg    { background:rgba(59,130,246,0.09);  border:1px solid rgba(59,130,246,0.22); }
+  .overall-band.transforming-bg { background:rgba(16,185,129,0.09);  border:1px solid rgba(16,185,129,0.22); }
+  .overall-band .o-band-name  { font-size:0.68rem; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; }
+  .exploring-bg  .o-band-name { color:var(--exploring); }
+  .advancing-bg  .o-band-name { color:var(--advancing); }
+  .transforming-bg .o-band-name { color:var(--transforming); }
+  .overall-band .o-score   { font-size:0.76rem; color:var(--w35); margin-top:-4px; }
+  .overall-band .o-insight { font-size:0.90rem; line-height:1.62; color:var(--w70); font-weight:300; flex:1; }
+  .overall-band .o-cta     { font-size:0.92rem; font-weight:600; color:var(--white); border-top:1px solid rgba(255,255,255,0.08); padding-top:10px; }
+
+  /* STEP ITEMS */
+  .step-item { display:flex; gap:18px; align-items:flex-start; padding:13px 0; border-bottom:1px solid var(--w06); }
+  .step-num  { font-family:var(--display); font-size:1.7rem; font-weight:600; color:var(--blue-bright); flex-shrink:0; line-height:1; min-width:28px; opacity:0.55; }
+  .step-body h4 { font-size:0.98rem; font-weight:600; color:var(--white); margin-bottom:3px; }
+  .step-body p  { font-size:0.88rem; line-height:1.6; color:var(--w60); font-weight:300; }
+
+  /* STATS STRIP */
+  .stats-strip { display:flex; gap:18px; margin-top:26px; flex-wrap:wrap; }
+  .stat-card { background:var(--card); border:1px solid var(--card-border); border-radius:8px; padding:16px 20px; flex:1; min-width:140px; }
+  .stat-label { font-size:0.64rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--blue-bright); margin-bottom:6px; }
+  .stat-num   { font-family:var(--display); font-size:2.2rem; font-weight:600; }
+  .stat-desc  { font-size:0.82rem; color:var(--w60); margin-top:2px; }
+
+  /* TITLE SLIDE */
+  #s1 { justify-content:center; padding:70px 90px 80px; }
+  #s1 .slide-top { margin-bottom:48px; }
+  .accent-line { width:72px; height:3px; border-radius:2px; background:linear-gradient(to right, var(--blue-bright), var(--transforming)); margin:0 0 20px; }
+  .title-tag  { font-size:0.72rem; font-weight:600; letter-spacing:0.28em; text-transform:uppercase; color:var(--blue-bright); margin-bottom:14px; }
+  .title-main { font-family:var(--display); font-size:clamp(3.6rem,7vw,6.2rem); font-weight:700; line-height:1.04; color:var(--white); margin-bottom:10px; }
+  .title-sub  { font-family:var(--display); font-size:clamp(1.4rem,2.5vw,2rem); font-style:italic; color:var(--w60); margin-bottom:42px; }
+  .title-meta { display:flex; gap:32px; align-items:center; flex-wrap:wrap; }
+  .tm-item { display:flex; flex-direction:column; gap:3px; }
+  .tm-item .key { font-size:0.63rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--w35); }
+  .tm-item .val { font-size:0.94rem; color:var(--w80); }
+  .tm-item .val.gold { color:var(--gold); font-weight:500; }
+  .tm-div { width:1px; height:34px; background:var(--w15); }
+
+  /* NAV */
+  .nav-bar { position:fixed; bottom:0; left:0; right:0; height:52px; z-index:100; display:flex; align-items:center; justify-content:center; gap:18px; background:rgba(6,13,26,0.93); backdrop-filter:blur(12px); border-top:1px solid var(--w06); }
+  .nav-btn { background:var(--card); border:1px solid var(--card-border); color:var(--w60); font-family:var(--body); font-size:0.80rem; font-weight:500; padding:7px 20px; border-radius:6px; cursor:pointer; transition:all 0.2s; }
+  .nav-btn:hover:not(:disabled) { background:rgba(255,255,255,0.10); color:var(--white); border-color:var(--blue-bright); }
+  .nav-btn:disabled { opacity:0.22; cursor:default; }
+  .nav-counter { font-size:0.77rem; color:var(--w35); min-width:56px; text-align:center; }
+  .nav-counter span { color:var(--w80); font-weight:500; }
+  .progress-bar { position:fixed; bottom:0; left:0; height:2px; z-index:101; background:linear-gradient(to right, var(--blue-bright), var(--transforming)); transition:width 0.4s ease; }
+  .key-hint { position:fixed; bottom:17px; right:22px; font-size:0.6rem; color:var(--w35); letter-spacing:0.07em; z-index:101; }
+
+  /* ── TABLET: 2-col grids ── */
+  @media (max-width: 1024px) and (min-width: 769px) {
+    .q-grid, .band-grid, .three-col { grid-template-columns: 1fr 1fr; }
+    .overall-grid { flex-wrap: wrap; }
+    .overall-band { min-width: calc(50% - 7px); }
+    .slide { padding: 28px 44px 82px; }
+  }
+
+  /* ── MOBILE: single column ── */
+  @media (max-width: 768px) {
+    .slide { padding: 20px 18px 90px; }
+    .slide-top { margin-bottom: 14px; flex-wrap: wrap; gap: 4px; }
+    .section-label { font-size: 0.62rem; }
+    .brand-mark { font-size: 0.62rem; }
+
+    /* Typography scale down */
+    .headline { font-size: clamp(1.4rem, 5vw, 2rem); }
+    .display  { font-size: clamp(2rem, 7vw, 3.5rem); }
+    .body-text { font-size: 0.93rem; }
+    .small { font-size: 0.80rem; }
+    .label { font-size: 0.66rem; }
+
+    /* Grids → single column */
+    .q-grid, .band-grid, .three-col { grid-template-columns: 1fr !important; }
+    .overall-grid { flex-direction: column; }
+    .overall-band { min-width: 100%; }
+    .slide-content { min-height: unset; }
+
+    /* Hide pillar watermark on mobile (too large) */
+    .pillar-watermark { display: none; }
+
+    /* Title slide */
+    #s1 { padding: 20px 18px 90px; }
+    .title-main { font-size: clamp(2.2rem, 9vw, 3.5rem); }
+    .title-sub  { font-size: clamp(1rem, 4vw, 1.5rem); margin-bottom: 24px; }
+    .title-meta { flex-direction: column; gap: 10px; }
+    .tm-div { width: 40px; height: 1px; }
+    .accent-line { margin-bottom: 14px; }
+
+    /* Stats strip → 2x2 on mobile */
+    .stats-strip { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 16px; }
+    .stat-card { padding: 12px 14px; }
+    .stat-num { font-size: 1.8rem; }
+
+    /* Structure table: smaller text */
+    .struct-table th, .struct-table td { font-size: 0.76rem; padding: 8px 10px; }
+    .badge-scored, .badge-unscored { font-size: 0.58rem; }
+
+    /* Observation items */
+    .obs-item { gap: 12px; padding: 12px 0; }
+    .obs-num { font-size: 1.6rem; min-width: 28px; }
+    .obs-body h4 { font-size: 0.90rem; }
+    .obs-body p  { font-size: 0.82rem; }
+
+    /* Assumption items */
+    .assumption p { font-size: 0.84rem; }
+
+    /* Bands */
+    .band-insight { font-size: 0.84rem; }
+    .band-step    { font-size: 0.80rem; }
+    .band-card { padding: 16px 14px; }
+
+    /* Question cards */
+    .q-card { padding: 16px 14px; }
+    .q-text { font-size: 0.92rem; }
+    .q-option { font-size: 0.70rem; }
+    .r-text  { font-size: 0.68rem; }
+
+    /* Experience options */
+    .exp-option { padding: 10px 12px; }
+    .exp-option-text { font-size: 0.86rem; }
+
+    /* Pillar intro */
+    .pillar-name    { font-size: clamp(1.8rem, 6vw, 2.8rem); }
+    .pillar-summary { font-size: 0.92rem; }
+    .pillar-why p   { font-size: 0.84rem; }
+
+    /* Overall bands */
+    .o-insight { font-size: 0.84rem; }
+    .o-cta     { font-size: 0.84rem; }
+
+    /* Step items */
+    .step-body h4 { font-size: 0.90rem; }
+    .step-body p  { font-size: 0.82rem; }
+
+    /* S7 context questions: single column */
+    #s7 .q-card-grid { grid-template-columns: 1fr; }
+
+    /* Hide keyboard hint on mobile */
+    .key-hint { display: none; }
+
+    /* Nav bar larger touch targets on mobile */
+    .nav-btn { padding: 9px 22px; font-size: 0.84rem; }
+
+    /* Band advice slide min-height fix */
+    .band-grid { grid-template-columns: 1fr; min-height: unset; flex: unset; }
+  }
+
+  /* ── VERY SMALL: phones under 380px ── */
+  @media (max-width: 380px) {
+    .slide { padding: 16px 14px 88px; }
+    .title-main { font-size: 2rem; }
+    .stats-strip { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="stage">
+
+<!-- S1 TITLE -->
+<div class="slide active" id="s1">
+  <div class="slide-top"><span class="section-label">AI Readiness Assessment · Design Proposal</span><span class="brand-mark">Prepared by <span>The AI Guy</span></span></div>
+  <div class="accent-line"></div>
+  <p class="title-tag">For Tranzin Corporation</p>
+  <h1 class="title-main">AI Readiness<br>Assessment</h1>
+  <p class="title-sub">Design Specification and Question Framework</p>
+  <div class="title-meta">
+    <div class="tm-item"><span class="key">Prepared for</span><span class="val">Naren Kollu &amp; Ashvin Lima · Tranzin</span></div>
+    <div class="tm-div"></div>
+    <div class="tm-item"><span class="key">Prepared by</span><span class="val gold">Raj Sehgal · The AI Guy</span></div>
+    <div class="tm-div"></div>
+    <div class="tm-item"><span class="key">Version</span><span class="val">v1.0 · May 2026</span></div>
+  </div>
+</div>
+
+<!-- S2 ABOUT -->
+<div class="slide" id="s2">
+  <div class="slide-top"><span class="section-label">Introduction</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">What This Is</p>
+    <h2 class="headline" style="margin-bottom:16px">Built from your website.<br>Designed for your buyers.</h2>
+    <div class="rule"></div>
+    <p class="body-text" style="margin:14px 0;max-width:700px">This proposal presents a complete AI Readiness Assessment designed specifically for Tranzin. Built after a thorough review of your website, philosophy, and solution areas. The goal is to replace your current contact form with an experience that delivers genuine value to every prospect and gives the Tranzin team a clear, scored picture of each lead before the first conversation.</p>
+    <div class="stats-strip">
+      <div class="stat-card"><p class="stat-label">Total Questions</p><p class="stat-num" style="color:var(--blue-bright)">16</p><p class="stat-desc">Across 4 scored pillars</p></div>
+      <div class="stat-card"><p class="stat-label">Completion Time</p><p class="stat-num" style="color:var(--gold)">5–7</p><p class="stat-desc">Minutes for a decision maker</p></div>
+      <div class="stat-card"><p class="stat-label">Readiness Bands</p><p class="stat-num" style="color:var(--transforming)">3</p><p class="stat-desc">Exploring · Advancing · Transforming</p></div>
+      <div class="stat-card"><p class="stat-label">Each Pillar Weight</p><p class="stat-num" style="color:var(--exploring)">25%</p><p class="stat-desc">Equal across all four dimensions</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- S3 OBSERVATIONS -->
+<div class="slide" id="s3">
+  <div class="slide-top"><span class="section-label">What I Found</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">From Your Website</p>
+    <h2 class="headline" style="margin-bottom:14px">Three observations that shaped<br>every design decision.</h2>
+    <div class="rule"></div>
+    <div style="margin-top:10px">
+      <div class="obs-item">
+        <div class="obs-num">1</div>
+        <div class="obs-body"><h4>Your tagline is <em>Outcomes First. Technology Second.</em></h4><p>This is the most important signal on your website. Every question in this assessment follows that same philosophy — no technical jargon, no tool names. Only questions about business reality, operational pain, and the capacity to change.</p></div>
+      </div>
+      <div class="obs-item">
+        <div class="obs-num">2</div>
+        <div class="obs-body"><h4>Your current assessment is a contact form.</h4><p>A prospect who completes your existing form receives no value in return. This design changes that. Every person who finishes leaves with a scored readiness picture, specific insight, and clear next steps — before they speak to anyone at Tranzin.</p></div>
+      </div>
+      <div class="obs-item" style="border-bottom:none">
+        <div class="obs-num">3</div>
+        <div class="obs-body"><h4>Your solutions map directly to specific operational pain points.</h4><p>The four scored pillars surface exactly which of your five solution areas is most relevant to each prospect. By the time someone books a call, the Tranzin team already knows which conversation to lead with.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S4 ASSUMPTIONS -->
+<div class="slide" id="s4">
+  <div class="slide-top"><span class="section-label">Design Assumptions</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">Key Assumptions</p>
+    <h2 class="headline" style="margin-bottom:14px">Five decisions made on your behalf.<br>Tell me if any are wrong.</h2>
+    <div class="rule"></div>
+    <div style="margin-top:10px">
+      <div class="assumption"><div class="dot"></div><p><strong>The primary person completing this is a business owner, CEO, or COO.</strong> Not IT staff. Every question is calibrated for a decision maker who thinks in outcomes and accountability, not technology.</p></div>
+      <div class="assumption"><div class="dot"></div><p><strong>Your $2M to $200M range requires questions at organizational scale.</strong> These prospects have staff, processes, systems, and budget cycles. The questions reflect that complexity.</p></div>
+      <div class="assumption"><div class="dot"></div><p><strong>Your industries run on tight margins.</strong> Healthcare, manufacturing, utilities, energy, and retail are not experimental cultures. The assessment avoids anything that sounds risky or untested.</p></div>
+      <div class="assumption"><div class="dot"></div><p><strong>The result page serves two audiences simultaneously.</strong> The prospect gets genuine value they can act on. The Tranzin team gets a clear picture of which solution to lead with before the discovery call.</p></div>
+      <div class="assumption" style="border-bottom:none"><div class="dot"></div><p><strong>All four pillars carry equal weight at 25% each.</strong> No single dimension of readiness matters more than the others. Strategic clarity without operational foundation is as problematic as the reverse.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- S5 STRUCTURE -->
+<div class="slide" id="s5">
+  <div class="slide-top"><span class="section-label">Assessment Architecture</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">Assessment Structure</p>
+    <h2 class="headline" style="margin-bottom:14px">16 questions. 4 pillars.<br>One complete readiness picture.</h2>
+    <div class="rule" style="margin-bottom:16px"></div>
+    <table class="struct-table">
+      <thead><tr><th>Section</th><th>Type</th><th>Questions</th><th>Score Weight</th></tr></thead>
+      <tbody>
+        <tr><td>About Your Organization</td><td><span class="badge-unscored">Unscored Context</span></td><td>2</td><td>—</td></tr>
+        <tr><td>AI Experience Signal</td><td><span class="badge-unscored">Unscored Routing</span></td><td>1</td><td>—</td></tr>
+        <tr class="scored-row"><td>Strategic Alignment</td><td><span class="badge-scored">Scored</span></td><td>3</td><td>25%</td></tr>
+        <tr class="scored-row"><td>Operational Readiness</td><td><span class="badge-scored">Scored</span></td><td>3</td><td>25%</td></tr>
+        <tr class="scored-row"><td>Data and Systems Maturity</td><td><span class="badge-scored">Scored</span></td><td>3</td><td>25%</td></tr>
+        <tr class="scored-row"><td>Change and Investment Readiness</td><td><span class="badge-scored">Scored</span></td><td>3</td><td>25%</td></tr>
+        <tr><td>Final Thoughts</td><td><span class="badge-unscored">Open Text</span></td><td>1</td><td>—</td></tr>
+        <tr><td>Total</td><td></td><td>16</td><td>100%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- S6 BANDS -->
+<div class="slide" id="s6">
+  <div class="slide-top"><span class="section-label">Readiness Bands</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">The Three Bands</p>
+    <h2 class="headline" style="margin-bottom:8px">Named for growth, not failure.</h2>
+    <p class="body-text" style="margin-bottom:18px;max-width:620px">Every pillar and the overall score maps to one of three bands. The language was chosen to reflect Tranzin's growth-oriented philosophy — no one feels penalized for where they are today.</p>
+    <div class="rule" style="margin-bottom:18px"></div>
+    <div class="three-col" style="flex:1">
+      <div class="card" style="border-top:3px solid var(--exploring)">
+        <p class="label" style="color:var(--exploring);margin-bottom:8px">Exploring</p>
+        <p style="font-family:var(--display);font-size:1.15rem;color:var(--w60);margin-bottom:10px">Score 0 – 49%</p>
+        <p class="body-text" style="font-size:0.94rem;line-height:1.65">The organization recognizes the opportunity but has not committed to a path. Focus is clarity and a safe first step. Tranzin enters with a strategy conversation, not a sales pitch.</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--advancing)">
+        <p class="label" style="color:var(--advancing);margin-bottom:8px">Advancing</p>
+        <p style="font-family:var(--display);font-size:1.15rem;color:var(--w60);margin-bottom:10px">Score 50 – 74%</p>
+        <p class="body-text" style="font-size:0.94rem;line-height:1.65">The organization has foundation and momentum. Focus is tightening priorities and accelerating toward a visible first result in weeks, not months.</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--transforming)">
+        <p class="label" style="color:var(--transforming);margin-bottom:8px">Transforming</p>
+        <p style="font-family:var(--display);font-size:1.15rem;color:var(--w60);margin-bottom:10px">Score 75 – 100%</p>
+        <p class="body-text" style="font-size:0.94rem;line-height:1.65">The organization is operationally and strategically ready. Focus is choosing the right first automation and the right partner. Speed to a visible result is the differentiator.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S7 CONTEXT QUESTIONS -->
+<div class="slide" id="s7">
+  <div class="slide-top"><span class="section-label">About Your Organization · Q1 &amp; Q2</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">Unscored · Context</p>
+    <h2 class="headline" style="margin-bottom:8px">Two questions that make every<br>prospect feel immediately understood.</h2>
+    <p class="body-text" style="margin-bottom:16px">These open the assessment. They do not contribute to the score. They give the Tranzin team crucial routing context and signal to the prospect that this is not a generic form.</p>
+    <div class="rule" style="margin-bottom:16px"></div>
+    <div class="q-grid">
+      <div class="q-card">
+        <p class="q-number">Q1 · Business Type</p>
+        <p class="q-text">Which of these best describes your organization?</p>
+        <div class="q-options">
+          <p class="q-option">Healthcare or life sciences. We operate clinics, practices, hospitals, or health-related services.</p>
+          <p class="q-option">Manufacturing or industrial. We produce goods or manage production and supply chain operations.</p>
+          <p class="q-option">Utilities or energy. We manage infrastructure, distribution, or energy-related services.</p>
+          <p class="q-option">Retail or consumer services. We sell products or services directly to customers at scale.</p>
+          <p class="q-option">Professional or business services. We deliver specialized expertise, consulting, or managed services.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">Routes the prospect to an industry-specific discovery conversation. Each vertical has different regulatory, data, and operational dynamics that shape which Tranzin solution to lead with.</p>
+        </div>
+      </div>
+      <div class="q-card">
+        <p class="q-number">Q2 · Decision Maker Role</p>
+        <p class="q-text">Which of these best describes your role in this organization?</p>
+        <div class="q-options">
+          <p class="q-option">I am the business owner or founder and I make the final call on major investments.</p>
+          <p class="q-option">I lead operations or a major function and I have significant influence over technology decisions.</p>
+          <p class="q-option">I am part of the leadership team and I contribute to strategic decisions but do not decide alone.</p>
+          <p class="q-option">I manage a team or department and I am exploring this on behalf of my organization.</p>
+          <p class="q-option">I am evaluating this for leadership and I will bring findings back to the decision maker.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">Identifies decision-making authority before the first call. Options 4 and 5 signal that a second conversation involving the actual decision maker will be needed before any proposal moves forward.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S8 EXPERIENCE SIGNAL -->
+<div class="slide" id="s8">
+  <div class="slide-top"><span class="section-label">AI Experience Signal · Q3</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">Unscored · Routing Signal</p>
+    <h2 class="headline" style="margin-bottom:8px">The most important unscored question.</h2>
+    <p class="body-text" style="margin-bottom:14px;max-width:700px">This single question silently splits your prospects into groups that need completely different opening conversations. The Tranzin team uses this answer to frame the discovery call before the prospect even explains their situation.</p>
+    <div class="rule" style="margin-bottom:14px"></div>
+    <p style="font-size:1.08rem;font-weight:500;color:var(--white);margin-bottom:14px">Q3 · Where does your organization stand with AI right now?</p>
+    <div class="exp-options">
+      <div class="exp-option"><div class="exp-dot">1</div><p class="exp-option-text"><strong>Never tried.</strong> We know AI is relevant but have not taken any steps toward it yet.</p></div>
+      <div class="exp-option"><div class="exp-dot">2</div><p class="exp-option-text"><strong>Early conversations.</strong> We have discussed AI internally but have not committed to anything yet.</p></div>
+      <div class="exp-option"><div class="exp-dot">3</div><p class="exp-option-text"><strong>Some exploration.</strong> We have looked at tools or vendors but have not deployed anything in production.</p></div>
+      <div class="exp-option"><div class="exp-dot">4</div><p class="exp-option-text"><strong>Early adoption.</strong> We have one or two AI tools in use but have not seen the results we hoped for.</p></div>
+      <div class="exp-option"><div class="exp-dot">5</div><p class="exp-option-text"><strong>Active but stuck.</strong> We have invested in AI but it has not delivered the operational impact we expected.</p></div>
+    </div>
+  </div>
+</div>
+
+<!-- S9 PILLAR 1 INTRO -->
+<div class="slide" id="s9">
+  <div class="pillar-watermark">1</div>
+  <div class="slide-top"><span class="section-label">Pillar 1 of 4 · 25% Weight</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <div class="pillar-intro">
+      <p class="pillar-tag">Scored Pillar · Questions 4, 5, 6</p>
+      <h2 class="pillar-name">Strategic<br>Alignment</h2>
+      <p class="pillar-summary">How clearly your leadership team has defined what AI should accomplish — and how aligned they are behind it.</p>
+      <div class="pillar-why">
+        <p class="why-label">Why This Pillar Matters for Tranzin</p>
+        <p>An organization scoring Exploring here needs a strategy conversation, not a deployment. Transforming means the internal work is done and implementation can start fast. Knowing this before the discovery call means the Tranzin team walks in knowing exactly what kind of conversation they are having.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S10 PILLAR 1 QUESTIONS -->
+<div class="slide" id="s10">
+  <div class="slide-top"><span class="section-label">Strategic Alignment · Q4, Q5, Q6</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:14px">Three Scored Questions · Options run from lowest to highest readiness</p>
+    <div class="q-grid">
+      <div class="q-card">
+        <p class="q-number">Q4 · Leadership Clarity</p>
+        <p class="q-text">How clearly has your leadership team defined what you want AI to accomplish for your business?</p>
+        <div class="q-options">
+          <p class="q-option">Not defined. We know we should be doing something but we have not agreed on what that is.</p>
+          <p class="q-option">Loosely defined. We have general ideas but no specific outcomes or priorities agreed on.</p>
+          <p class="q-option">Partially defined. We have identified one or two areas but have not built a clear plan.</p>
+          <p class="q-option">Mostly defined. We have specific outcomes in mind and broad agreement on where to start.</p>
+          <p class="q-option">Clearly defined. Specific goals, a priority area, and full leadership alignment behind it.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">Tells Tranzin whether the prospect is ready for a deployment conversation or still needs internal alignment. Low scores mean strategy comes before technology — and a different opening conversation.</p>
+        </div>
+      </div>
+      <div class="q-card">
+        <p class="q-number">Q5 · ROI Thinking</p>
+        <p class="q-text">How does your organization currently think about the return on an AI investment?</p>
+        <div class="q-options">
+          <p class="q-option">We have not had that conversation yet.</p>
+          <p class="q-option">We expect results but have not defined what success would look like in numbers.</p>
+          <p class="q-option">We have a general sense of what improvement would look like but have not set targets.</p>
+          <p class="q-option">We have identified specific metrics we would use to measure success.</p>
+          <p class="q-option">We have defined clear ROI targets and a timeline we would hold a partner accountable to.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">Prospects who cannot define success cannot measure it. This score reveals whether accountability structures exist — and predicts whether the engagement will produce a reference or a refund request.</p>
+        </div>
+      </div>
+      <div class="q-card">
+        <p class="q-number">Q6 · Urgency</p>
+        <p class="q-text">How much pressure is your organization feeling to move on AI right now?</p>
+        <div class="q-options">
+          <p class="q-option">No pressure. We are exploring at our own pace with no urgency.</p>
+          <p class="q-option">Mild pressure. We are aware competitors are moving but it has not become critical yet.</p>
+          <p class="q-option">Moderate pressure. We are falling behind in specific areas and it is starting to cost us.</p>
+          <p class="q-option">Significant pressure. Competitors or market conditions are forcing us to act sooner than planned.</p>
+          <p class="q-option">Urgent. We have a specific operational problem that AI must solve and we cannot wait.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">Competitive pressure converts prospects to clients faster. High urgency means faster decisions, faster starts, and faster referrals from satisfied early results.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S11 PILLAR 1 BANDS -->
+<div class="slide" id="s11">
+  <div class="slide-top"><span class="section-label">Strategic Alignment · Results Page Advice</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">What Prospects See on the Results Page</p>
+    <h2 class="headline" style="margin-bottom:14px">Strategic Alignment</h2>
+    <div class="band-grid">
+      <div class="band-card exploring"><span class="band-badge">Exploring</span>
+        <p class="band-insight">Your organization has not yet aligned on what AI should do for you specifically. This is the most important thing to get right before investing. Your first step is not a tool — it is a leadership conversation about one specific operational problem to solve in the next six months.</p>
+        <div class="band-steps">
+          <div class="band-step">Ask your leadership team: what one operational problem costs us the most time or money every month? That answer becomes your AI starting point.</div>
+          <div class="band-step">Write down what success looks like in plain numbers before evaluating any solution. Not "better" — a specific, measurable number.</div>
+        </div>
+      </div>
+      <div class="band-card advancing"><span class="band-badge">Advancing</span>
+        <p class="band-insight">Your team has a sense of where AI can help and some agreement on direction. What is missing is the specificity that turns a general idea into a deployable plan. Tightening your definition of success will unlock momentum faster than any technology decision.</p>
+        <div class="band-steps">
+          <div class="band-step">Pressure test your top AI opportunity: if we solved this completely, what would change in our numbers within ninety days?</div>
+          <div class="band-step">Identify the one person who will own AI adoption internally — not sponsor it, but own it day to day.</div>
+        </div>
+      </div>
+      <div class="band-card transforming"><span class="band-badge">Transforming</span>
+        <p class="band-insight">You know what you want, have alignment behind it, and understand what success looks like. The risk at this stage is choosing the wrong first automation and losing momentum. Prioritize the opportunity with the clearest data and most visible ROI.</p>
+        <div class="band-steps">
+          <div class="band-step">Rank opportunities by: clearest data, most documented process, most measurable outcome. Start there.</div>
+          <div class="band-step">Set a ninety day checkpoint before any implementation and make it a condition of continuing the engagement.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S12 PILLAR 2 INTRO -->
+<div class="slide" id="s12">
+  <div class="pillar-watermark">2</div>
+  <div class="slide-top"><span class="section-label">Pillar 2 of 4 · 25% Weight</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <div class="pillar-intro">
+      <p class="pillar-tag">Scored Pillar · Questions 7, 8, 9</p>
+      <h2 class="pillar-name">Operational<br>Readiness</h2>
+      <p class="pillar-summary">How mature, consistent, and documented your core business processes are — and how visible your operations are when things go wrong.</p>
+      <div class="pillar-why">
+        <p class="why-label">Why This Pillar Matters for Tranzin</p>
+        <p>Workflow automation, customer service automation, and workforce planning all require that a process exists and is understood before it can be improved. A prospect scoring Exploring here needs process definition work before AI work. Knowing this upfront protects Tranzin's delivery reputation and sets realistic expectations for timeline.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S13 PILLAR 2 QUESTIONS -->
+<div class="slide" id="s13">
+  <div class="slide-top"><span class="section-label">Operational Readiness · Q7, Q8, Q9</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:14px">Three Scored Questions · Options run from lowest to highest readiness</p>
+    <div class="q-grid">
+      <div class="q-card">
+        <p class="q-number">Q7 · Process Definition</p>
+        <p class="q-text">How well defined and documented are the core processes in your most important operational area?</p>
+        <div class="q-options">
+          <p class="q-option">Not clear. Everyone does things differently and there is no consistent way of working.</p>
+          <p class="q-option">Somewhat clear. We follow rough steps but they are not written down or agreed on.</p>
+          <p class="q-option">Mostly clear. We know the steps but they live in our heads, not on paper.</p>
+          <p class="q-option">Very clear. Most of our steps are written down and our team follows them consistently.</p>
+          <p class="q-option">Fully clear. Everything is documented, followed, and reviewed when something changes.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">Automation requires a defined process to automate. This score determines how much pre-work is needed before any AI solution can be deployed effectively — and sets realistic timeline expectations.</p>
+        </div>
+      </div>
+      <div class="q-card">
+        <p class="q-number">Q8 · Manual Effort</p>
+        <p class="q-text">How much of your team's time goes to tasks that repeat the same steps every day or every week?</p>
+        <div class="q-options">
+          <p class="q-option">All the time. Almost everything we do is manual and it takes up most of our day.</p>
+          <p class="q-option">Often. We repeat a lot of the same tasks but we do not know how to change that.</p>
+          <p class="q-option">Sometimes. A few things are automated but most of our work is still done by hand.</p>
+          <p class="q-option">Rarely. We already use tools to handle most of our routine work.</p>
+          <p class="q-option">Almost never. Our tools take care of repetitive tasks and our time goes to things that matter.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">High manual effort equals high ROI potential. This score identifies the size of the automation opportunity and helps prioritize which Tranzin solution — workflow, customer service, or workforce planning — to lead with.</p>
+        </div>
+      </div>
+      <div class="q-card">
+        <p class="q-number">Q9 · Operational Visibility</p>
+        <p class="q-text">When something goes wrong in your operations, how quickly can your team identify the cause and fix it?</p>
+        <div class="q-options">
+          <p class="q-option">Slowly. It often takes days to find the root cause and we rely on whoever has the most experience.</p>
+          <p class="q-option">Inconsistently. Sometimes we find it quickly, sometimes it takes much longer than it should.</p>
+          <p class="q-option">Reasonably well. We have some visibility but information gaps slow us down.</p>
+          <p class="q-option">Well. We have clear visibility into most areas and can diagnose problems within hours.</p>
+          <p class="q-option">Very well. We have real-time visibility and structured escalation paths that resolve issues quickly.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">Organizations that cannot see their operations cannot measure improvement. Low scores indicate BI and analytics should come before automation — a direct signal toward Tranzin's analytics solution.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S14 PILLAR 2 BANDS -->
+<div class="slide" id="s14">
+  <div class="slide-top"><span class="section-label">Operational Readiness · Results Page Advice</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">What Prospects See on the Results Page</p>
+    <h2 class="headline" style="margin-bottom:14px">Operational Readiness</h2>
+    <div class="band-grid">
+      <div class="band-card exploring"><span class="band-badge">Exploring</span>
+        <p class="band-insight">AI cannot automate what is not yet defined. Before any technology investment, your highest return activity is mapping your most important repeating process from start to finish. That map becomes the foundation everything else is built on.</p>
+        <div class="band-steps">
+          <div class="band-step">Pick your most time-consuming repeating process and spend two hours mapping every step from trigger to completion. That document is worth more than any software purchase right now.</div>
+          <div class="band-step">Count how many times your team performs the same action in one week. Put a time value on it. That number is your baseline ROI case.</div>
+        </div>
+      </div>
+      <div class="band-card advancing"><span class="band-badge">Advancing</span>
+        <p class="band-insight">You have operational structure that can support meaningful automation. The opportunity is in the gaps — the steps that still require manual effort, the data entered twice, the handoffs that slow things down. Closing those gaps creates compounding value.</p>
+        <div class="band-steps">
+          <div class="band-step">Identify the three manual steps in your most important workflow that cause the most errors or delays. Start with the most clearly defined one.</div>
+          <div class="band-step">Find where your team re-enters the same information in more than one system. Every re-entry point is an error risk and a time cost.</div>
+        </div>
+      </div>
+      <div class="band-card transforming"><span class="band-badge">Transforming</span>
+        <p class="band-insight">Your operations are mature enough to support sophisticated AI deployment. Processes are defined and you have visibility into where things break down. This is the foundation that makes AI work well rather than work poorly.</p>
+        <div class="band-steps">
+          <div class="band-step">Score your top five operational areas on: how well defined, how much data exists, how clearly you could measure a ten percent improvement. Highest score is your first candidate.</div>
+          <div class="band-step">Before engaging any partner, document your current baseline metrics. You cannot measure improvement without a starting point.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S15 PILLAR 3 INTRO -->
+<div class="slide" id="s15">
+  <div class="pillar-watermark">3</div>
+  <div class="slide-top"><span class="section-label">Pillar 3 of 4 · 25% Weight</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <div class="pillar-intro">
+      <p class="pillar-tag">Scored Pillar · Questions 10, 11, 12</p>
+      <h2 class="pillar-name">Data and Systems<br>Maturity</h2>
+      <p class="pillar-summary">How accessible, trustworthy, and connected your business data and existing technology are — and whether AI can actually use what you have.</p>
+      <div class="pillar-why">
+        <p class="why-label">Why This Pillar Matters for Tranzin</p>
+        <p>Your BI, analytics, and workflow automation solutions depend directly on data quality and system integration. This pillar tells the Tranzin team which solution to lead with and how much infrastructure work sits upstream of any AI project — before a single proposal is written.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S16 PILLAR 3 QUESTIONS -->
+<div class="slide" id="s16">
+  <div class="slide-top"><span class="section-label">Data and Systems Maturity · Q10, Q11, Q12</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:14px">Three Scored Questions · Options run from lowest to highest readiness</p>
+    <div class="q-grid">
+      <div class="q-card">
+        <p class="q-number">Q10 · Data Location</p>
+        <p class="q-text">Where does your most important operational data currently live?</p>
+        <div class="q-options">
+          <p class="q-option">Paper or email. Most of what we know lives in inboxes, notebooks, or physical files.</p>
+          <p class="q-option">Basic spreadsheets. We use shared files or drives but they are not well organized.</p>
+          <p class="q-option">A mix of tools. Our information is spread across several places and hard to pull together.</p>
+          <p class="q-option">Organized tools. We use something like a CRM or business software to keep things in order.</p>
+          <p class="q-option">One central system. Everyone uses the same place and information is easy to find and trust.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">Determines how much data infrastructure work sits upstream of any AI project. Scattered data requires consolidation first — this score sets realistic timelines before any analytics or automation solution is proposed.</p>
+        </div>
+      </div>
+      <div class="q-card">
+        <p class="q-number">Q11 · Data Trust</p>
+        <p class="q-text">How much do you trust the accuracy of the data your organization makes decisions on?</p>
+        <div class="q-options">
+          <p class="q-option">Not accurate. We find mistakes often and do not always know what to trust.</p>
+          <p class="q-option">Somewhat accurate. It is mostly right but needs corrections more often than it should.</p>
+          <p class="q-option">Fairly accurate. Small errors come up sometimes but we generally trust what we have.</p>
+          <p class="q-option">Mostly accurate. We trust our information for most decisions and update it regularly.</p>
+          <p class="q-option">Very accurate. We verify and update consistently and rely on it with full confidence.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">AI amplifies what data already says — clean data amplifies good outcomes, dirty data amplifies bad ones at scale. This score flags whether data quality work must precede any AI deployment.</p>
+        </div>
+      </div>
+      <div class="q-card">
+        <p class="q-number">Q12 · System Connectivity</p>
+        <p class="q-text">How well do your current technology systems work together?</p>
+        <div class="q-options">
+          <p class="q-option">Not connected. We mostly use email, paper, or whatever is handy and nothing really talks to anything else.</p>
+          <p class="q-option">Barely connected. A couple of tools work together but most of it is still separate.</p>
+          <p class="q-option">Somewhat connected. Most tools work together but there is still a lot of manual effort involved.</p>
+          <p class="q-option">Well connected. Our tools share data automatically for the things that matter most.</p>
+          <p class="q-option">Fully connected. Information flows smoothly from one system to another without us touching it.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">Reveals integration complexity and deployment timeline. Isolated systems require connector work that affects both cost and speed — this score directly shapes how Tranzin scopes and prices the first engagement.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S17 PILLAR 3 BANDS -->
+<div class="slide" id="s17">
+  <div class="slide-top"><span class="section-label">Data and Systems Maturity · Results Page Advice</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">What Prospects See on the Results Page</p>
+    <h2 class="headline" style="margin-bottom:14px">Data and Systems Maturity</h2>
+    <div class="band-grid">
+      <div class="band-card exploring"><span class="band-badge">Exploring</span>
+        <p class="band-insight">Your data situation is where many organizations start. Information scattered, trust limited, systems isolated. This is not a barrier to starting with AI — it is the starting point. Organizations that succeed are not the ones with the most sophisticated infrastructure when they begin.</p>
+        <div class="band-steps">
+          <div class="band-step">Pick the one data type that causes the most frustration when wrong or hard to find. Commit to one month of keeping it clean and in one place.</div>
+          <div class="band-step">List every system you pay for. Note what data each holds and whether it can be accessed by other systems. That list is your integration map.</div>
+        </div>
+      </div>
+      <div class="band-card advancing"><span class="band-badge">Advancing</span>
+        <p class="band-insight">You have real data assets and some integration already in place. The challenge is consistency. When data is mostly right and systems mostly connected, AI delivers meaningful results but not its full potential. Closing remaining gaps is the highest return investment before expanding.</p>
+        <div class="band-steps">
+          <div class="band-step">Identify the one integration gap causing the most duplicate data entry. Eliminating it often delivers more value than adding a new tool.</div>
+          <div class="band-step">Run a data quality check on your most critical dataset. Look for missing fields, duplicates, and entries not updated in ninety days.</div>
+        </div>
+      </div>
+      <div class="band-card transforming"><span class="band-badge">Transforming</span>
+        <p class="band-insight">Your data infrastructure is a genuine competitive asset. Clean, trusted, connected data separates organizations that get transformational results from AI from those that get marginal ones. You are positioned to deploy solutions that deliver real-time intelligence.</p>
+        <div class="band-steps">
+          <div class="band-step">Map your strongest data streams against Tranzin solution areas. Customer interaction → service automation. Operational data → BI. Staffing → workforce planning.</div>
+          <div class="band-step">Assign one person ownership of each critical data type before expanding AI. Their job is accuracy, completeness, and currency.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S18 PILLAR 4 INTRO -->
+<div class="slide" id="s18">
+  <div class="pillar-watermark">4</div>
+  <div class="slide-top"><span class="section-label">Pillar 4 of 4 · 25% Weight</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <div class="pillar-intro">
+      <p class="pillar-tag">Scored Pillar · Questions 13, 14, 15</p>
+      <h2 class="pillar-name">Change and Investment<br>Readiness</h2>
+      <p class="pillar-summary">How prepared your organization is to absorb change, commit budget, and sustain AI adoption once it begins — the pillar most assessments miss entirely.</p>
+      <div class="pillar-why">
+        <p class="why-label">Why This Pillar Matters for Tranzin</p>
+        <p>At the $2M to $200M range, more AI projects fail because of organizational resistance and budget hesitation than because of technical problems. A prospect who scores high on every other pillar but low here will still produce a failed engagement. This pillar protects Tranzin's delivery reputation as much as it helps the prospect.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S19 PILLAR 4 QUESTIONS -->
+<div class="slide" id="s19">
+  <div class="slide-top"><span class="section-label">Change and Investment Readiness · Q13, Q14, Q15</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:14px">Three Scored Questions · Options run from lowest to highest readiness</p>
+    <div class="q-grid">
+      <div class="q-card">
+        <p class="q-number">Q13 · Change History</p>
+        <p class="q-text">How has your organization responded to significant operational changes in the past?</p>
+        <div class="q-options">
+          <p class="q-option">Poorly. Change is difficult for us and new processes rarely stick without significant friction.</p>
+          <p class="q-option">Inconsistently. Some changes take hold and others do not. It depends heavily on who is involved.</p>
+          <p class="q-option">Adequately. We manage change when leadership drives it but adoption is slow without strong push.</p>
+          <p class="q-option">Well. Our team adapts to meaningful changes when the value is clear and the rollout is managed.</p>
+          <p class="q-option">Very well. We have a track record of successful operational change and our team embraces improvement.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">Past change adoption is the single best predictor of AI adoption success. This score tells Tranzin how much change management support the engagement will require — and whether the prospect needs a partner or a guide.</p>
+        </div>
+      </div>
+      <div class="q-card">
+        <p class="q-number">Q14 · Internal Champion</p>
+        <p class="q-text">Is there a specific person in your organization who will own AI adoption internally?</p>
+        <div class="q-options">
+          <p class="q-option">No. We have not identified anyone and it would likely fall to whoever has time.</p>
+          <p class="q-option">Not yet. We know we need one but have not had that conversation yet.</p>
+          <p class="q-option">Informally. Someone has shown interest but it is not an official responsibility.</p>
+          <p class="q-option">Yes. We have identified someone and they are actively engaged in this process.</p>
+          <p class="q-option">Yes and empowered. Our champion has leadership support and dedicated time for this.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">Without an internal owner, even well-built solutions stall at adoption. This score reveals whether Tranzin needs to help the client identify a champion as a condition of starting the engagement.</p>
+        </div>
+      </div>
+      <div class="q-card">
+        <p class="q-number">Q15 · Budget Readiness</p>
+        <p class="q-text">How would you describe your organization's readiness to commit budget to an AI initiative in the next six months?</p>
+        <div class="q-options">
+          <p class="q-option">Not ready. Budget conversations have not started and there is no allocation for this.</p>
+          <p class="q-option">Early stages. We are open to it but no budget has been discussed or approved yet.</p>
+          <p class="q-option">In progress. We are having internal conversations and expect to have clarity soon.</p>
+          <p class="q-option">Ready. We have a budget range in mind and leadership is aligned on committing.</p>
+          <p class="q-option">Committed. Budget has been approved and we are ready to move as soon as we find the right partner.</p>
+        </div>
+        <div class="q-rationale">
+          <p class="r-label">Insight for Tranzin</p>
+          <p class="r-text">Separates explorers from buyers. A committed budget means the prospect can move when the right proposal arrives. This score determines whether the next step is a strategy call or a longer nurture conversation.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S20 PILLAR 4 BANDS -->
+<div class="slide" id="s20">
+  <div class="slide-top"><span class="section-label">Change and Investment Readiness · Results Page Advice</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">What Prospects See on the Results Page</p>
+    <h2 class="headline" style="margin-bottom:14px">Change and Investment Readiness</h2>
+    <div class="band-grid">
+      <div class="band-card exploring"><span class="band-badge">Exploring</span>
+        <p class="band-insight">The biggest reason AI investments fail is not the technology. It is the absence of internal readiness to absorb and sustain change. Before committing budget to any project, your most valuable investment is in getting your organization change-ready first.</p>
+        <div class="band-steps">
+          <div class="band-step">Have an honest leadership conversation about how past operational changes went. The patterns predict your AI adoption experience more accurately than any vendor assessment.</div>
+          <div class="band-step">Identify one person who is technically curious and operationally credible. Give them a defined responsibility, dedicated time, and visible leadership support.</div>
+        </div>
+      </div>
+      <div class="band-card advancing"><span class="band-badge">Advancing</span>
+        <p class="band-insight">You have the building blocks of a successful adoption. What separates organizations that succeed from those that stall is specificity. A general commitment to AI does not drive adoption. A specific first project, a named owner, a defined budget, and a clear ninety day target does.</p>
+        <div class="band-steps">
+          <div class="band-step">Before your next partner conversation, decide on three things: the process, the internal owner, and the number that defines success at ninety days.</div>
+          <div class="band-step">Have a direct budget conversation with your financial decision maker this month — agree on a range for a first engagement, not a full program.</div>
+        </div>
+      </div>
+      <div class="band-card transforming"><span class="band-badge">Transforming</span>
+        <p class="band-insight">Your organization is genuinely ready to move. The risk is not readiness — it is choosing the wrong partner or the wrong first project and losing the organizational momentum you have built. Protect that momentum with specificity from day one.</p>
+        <div class="band-steps">
+          <div class="band-step">Before signing any engagement, require a written ninety day delivery plan with specific milestones and measurable outcomes at each stage.</div>
+          <div class="band-step">Brief your internal champion on scope, timeline, and success metrics before work begins. Their ability to manage internal expectations matters as much as anything the external partner does.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S21 FINAL QUESTION -->
+<div class="slide" id="s21">
+  <div class="slide-top"><span class="section-label">Final Thoughts · Q16</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">Unscored · Open Text</p>
+    <h2 class="headline" style="margin-bottom:18px">The last question is the most valuable one.</h2>
+    <div class="rule" style="margin-bottom:22px"></div>
+    <div class="card left-accent" style="max-width:700px;margin-bottom:22px;padding:26px 30px">
+      <p class="q-number" style="margin-bottom:10px">Q16 · Final Thoughts</p>
+      <p style="font-size:1.15rem;font-weight:500;line-height:1.6;color:var(--white)">What is the one operational challenge that keeps you up at night and that you most need AI to help you solve?</p>
+      <p class="small" style="margin-top:14px;font-style:italic">Open text · Required · No word count limit</p>
+    </div>
+    <p class="body-text" style="max-width:640px;margin-bottom:16px">By the time a prospect reaches this question they have thought about their business from four different angles. Their answer will be specific and honest in a way it would not have been if this question appeared first.</p>
+    <div class="card" style="max-width:640px;background:rgba(74,158,255,0.08);border-color:rgba(74,158,255,0.22)">
+      <p class="small"><span style="color:var(--blue-bright);font-weight:600">Discovery call value →</span> This answer is often the single most useful piece of information going into the first conversation with a Tranzin prospect. It tells you what they actually care about in their own words.</p>
+    </div>
+  </div>
+</div>
+
+<!-- S22 OVERALL RESULTS -->
+<div class="slide" id="s22">
+  <div class="slide-top"><span class="section-label">Overall Assessment Results</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">Results Page</p>
+    <h2 class="headline" style="margin-bottom:14px">What every prospect sees<br>at the end of the assessment.</h2>
+    <div class="rule" style="margin-bottom:14px"></div>
+    <div class="overall-grid">
+      <div class="overall-band exploring-bg">
+        <p class="o-band-name">Exploring</p>
+        <p class="o-score">Overall score 0 – 49%</p>
+        <p class="o-insight">You are at the beginning of the AI transformation journey and that is exactly the right place to have an honest conversation. The businesses that get the most from AI are not always the ones with the most sophisticated infrastructure. They are the ones that start with the clearest picture of where they are. You now have that picture.</p>
+        <p class="o-cta">→ Book your free AI clarity session</p>
+      </div>
+      <div class="overall-band advancing-bg">
+        <p class="o-band-name">Advancing</p>
+        <p class="o-score">Overall score 50 – 74%</p>
+        <p class="o-insight">You have real foundation to build on. Your organization understands the opportunity, has some internal alignment, and has started thinking about what AI could do for your operations. One well-chosen automation, deployed cleanly, with measurable results in weeks, changes how your entire organization thinks about what is possible.</p>
+        <p class="o-cta">→ Book your free strategy session</p>
+      </div>
+      <div class="overall-band transforming-bg">
+        <p class="o-band-name">Transforming</p>
+        <p class="o-score">Overall score 75 – 100%</p>
+        <p class="o-insight">You are ready to move and the organizations that move at your level of readiness get the best results. Your processes are defined, your data is organized, your leadership is aligned, and you have the capacity to absorb change. What you need now is the right partner with proven capability for your specific priority area.</p>
+        <p class="o-cta">→ Book your AI roadmap session</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S23 NEXT STEPS -->
+<div class="slide" id="s23">
+  <div class="slide-top"><span class="section-label">Recommended Next Steps</span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content">
+    <p class="label" style="margin-bottom:10px">From Proposal to Live</p>
+    <h2 class="headline" style="margin-bottom:8px">No platform decisions needed.<br>The platform already exists.</h2>
+    <p class="body-text" style="margin-bottom:14px;max-width:680px">This assessment will run on <strong style="color:var(--white)">Cleaready</strong> — a multi-tenant AI readiness assessment platform already built, hosted, and running. Tranzin gets added as a dedicated tenant. No third-party tools, no build-from-scratch, no platform choices. Hosting is included in the engagement cost.</p>
+    <div class="rule" style="margin-bottom:12px"></div>
+    <div>
+      <div class="step-item">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h4>Review and approve the question content</h4>
+          <p>Naren and Ashvin go through this deck and mark any questions or answer options that do not match the language your prospects actually use. This is the most important step. Content changes now cost nothing. Content changes after configuration are slower.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h4>Tranzin is provisioned as a tenant on Cleaready</h4>
+          <p>Once content is approved, Tranzin gets its own dedicated tenant on the Cleaready platform. Branding, colors, and domain are configured to match the Tranzin identity. The assessment lives at a URL you own and control.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h4>Booking calendar connected to each results band</h4>
+          <p>Each of the three CTAs — clarity session, strategy session, and roadmap session — is connected to Tranzin's booking calendar. These can point to one calendar page or separate ones depending on how Ashvin wants to manage inbound calls.</p>
+        </div>
+      </div>
+      <div class="step-item">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h4>Hosting is included — self-hosted by Raj on dedicated infrastructure</h4>
+          <p>Cleaready runs on Raj's own VPS infrastructure. There is no third-party SaaS subscription, no Typeform, no additional vendor. The hosting cost is included in the engagement fee already agreed on. Tranzin owns the experience, Raj runs the infrastructure.</p>
+        </div>
+      </div>
+      <div class="step-item" style="border-bottom:none">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <h4>Soft launch with two or three representative prospects</h4>
+          <p>Before publishing publicly, have two or three people who match your target decision maker profile complete the assessment. Their feedback on whether the questions and results feel accurate is the final quality check before going live.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- S24 CLOSING -->
+<div class="slide" id="s24">
+  <div class="slide-top"><span class="section-label"></span><span class="brand-mark">The <span>AI Guy</span></span></div>
+  <div class="slide-content" style="justify-content:center;align-items:center;text-align:center">
+    <div style="width:72px;height:3px;border-radius:2px;background:linear-gradient(to right,var(--blue-bright),var(--transforming));margin:0 auto 34px"></div>
+    <p class="label" style="margin-bottom:14px;letter-spacing:0.24em">Prepared by</p>
+    <p style="font-family:var(--display);font-size:2.5rem;font-weight:600;color:var(--white);margin-bottom:4px">Raj Sehgal</p>
+    <p style="font-family:var(--display);font-size:1.5rem;font-style:italic;color:var(--gold);margin-bottom:34px">The AI Guy</p>
+    <div class="rule" style="max-width:280px;margin:0 auto 30px"></div>
+    <p class="body-text" style="max-width:500px;text-align:center;margin-bottom:34px">Questions about this design? Want to discuss adjustments before build?<br>Let us set up a working session.</p>
+    <div style="display:flex;gap:32px;justify-content:center;flex-wrap:wrap">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+        <p style="font-size:0.62rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--w35)">Website</p>
+        <p style="font-size:0.96rem;color:var(--blue-bright)">theaiguy.dev</p>
+      </div>
+      <div style="width:1px;height:38px;background:var(--w15)"></div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:4px">
+        <p style="font-size:0.62rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--w35)">Prepared for</p>
+        <p style="font-size:0.96rem;color:var(--w80)">Naren Kollu &amp; Ashvin Lima · Tranzin</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /stage -->
+
+<div class="nav-bar">
+  <button class="nav-btn" id="prev" onclick="navigate(-1)">← Prev</button>
+  <span class="nav-counter"><span id="cur">1</span> / 24</span>
+  <button class="nav-btn" id="next" onclick="navigate(1)">Next →</button>
+</div>
+<div class="progress-bar" id="progress"></div>
+<p class="key-hint">← → arrow keys or Space to navigate</p>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const total  = slides.length;
+  let cur = 0, busy = false;
+
+  function updateUI() {
+    document.getElementById('cur').textContent = cur + 1;
+    document.getElementById('prev').disabled = cur === 0;
+    document.getElementById('next').disabled = cur === total - 1;
+    document.getElementById('progress').style.width = (cur / (total - 1) * 100) + '%';
+  }
+
+  function navigate(dir) {
+    if (busy) return;
+    const nxt = cur + dir;
+    if (nxt < 0 || nxt >= total) return;
+    busy = true;
+    const leaving = slides[cur], entering = slides[nxt];
+    leaving.classList.remove('active');
+    leaving.classList.add('exit');
+    entering.style.cssText = `transform:translateX(${dir > 0 ? '100%' : '-100%'});opacity:0;transition:none;`;
+    entering.offsetHeight;
+    entering.style.cssText = '';
+    entering.classList.add('active');
+    cur = nxt;
+    updateUI();
+    setTimeout(() => { leaving.classList.remove('exit'); leaving.style.cssText = ''; busy = false; }, 580);
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); navigate(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); navigate(-1); }
+  });
+
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+  document.addEventListener('touchend',   e => { const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 55) navigate(dx < 0 ? 1 : -1); }, { passive: true });
+
+  updateUI();
+</script>
+</body>
+</html>
