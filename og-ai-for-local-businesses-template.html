@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 1200px;
+  height: 630px;
+  overflow: hidden;
+  background: #F8F7F3;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  color: #1A1A28;
+  position: relative;
+}
+
+/* Subtle grid texture */
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(29,53,87,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29,53,87,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+/* ── LEFT PANEL ── */
+.left {
+  flex: 0 0 660px;
+  display: flex;
+  flex-direction: column;
+  padding: 52px 56px 44px 56px;
+  border-right: 1px solid #DDD9D0;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  background: #1D3557;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.eyebrow-text {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #1D3557;
+}
+
+.title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 54px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #1D3557;
+  margin-bottom: 6px;
+}
+
+.title em {
+  font-style: italic;
+  color: #2E4E78;
+}
+
+.subtitle {
+  font-size: 16px;
+  font-weight: 300;
+  color: #6B7280;
+  margin-bottom: 34px;
+  letter-spacing: 0.01em;
+}
+
+.divider {
+  width: 36px;
+  height: 2px;
+  background: #1D3557;
+  border-radius: 2px;
+  margin-bottom: 30px;
+  opacity: 0.35;
+}
+
+.topics {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.topic-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.topic-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #1D3557;
+  opacity: 0.3;
+  width: 18px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.topic-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1A1A28;
+  line-height: 1.3;
+}
+
+.topic-muted {
+  font-size: 12.5px;
+  color: #9CA3AF;
+  font-weight: 300;
+  margin-left: 6px;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid #DDD9D0;
+}
+
+.url {
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #9CA3AF;
+}
+
+.slide-count {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.slide-count-num {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1D3557;
+  letter-spacing: 0.04em;
+}
+
+.slide-count-label {
+  font-size: 11px;
+  font-weight: 300;
+  color: #9CA3AF;
+}
+
+/* ── RIGHT PANEL ── */
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 44px 48px;
+  gap: 24px;
+  position: relative;
+}
+
+/* Warm navy accent behind photo */
+.right::before {
+  content: '';
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(29,53,87,0.08), transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+}
+
+.photo-frame {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 8px 32px rgba(29,53,87,0.18);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.presenter {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.presenter-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1D3557;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.presenter-title {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6B7280;
+  margin-top: 3px;
+  letter-spacing: 0.06em;
+}
+
+/* event badge */
+.event-badge {
+  background: #1D3557;
+  color: #FFFFFF;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border-radius: 40px;
+  position: relative;
+  z-index: 1;
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="left">
+      <div class="eyebrow">
+        <div class="eyebrow-dot"></div>
+        <div class="eyebrow-text">The AI Guy &nbsp;·&nbsp; Lunch &amp; Learn &nbsp;·&nbsp; 25N Coworking</div>
+      </div>
+
+      <div class="title">Fundamentals of AI<br><em>for Business.</em></div>
+      <div class="subtitle">What it is. How it works. How to start — today.</div>
+      <div class="divider"></div>
+
+      <div class="topics">
+        <div class="topic-row">
+          <span class="topic-num">1</span>
+          <span class="topic-label">What AI actually is <span class="topic-muted">— no hype, no jargon</span></span>
+        </div>
+        <div class="topic-row">
+          <span class="topic-num">2</span>
+          <span class="topic-label">How large language models were built</span>
+        </div>
+        <div class="topic-row">
+          <span class="topic-num">3</span>
+          <span class="topic-label">Prompting basics that work in any tool</span>
+        </div>
+        <div class="topic-row">
+          <span class="topic-num">4</span>
+          <span class="topic-label">Where to start in your own business <span class="topic-muted">— this week</span></span>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <span class="url">theaiguy.dev</span>
+        <div class="slide-count">
+          <span class="slide-count-num">27</span>
+          <span class="slide-count-label">slides</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="photo-frame">
+        <img src="images/raj-sehgal.jpg" alt="Raj Sehgal" />
+      </div>
+      <div class="presenter">
+        <div class="presenter-name">Raj Sehgal</div>
+        <div class="presenter-title">The AI Guy</div>
+      </div>
+      <div class="event-badge">Schaumburg, IL</div>
+    </div>
+  </div>
+</body>
+</html>

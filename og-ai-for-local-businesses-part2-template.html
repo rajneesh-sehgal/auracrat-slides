@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  width: 1200px;
+  height: 630px;
+  overflow: hidden;
+  background: #F8F7F3;
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  color: #1A1A28;
+  position: relative;
+}
+
+/* Subtle grid texture */
+body::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(29,53,87,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(29,53,87,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+
+/* ── LEFT PANEL ── */
+.left {
+  flex: 0 0 680px;
+  display: flex;
+  flex-direction: column;
+  padding: 48px 56px 44px 56px;
+  border-right: 1px solid #DDD9D0;
+}
+
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.eyebrow-dot {
+  width: 6px;
+  height: 6px;
+  background: #1D3557;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.eyebrow-text {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #1D3557;
+}
+
+.part-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #EBF0F7;
+  color: #2E4E78;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 40px;
+  margin-bottom: 14px;
+  width: fit-content;
+}
+
+.title {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 50px;
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: #1D3557;
+  margin-bottom: 6px;
+}
+
+.title em {
+  font-style: italic;
+  color: #2E4E78;
+}
+
+.subtitle {
+  font-size: 15px;
+  font-weight: 300;
+  color: #6B7280;
+  margin-bottom: 28px;
+  letter-spacing: 0.01em;
+}
+
+.divider {
+  width: 36px;
+  height: 2px;
+  background: #1D3557;
+  border-radius: 2px;
+  margin-bottom: 22px;
+  opacity: 0.35;
+}
+
+/* AURA grid */
+.aura-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  flex: 1;
+}
+
+.aura-card {
+  background: #FFFFFF;
+  border: 1px solid #DDD9D0;
+  border-top: 2.5px solid #1D3557;
+  border-radius: 10px;
+  padding: 14px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.aura-letter {
+  font-family: 'Playfair Display', serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #1D3557;
+  line-height: 1;
+}
+
+.aura-word {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #1D3557;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.aura-desc {
+  font-size: 11px;
+  color: #9CA3AF;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #DDD9D0;
+}
+
+.url {
+  font-size: 11.5px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #9CA3AF;
+}
+
+.slide-count {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.slide-count-num {
+  font-size: 11px;
+  font-weight: 600;
+  color: #1D3557;
+  letter-spacing: 0.04em;
+}
+
+.slide-count-label {
+  font-size: 11px;
+  font-weight: 300;
+  color: #9CA3AF;
+}
+
+/* ── RIGHT PANEL ── */
+.right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 44px 44px;
+  gap: 20px;
+  position: relative;
+}
+
+.right::before {
+  content: '';
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(29,53,87,0.07), transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+}
+
+.photo-frame {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 8px 32px rgba(29,53,87,0.18);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.photo-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+
+.presenter {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+.presenter-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1D3557;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+}
+
+.presenter-title {
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #6B7280;
+  margin-top: 3px;
+  letter-spacing: 0.06em;
+}
+
+.live-badge {
+  background: #1D3557;
+  color: #FFFFFF;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border-radius: 40px;
+  position: relative;
+  z-index: 1;
+}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="left">
+      <div class="eyebrow">
+        <div class="eyebrow-dot"></div>
+        <div class="eyebrow-text">The AI Guy &nbsp;·&nbsp; Lunch &amp; Learn &nbsp;·&nbsp; 25N Coworking</div>
+      </div>
+
+      <div class="part-badge">Part 2 of 2</div>
+      <div class="title">AI in Action —<br><em>The AURA Way.</em></div>
+      <div class="subtitle">From understanding AI to using it inside your business.</div>
+      <div class="divider"></div>
+
+      <div class="aura-grid">
+        <div class="aura-card">
+          <div class="aura-letter">A</div>
+          <div class="aura-word">Activate</div>
+          <div class="aura-desc">Connect AI to your real business data</div>
+        </div>
+        <div class="aura-card">
+          <div class="aura-letter">U</div>
+          <div class="aura-word">Use</div>
+          <div class="aura-desc">Ask questions every day. See what it can do.</div>
+        </div>
+        <div class="aura-card">
+          <div class="aura-letter">R</div>
+          <div class="aura-word">Rely</div>
+          <div class="aura-desc">Find what saves time. Make it repeatable.</div>
+        </div>
+        <div class="aura-card">
+          <div class="aura-letter">A</div>
+          <div class="aura-word">Automate</div>
+          <div class="aura-desc">Set it running. Let AI handle the busywork.</div>
+        </div>
+      </div>
+
+      <div class="bottom">
+        <span class="url">theaiguy.dev</span>
+        <div class="slide-count">
+          <span class="slide-count-num">17</span>
+          <span class="slide-count-label">slides · Live LaymanCRM demo</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="right">
+      <div class="photo-frame">
+        <img src="images/raj-sehgal.jpg" alt="Raj Sehgal" />
+      </div>
+      <div class="presenter">
+        <div class="presenter-name">Raj Sehgal</div>
+        <div class="presenter-title">The AI Guy</div>
+      </div>
+      <div class="live-badge">Live Demo Inside</div>
+    </div>
+  </div>
+</body>
+</html>

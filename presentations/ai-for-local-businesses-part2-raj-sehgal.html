@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI in Action — Part 2 · Raj Sehgal</title>
+  <meta name="description" content="Part 2 of the AI for Local Businesses series. From understanding AI to using it — the AURA Way, Claude Cowork, and a live LaymanCRM demo. 17 slides." />
+  <meta name="author" content="Raj Sehgal" />
+  <!-- Open Graph / WhatsApp / iMessage / LinkedIn previews -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://slides.theaiguy.dev/presentations/ai-for-local-businesses-part2-raj-sehgal.html" />
+  <meta property="og:title" content="AI in Action — Part 2: The AURA Way · Raj Sehgal" />
+  <meta property="og:description" content="Part 2 of the AI for Local Businesses series. From understanding AI to using it — the AURA Way, Claude Cowork, and a live LaymanCRM demo. 17 slides." />
+  <meta property="og:image" content="https://slides.theaiguy.dev/images/og-ai-for-local-businesses-part2.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:type" content="image/png" />
+  <meta property="og:image:alt" content="AI in Action: The AURA Way — a 17-slide presentation by Raj Sehgal, The AI Guy" />
+  <meta property="og:site_name" content="The AI Guy" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="AI in Action — Part 2: The AURA Way · Raj Sehgal" />
+  <meta name="twitter:description" content="From understanding AI to using it inside your business. 17 slides. Live demo." />
+  <meta name="twitter:image" content="https://slides.theaiguy.dev/images/og-ai-for-local-businesses-part2.png" />
+  <meta name="twitter:image:alt" content="AI in Action: The AURA Way — a 17-slide presentation by Raj Sehgal, The AI Guy" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Reset & Base ───────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #F8F7F3;
+      --bg-card:   #FFFFFF;
+      --navy:      #1D3557;
+      --navy-mid:  #2E4E78;
+      --navy-pale: #EBF0F7;
+      --text:      #1A1A28;
+      --muted:     #6B7280;
+      --lighter:   #9CA3AF;
+      --red:       #C0392B;
+      --green:     #1E7A4A;
+      --rule:      #DDD9D0;
+      --font-head: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', 'Helvetica Neue', sans-serif;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Layout Shell ───────────────────────────────────── */
+    #app {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* ─── Progress Bar ───────────────────────────────────── */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 3px;
+      background: var(--navy);
+      transition: width 0.4s ease;
+      z-index: 100;
+    }
+
+    /* ─── Slide System ───────────────────────────────────── */
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 60px 80px 80px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .slide.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .slide.active .slide-content {
+      animation: slideUp 0.45s ease both;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .slide-content {
+      width: 100%;
+      max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    /* ─── Typography ─────────────────────────────────────── */
+    .label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 20px;
+      opacity: 0.7;
+    }
+
+    .slide-title {
+      font-family: var(--font-head);
+      font-size: clamp(38px, 5.5vw, 62px);
+      font-weight: 700;
+      line-height: 1.12;
+      color: var(--text);
+      margin-bottom: 20px;
+    }
+
+    .slide-title em {
+      font-style: italic;
+      color: var(--navy);
+    }
+
+    .slide-big {
+      font-family: var(--font-head);
+      font-size: clamp(48px, 7vw, 80px);
+      font-weight: 700;
+      line-height: 1.08;
+      color: var(--text);
+      margin-bottom: 16px;
+    }
+
+    .slide-big em {
+      font-style: italic;
+      color: var(--navy);
+    }
+
+    .slide-body {
+      font-family: var(--font-body);
+      font-size: clamp(18px, 2.2vw, 24px);
+      font-weight: 300;
+      line-height: 1.55;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .slide-body strong { font-weight: 600; color: var(--navy); }
+
+    .slide-body.muted {
+      color: var(--muted);
+      font-size: clamp(15px, 1.8vw, 19px);
+    }
+
+    .slide-rule {
+      width: 48px;
+      height: 3px;
+      background: var(--navy);
+      border-radius: 2px;
+      margin-bottom: 28px;
+    }
+
+    .slide-support {
+      font-size: 13px;
+      color: var(--lighter);
+      line-height: 1.6;
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid var(--rule);
+      max-width: 820px;
+    }
+
+    /* ─── Cards ──────────────────────────────────────────── */
+    .cards-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+      margin-top: 28px;
+      width: 100%;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      padding: 28px 24px;
+    }
+
+    /* ─── Highlight Box ──────────────────────────────────── */
+    .highlight-box {
+      background: var(--navy-pale);
+      border-left: 4px solid var(--navy);
+      border-radius: 0 10px 10px 0;
+      padding: 20px 24px;
+      margin-top: 24px;
+    }
+
+    .highlight-box p {
+      font-size: 16px;
+      line-height: 1.65;
+      color: var(--navy-mid);
+      font-style: italic;
+    }
+
+    /* ─── Split Layout ───────────────────────────────────── */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 28px;
+      width: 100%;
+    }
+
+    .split-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      padding: 28px 28px;
+    }
+
+    .split-panel.red-accent   { border-top: 3px solid var(--red); }
+    .split-panel.green-accent { border-top: 3px solid var(--green); }
+    .split-panel.navy-accent  { border-top: 3px solid var(--navy); }
+
+    .split-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .split-label.red   { color: var(--red); }
+    .split-label.green { color: var(--green); }
+    .split-label.navy  { color: var(--navy); }
+
+    .split-text {
+      font-size: clamp(15px, 1.8vw, 20px);
+      line-height: 1.55;
+      color: var(--text);
+    }
+
+    /* ─── Title Footer ───────────────────────────────────── */
+    .title-footer {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--lighter);
+      margin-top: 40px;
+    }
+    .title-footer .sep { opacity: 0.5; }
+
+    /* ─── Close Slide ────────────────────────────────────── */
+    .close-contact { display: flex; flex-direction: column; gap: 12px; margin-top: 36px; }
+    .contact-item { font-size: clamp(15px, 1.7vw, 18px); color: var(--muted); }
+    .contact-item strong { color: var(--text); }
+
+    /* ─── Path Steps ─────────────────────────────────────── */
+    .path-steps { display: flex; flex-direction: column; gap: 16px; margin-top: 28px; width: 100%; }
+    .path-step { display: flex; align-items: flex-start; gap: 20px; background: var(--bg-card); border: 1px solid var(--rule); border-radius: 12px; padding: 20px 24px; }
+    .path-num { font-family: var(--font-head); font-size: 28px; font-weight: 700; color: var(--navy); opacity: 0.35; line-height: 1; flex-shrink: 0; width: 32px; }
+    .path-title { font-size: clamp(15px, 1.7vw, 18px); font-weight: 600; color: var(--text); margin-bottom: 4px; }
+    .path-desc { font-size: 14px; color: var(--muted); line-height: 1.5; }
+
+    /* ─── Skill Flow (Input → Skill → Output) ───────────── */
+    .skill-flow {
+      display: flex;
+      align-items: stretch;
+      gap: 10px;
+      margin-top: 24px;
+      width: 100%;
+    }
+
+    .skill-flow-node {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      padding: 20px 14px;
+      gap: 8px;
+    }
+
+    .skill-flow-node.highlight {
+      background: var(--navy);
+      border-color: var(--navy);
+    }
+
+    .skill-flow-label {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--navy);
+      opacity: 0.6;
+    }
+
+    .skill-flow-node.highlight .skill-flow-label { color: rgba(255,255,255,0.55); opacity: 1; }
+
+    .skill-flow-icon { font-size: 26px; }
+
+    .skill-flow-title {
+      font-family: var(--font-head);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.3;
+    }
+
+    .skill-flow-node.highlight .skill-flow-title { color: white; }
+
+    .skill-flow-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .skill-flow-node.highlight .skill-flow-desc { color: rgba(255,255,255,0.65); }
+
+    .skill-flow-arrow {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy);
+      opacity: 0.3;
+      font-size: 20px;
+      flex-shrink: 0;
+      width: 20px;
+    }
+
+    /* ─── Demo Flow (5-step LaymanCRM workflow) ──────────── */
+    .demo-flow {
+      display: flex;
+      align-items: flex-start;
+      margin-top: 28px;
+      width: 100%;
+    }
+
+    .demo-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      padding: 0 6px;
+    }
+
+    .demo-step:not(:last-child)::after {
+      content: '→';
+      position: absolute;
+      top: 14px;
+      right: -8px;
+      font-size: 16px;
+      color: var(--navy);
+      opacity: 0.28;
+      z-index: 1;
+    }
+
+    .demo-step-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--navy-pale);
+      border: 1px solid rgba(29,53,87,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      margin-bottom: 10px;
+      flex-shrink: 0;
+    }
+
+    .demo-step-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 0.04em;
+      margin-bottom: 5px;
+      line-height: 1.3;
+    }
+
+    .demo-step-desc {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.5;
+      max-width: 110px;
+    }
+
+    /* ─── AURA Map (AURA Lives in Cowork) ───────────────── */
+    .aura-map {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .aura-map-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 14px 20px;
+    }
+
+    .aura-map-letter {
+      font-family: var(--font-head);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--navy);
+      width: 24px;
+      flex-shrink: 0;
+      line-height: 1;
+    }
+
+    .aura-map-step {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      min-width: 78px;
+      flex-shrink: 0;
+    }
+
+    .aura-map-arrow {
+      font-size: 14px;
+      color: var(--navy);
+      opacity: 0.25;
+      flex-shrink: 0;
+    }
+
+    .aura-map-text {
+      font-size: clamp(13px, 1.5vw, 16px);
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    /* ─── Email Card ─────────────────────────────────────── */
+    .email-card {
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .email-chrome {
+      background: var(--navy-pale);
+      padding: 12px 20px;
+      border-bottom: 1px solid var(--rule);
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .email-chrome-row {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+    }
+
+    .email-chrome-label {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--navy);
+      opacity: 0.55;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      min-width: 50px;
+      flex-shrink: 0;
+    }
+
+    .email-chrome-value {
+      color: var(--text);
+      font-size: 13px;
+    }
+
+    .email-body-text {
+      padding: 16px 20px;
+      font-size: clamp(13px, 1.4vw, 15px);
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    /* ─── CRM Fields ─────────────────────────────────────── */
+    .crm-fields { display: flex; flex-direction: column; gap: 5px; margin-top: 8px; }
+
+    .crm-field { display: flex; align-items: flex-start; gap: 10px; }
+
+    .crm-field-key {
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--navy);
+      opacity: 0.55;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      min-width: 106px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .crm-field-val {
+      font-size: clamp(12px, 1.4vw, 14px);
+      color: var(--text);
+      line-height: 1.45;
+    }
+
+    /* ─── Discussion Prompts (Card Pile slide) ───────────── */
+    .discussion-list { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+
+    .discussion-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: clamp(14px, 1.7vw, 18px);
+      color: var(--text);
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 14px 20px;
+    }
+
+    .discussion-item .ico { font-size: 20px; width: 28px; text-align: center; flex-shrink: 0; }
+
+    /* ─── Three Questions ────────────────────────────────── */
+    .three-q { display: flex; flex-direction: column; gap: 16px; margin-top: 24px; width: 100%; }
+
+    .three-q-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      background: var(--bg-card);
+      border: 1px solid var(--rule);
+      border-radius: 12px;
+      padding: 20px 24px;
+    }
+
+    .three-q-num {
+      font-family: var(--font-head);
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--navy);
+      opacity: 0.18;
+      line-height: 1;
+      flex-shrink: 0;
+      width: 42px;
+    }
+
+    .three-q-question {
+      font-family: var(--font-head);
+      font-size: clamp(17px, 2vw, 24px);
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 5px;
+      font-style: italic;
+    }
+
+    .three-q-hint { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+    /* ─── Navigation ─────────────────────────────────────── */
+    #nav {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      z-index: 200;
+    }
+
+    .nav-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1.5px solid var(--rule);
+      background: var(--bg-card);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--navy);
+      font-size: 16px;
+      transition: all 0.2s;
+      user-select: none;
+    }
+
+    .nav-btn:hover:not(:disabled) { background: var(--navy); color: white; border-color: var(--navy); }
+    .nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+    #slide-counter { font-size: 13px; color: var(--muted); min-width: 52px; text-align: center; font-variant-numeric: tabular-nums; }
+
+    /* ─── PDF Button ─────────────────────────────────────── */
+    #pdf-btn {
+      position: fixed;
+      top: 20px; right: 24px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--rule);
+      color: var(--navy);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      z-index: 200;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    #pdf-btn:hover { background: var(--navy); color: white; border-color: var(--navy); }
+
+    /* ─── PRINT / PDF ─────────────────────────────────────── */
+    @media print {
+      html, body { overflow: visible; height: auto; background: white; }
+      #app { width: 100%; height: auto; overflow: visible; position: static; }
+      #progress-bar, #nav, #pdf-btn { display: none !important; }
+      .slide { position: relative !important; display: flex !important; opacity: 1 !important; pointer-events: all !important; page-break-after: always; page-break-inside: avoid; width: 100%; height: 100vh; min-height: 100vh; padding: 60px 80px 80px; }
+      .slide-content { animation: none !important; }
+      .slide-support { color: #888; }
+    }
+
+    /* ─── Responsive ─────────────────────────────────────── */
+    @media (max-width: 768px) {
+      html, body { overflow: hidden; height: 100%; height: 100svh; }
+      #app { height: 100%; height: 100svh; }
+      .slide { position: fixed; inset: 0; height: 100%; height: 100svh; padding: 52px 24px 80px; justify-content: flex-start; overflow-y: scroll; -webkit-overflow-scrolling: touch; }
+      .slide-content { padding-bottom: 32px; }
+      .cards-4 { grid-template-columns: repeat(2, 1fr); }
+      .split { grid-template-columns: 1fr; }
+      .demo-flow { flex-wrap: wrap; }
+      .demo-step::after { display: none; }
+      .skill-flow { flex-direction: column; }
+      .skill-flow-arrow { transform: rotate(90deg); align-self: center; }
+      .aura-map-row { flex-wrap: wrap; }
+      #pdf-btn { padding: 8px 10px; gap: 0; top: 14px; right: 14px; }
+      #pdf-label { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="app">
+
+  <!-- Progress bar -->
+  <div id="progress-bar"></div>
+
+  <!-- PDF button -->
+  <button id="pdf-btn" onclick="downloadPDF()">
+    <svg id="pdf-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:block;flex-shrink:0;"><path d="M7 1v8M4 6.5l3 3 3-3M1.5 12.5h11"/></svg>
+    <span id="pdf-label">Download PDF</span>
+  </button>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 1 — TITLE
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide active" id="slide-0">
+    <div class="slide-content">
+      <div class="label">Lunch &amp; Learn &nbsp;·&nbsp; Part 2</div>
+      <div class="slide-big">AI in Action —<br><em>The AURA Way</em></div>
+      <div class="slide-rule"></div>
+      <p class="slide-body muted">From understanding AI to using it — consistently, inside your business.<br>With a live demo built inside Claude Cowork.</p>
+      <div class="title-footer">
+        <span>25N Coworking</span>
+        <span class="sep">·</span>
+        <span>Raj Sehgal &nbsp;|&nbsp; <a href="https://www.theaiguy.dev" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">The AI Guy</a></span>
+      </div>
+      <p class="slide-support">Part 2 of the AI for Local Businesses series. Part 1 covered the fundamentals — what AI is, how LLMs were built, and why it matters now. Today we go further: how to think in systems, what Claude Cowork is, and a live demo of LaymanCRM — a real skill built to solve a real problem local business owners face every week.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 2 — THE AURA WAY (session roadmap)
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-1">
+    <div class="slide-content">
+      <div class="label">Today's roadmap</div>
+      <div class="slide-title">The <em>AURA</em> Way.</div>
+      <p style="font-size: clamp(14px,1.6vw,17px); color:var(--muted); margin-bottom:4px;">Everything we cover today maps to one of these four steps. By the end, you will have seen every one in action.</p>
+
+      <div class="cards-4" style="margin-top:18px;">
+
+        <div style="background:var(--bg-card); border:1px solid var(--rule); border-top:3px solid var(--navy); border-radius:12px; padding:22px 18px 18px; display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+            <span style="font-family:var(--font-head); font-size:54px; font-weight:700; color:var(--navy); line-height:1;">A</span>
+            <span style="font-size:10px; font-weight:600; color:var(--lighter); letter-spacing:0.1em; margin-top:5px;">01</span>
+          </div>
+          <div style="width:24px; height:2px; background:var(--navy); opacity:0.2; border-radius:2px; margin-bottom:10px;"></div>
+          <div style="font-size:11px; font-weight:600; color:var(--navy); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px;">Activate</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.6; flex:1;">Connect AI to your real business data.</div>
+          <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--rule); font-size:11px; color:var(--navy); line-height:1.5; font-weight:500;">Today → We connect Claude Cowork to your contacts and documents.</div>
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--rule); border-top:3px solid var(--navy); border-radius:12px; padding:22px 18px 18px; display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+            <span style="font-family:var(--font-head); font-size:54px; font-weight:700; color:var(--navy); line-height:1;">U</span>
+            <span style="font-size:10px; font-weight:600; color:var(--lighter); letter-spacing:0.1em; margin-top:5px;">02</span>
+          </div>
+          <div style="width:24px; height:2px; background:var(--navy); opacity:0.2; border-radius:2px; margin-bottom:10px;"></div>
+          <div style="font-size:11px; font-weight:600; color:var(--navy); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px;">Use</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.6; flex:1;">Ask questions every day. See what it can do.</div>
+          <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--rule); font-size:11px; color:var(--navy); line-height:1.5; font-weight:500;">Today → We run the LaymanCRM demo. You see a real skill in action.</div>
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--rule); border-top:3px solid var(--navy); border-radius:12px; padding:22px 18px 18px; display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+            <span style="font-family:var(--font-head); font-size:54px; font-weight:700; color:var(--navy); line-height:1;">R</span>
+            <span style="font-size:10px; font-weight:600; color:var(--lighter); letter-spacing:0.1em; margin-top:5px;">03</span>
+          </div>
+          <div style="width:24px; height:2px; background:var(--navy); opacity:0.2; border-radius:2px; margin-bottom:10px;"></div>
+          <div style="font-size:11px; font-weight:600; color:var(--navy); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px;">Rely</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.6; flex:1;">Find what saves time. Make it repeatable.</div>
+          <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--rule); font-size:11px; color:var(--navy); line-height:1.5; font-weight:500;">Today → We map the demo to your business. You find your card pile.</div>
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--rule); border-top:3px solid var(--navy); border-radius:12px; padding:22px 18px 18px; display:flex; flex-direction:column;">
+          <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px;">
+            <span style="font-family:var(--font-head); font-size:54px; font-weight:700; color:var(--navy); line-height:1;">A</span>
+            <span style="font-size:10px; font-weight:600; color:var(--lighter); letter-spacing:0.1em; margin-top:5px;">04</span>
+          </div>
+          <div style="width:24px; height:2px; background:var(--navy); opacity:0.2; border-radius:2px; margin-bottom:10px;"></div>
+          <div style="font-size:11px; font-weight:600; color:var(--navy); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:8px;">Automate</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.6; flex:1;">Set it running. Let AI handle the busywork.</div>
+          <div style="margin-top:10px; padding-top:10px; border-top:1px solid var(--rule); font-size:11px; color:var(--navy); line-height:1.5; font-weight:500;">Today → You design your first skill using three simple questions.</div>
+        </div>
+
+      </div>
+      <p class="slide-support">AURA is the adoption framework at the heart of The AI Guy's approach to local businesses. It is not a product — it is a progression. Today every section of this session lives inside one of these four steps, so the framework becomes real through experience rather than description.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 3 — RECAP: THREE THINGS TO HOLD
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-2">
+    <div class="slide-content">
+      <div class="label">Quick recap from Part 1</div>
+      <div class="slide-title">Three things<br>to hold onto.</div>
+      <div class="slide-rule"></div>
+
+      <div style="display:flex; flex-direction:column; gap:14px; margin-top:4px;">
+        <div style="display:flex; align-items:flex-start; gap:18px; background:var(--bg-card); border:1px solid var(--rule); border-radius:10px; padding:18px 22px;">
+          <span style="font-family:var(--font-head); font-size:22px; font-weight:700; color:var(--navy); opacity:0.25; flex-shrink:0; line-height:1; margin-top:2px;">1</span>
+          <div>
+            <div style="font-size:clamp(16px,1.9vw,20px); font-weight:600; color:var(--text); margin-bottom:4px;">AI is pattern recognition at scale.</div>
+            <div style="font-size:14px; color:var(--muted); line-height:1.5;">It does not think. It finds and applies patterns — across text, images, audio, and video — with a precision no human can match at volume.</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:18px; background:var(--bg-card); border:1px solid var(--rule); border-radius:10px; padding:18px 22px;">
+          <span style="font-family:var(--font-head); font-size:22px; font-weight:700; color:var(--navy); opacity:0.25; flex-shrink:0; line-height:1; margin-top:2px;">2</span>
+          <div>
+            <div style="font-size:clamp(16px,1.9vw,20px); font-weight:600; color:var(--text); margin-bottom:4px;">You can now talk to computers in plain language.</div>
+            <div style="font-size:14px; color:var(--muted); line-height:1.5;">No code. No technical knowledge. Describe what you need, and it responds. This is what opened AI to every business owner.</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:18px; background:var(--navy); border:1px solid var(--navy); border-radius:10px; padding:18px 22px;">
+          <span style="font-family:var(--font-head); font-size:22px; font-weight:700; color:rgba(255,255,255,0.3); flex-shrink:0; line-height:1; margin-top:2px;">3</span>
+          <div>
+            <div style="font-size:clamp(16px,1.9vw,20px); font-weight:600; color:white; margin-bottom:4px;">The challenge was never the tool — it was having a system.</div>
+            <div style="font-size:14px; color:rgba(255,255,255,0.65); line-height:1.5;">Most businesses use AI like a search engine. Today changes that.</div>
+          </div>
+        </div>
+      </div>
+      <p class="slide-support">These three ideas from Part 1 form the foundation for everything in Part 2. The third point is the most important for today — it is the bridge from understanding AI to using it in a way that creates real, consistent business value.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 4 — PROMPTS DON'T COMPOUND
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-3">
+    <div class="slide-content">
+      <div class="label">The mental model shift</div>
+      <div class="slide-big">Prompts don't<br>compound.<br><em>Systems do.</em></div>
+      <div class="split" style="margin-top:24px;">
+        <div class="split-panel red-accent">
+          <div class="split-label red">What most businesses do</div>
+          <div class="split-text" style="font-size:clamp(14px,1.7vw,18px);">Ask a question. Get an answer. Feel impressed. Start fresh tomorrow with a different question.<br><br>Nothing connects. Nothing accumulates. AI stays a novelty.</div>
+        </div>
+        <div class="split-panel navy-accent">
+          <div class="split-label navy">What a system does</div>
+          <div class="split-text" style="font-size:clamp(14px,1.7vw,18px);">Same input. Same process. Consistent, useful output — every time.<br><br>It compounds. Every run makes the workflow more trusted. AI becomes how the business operates.</div>
+        </div>
+      </div>
+      <p class="slide-support">The difference between using AI as a novelty and using it as a business asset is systematic thinking. A system is simply a repeatable workflow: defined inputs, a reliable process, and a predictable output. Once that exists, AI stops being something you try and starts being something you rely on.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 5 — WHAT IS CLAUDE COWORK?
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-4">
+    <div class="slide-content">
+      <div class="label">Your operating environment</div>
+      <div class="slide-title">Claude Cowork is not<br>a chatbot you restart.<br><em>It already knows your business.</em></div>
+
+      <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:22px;">
+
+        <div style="background:var(--bg-card); border:1px solid var(--rule); border-radius:12px; padding:20px 18px; display:flex; flex-direction:column; gap:10px;">
+          <div style="font-size:26px;">🧠</div>
+          <div style="font-size:12px; font-weight:600; color:var(--navy); letter-spacing:0.08em; text-transform:uppercase;">Persistent Context</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.6;">Every conversation starts from a shared knowledge base — your files, your data, your business context. You never have to re-explain yourself.</div>
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--rule); border-radius:12px; padding:20px 18px; display:flex; flex-direction:column; gap:10px;">
+          <div style="font-size:26px;">📋</div>
+          <div style="font-size:12px; font-weight:600; color:var(--navy); letter-spacing:0.08em; text-transform:uppercase;">Instructions</div>
+          <div style="font-size:13px; color:var(--muted); line-height:1.6;">You configure how it works — your tone, your priorities, your way of doing things. It behaves consistently because it has been told how to show up.</div>
+        </div>
+
+        <div style="background:var(--navy); border-radius:12px; padding:20px 18px; display:flex; flex-direction:column; gap:10px;">
+          <div style="font-size:26px;">⚡</div>
+          <div style="font-size:12px; font-weight:600; color:rgba(255,255,255,0.6); letter-spacing:0.08em; text-transform:uppercase;">Skills</div>
+          <div style="font-size:13px; color:rgba(255,255,255,0.7); line-height:1.6;">Saved, reusable workflows you can run on demand. The building block of every system you will build. More on this in a moment.</div>
+        </div>
+
+      </div>
+
+      <div class="highlight-box" style="margin-top:18px;">
+        <p>"Think of it as a team member who already has your onboarding done — and gets smarter every time you add to the project."</p>
+      </div>
+
+      <p class="slide-support">Claude Cowork (referred to as a Claude Project in Anthropic's tooling) is a persistent, configurable workspace. Unlike a standard chat session, a Cowork project retains context between conversations, follows configured instructions, and can run saved workflows called skills. This makes it suitable for systematic, repeatable business use rather than one-off queries.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 6 — WHAT IS A SKILL?
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-5">
+    <div class="slide-content">
+      <div class="label">The building block</div>
+      <div class="slide-title">A skill is a saved,<br>reusable workflow.</div>
+
+      <div class="skill-flow">
+        <div class="skill-flow-node">
+          <div class="skill-flow-label">Input</div>
+          <div class="skill-flow-icon">📥</div>
+          <div class="skill-flow-title">What goes in</div>
+          <div class="skill-flow-desc">A photo, email, voice memo, document, form — anything your business runs on.</div>
+        </div>
+        <div class="skill-flow-arrow">→</div>
+        <div class="skill-flow-node highlight">
+          <div class="skill-flow-label">Skill</div>
+          <div class="skill-flow-icon">⚡</div>
+          <div class="skill-flow-title">What it does</div>
+          <div class="skill-flow-desc">Instructions you wrote in plain language. Extract, enrich, summarize, draft, classify.</div>
+        </div>
+        <div class="skill-flow-arrow">→</div>
+        <div class="skill-flow-node">
+          <div class="skill-flow-label">Output</div>
+          <div class="skill-flow-icon">📤</div>
+          <div class="skill-flow-title">What comes out</div>
+          <div class="skill-flow-desc">A CRM entry, email draft, task list, file update — a consistent, useful result.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:22px; display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div style="background:var(--navy-pale); border-radius:10px; padding:16px 18px;">
+          <div style="font-size:11px; font-weight:600; color:var(--navy); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:6px;">What makes it a skill</div>
+          <div style="font-size:14px; color:var(--muted); line-height:1.6;">You write it once. You run it every time the situation arises. Same input — same high-quality output. No re-explaining. No inconsistency.</div>
+        </div>
+        <div style="background:var(--navy-pale); border-radius:10px; padding:16px 18px;">
+          <div style="font-size:11px; font-weight:600; color:var(--navy); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:6px;">What it is not</div>
+          <div style="font-size:14px; color:var(--muted); line-height:1.6;">Not code. Not automation software. Not a technical project. Just clear instructions — written in plain language — telling Claude what to do and how.</div>
+        </div>
+      </div>
+
+      <p class="slide-support">A skill is the fundamental unit of an AI system inside Claude Cowork. It is a saved set of instructions that defines what to do when given a specific type of input. Because it is reusable and consistent, it can become a reliable part of how the business operates — rather than something that needs to be set up from scratch each time.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 7 — AURA LIVES IN COWORK
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-6">
+    <div class="slide-content">
+      <div class="label">The connection</div>
+      <div class="slide-title">AURA lives<br><em>inside Cowork.</em></div>
+
+      <div class="aura-map">
+        <div class="aura-map-row">
+          <span class="aura-map-letter">A</span>
+          <span class="aura-map-step">Activate</span>
+          <span class="aura-map-arrow">→</span>
+          <span class="aura-map-text">Connect your data to a Cowork project. Your files, contacts, documents — whatever your business runs on.</span>
+        </div>
+        <div class="aura-map-row">
+          <span class="aura-map-letter">U</span>
+          <span class="aura-map-step">Use</span>
+          <span class="aura-map-arrow">→</span>
+          <span class="aura-map-text">Run skills against your data every day. Ask real questions about your real business. Build trust in what it can do.</span>
+        </div>
+        <div class="aura-map-row">
+          <span class="aura-map-letter">R</span>
+          <span class="aura-map-step">Rely</span>
+          <span class="aura-map-arrow">→</span>
+          <span class="aura-map-text">Your skills become standard operating procedure. The ones that save time stop being optional and start being expected.</span>
+        </div>
+        <div class="aura-map-row">
+          <span class="aura-map-letter">A</span>
+          <span class="aura-map-step">Automate</span>
+          <span class="aura-map-arrow">→</span>
+          <span class="aura-map-text">Skills trigger on new input without you initiating. The system runs. You focus on the work only you can do.</span>
+        </div>
+      </div>
+
+      <div class="highlight-box" style="margin-top:20px;">
+        <p>Cowork is not just a tool. It is where AURA lives — the environment in which each step of the framework becomes something you can actually do.</p>
+      </div>
+
+      <p class="slide-support">Claude Cowork provides the technical foundation for the AURA framework. Each step of AURA corresponds to a specific way of working inside a Cowork project. Activate means connecting data sources. Use means running skills daily. Rely means embedding skills in standard workflow. Automate means configuring skills to trigger without manual initiation.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 8 — DEMO: THE PROBLEM
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-7">
+    <div class="slide-content">
+      <div class="label">The problem we are solving</div>
+      <div class="slide-title">You just left<br>a great event.<br><em>Now what?</em></div>
+      <div class="slide-rule"></div>
+      <p class="slide-body">You had real conversations. Right here at 25N. Five business cards in your pocket. Three LinkedIn connections pending. A few names you remember vaguely and one person you genuinely want to follow up with.</p>
+      <p class="slide-body muted">In 48 hours, the context is gone. Who they were, what you talked about, why it mattered.</p>
+      <div style="margin-top:20px; display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div style="background:var(--bg-card); border:1px solid var(--rule); border-top:3px solid var(--red); border-radius:12px; padding:18px 20px;">
+          <div style="font-size:11px; font-weight:600; color:var(--red); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;">What usually happens</div>
+          <div style="font-size:14px; color:var(--muted); line-height:1.6;">Cards sit in a drawer. LinkedIn connections go uncontacted. You meant to follow up. You just never did. The opportunity quietly expired.</div>
+        </div>
+        <div style="background:var(--bg-card); border:1px solid var(--rule); border-top:3px solid var(--green); border-radius:12px; padding:18px 20px;">
+          <div style="font-size:11px; font-weight:600; color:var(--green); letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;">What we are about to build</div>
+          <div style="font-size:14px; color:var(--muted); line-height:1.6;">A system that turns a card and a LinkedIn screenshot into a complete contact record — and drafts a personalized follow-up email in your voice. In seconds.</div>
+        </div>
+      </div>
+      <p class="slide-support">The networking follow-up problem is nearly universal for local business owners. The challenge is not motivation — it is friction. Without a system, even well-intentioned follow-ups get delayed until they feel irrelevant. LaymanCRM eliminates the friction by making the process instant, automatic, and personal.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 9 — DEMO: THE WORKFLOW
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-8">
+    <div class="slide-content">
+      <div class="label">LaymanCRM &nbsp;·&nbsp; The workflow</div>
+      <div class="slide-title">Five steps.<br><em>One system.</em></div>
+
+      <div class="demo-flow">
+
+        <div class="demo-step">
+          <div class="demo-step-icon">📷</div>
+          <div class="demo-step-label">Upload card</div>
+          <div class="demo-step-desc">Photo of the business card from the event</div>
+        </div>
+
+        <div class="demo-step">
+          <div class="demo-step-icon">🖼️</div>
+          <div class="demo-step-label">Add LinkedIn</div>
+          <div class="demo-step-desc">Screenshot of their LinkedIn profile</div>
+        </div>
+
+        <div class="demo-step">
+          <div class="demo-step-icon">⚡</div>
+          <div class="demo-step-label">Skill enriches</div>
+          <div class="demo-step-desc">Cowork skill combines both inputs into a full contact record</div>
+        </div>
+
+        <div class="demo-step">
+          <div class="demo-step-icon">💾</div>
+          <div class="demo-step-label">Saves to CRM</div>
+          <div class="demo-step-desc">Enriched contact written to your local JSON CRM</div>
+        </div>
+
+        <div class="demo-step">
+          <div class="demo-step-icon">✉️</div>
+          <div class="demo-step-label">Drafts outreach</div>
+          <div class="demo-step-desc">Brand voice skill writes a personalized follow-up email</div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:24px; background:var(--navy); border-radius:12px; padding:18px 24px; display:flex; align-items:center; gap:16px;">
+        <span style="font-size:22px; flex-shrink:0;">💡</span>
+        <p style="font-size:clamp(13px,1.5vw,16px); color:rgba(255,255,255,0.85); line-height:1.6;">Two inputs. Thirty seconds. A complete contact record — and a personalized email ready to send. <strong style="color:white;">This runs entirely inside Claude Cowork.</strong></p>
+      </div>
+
+      <p class="slide-support">LaymanCRM is a Claude Cowork project built to solve the post-networking follow-up problem. It uses two skills: an enrichment skill that processes a business card photo and LinkedIn screenshot to populate a structured JSON contact record, and a brand voice skill that drafts a personalized outreach email based on the enriched data. No external CRM. No monthly fee. Your data stays local.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 10 — DEMO: INSIDE THE SKILL
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-9">
+    <div class="slide-content">
+      <div class="label">LaymanCRM &nbsp;·&nbsp; What the skill processes</div>
+      <div class="slide-title">Two inputs.<br><em>One enriched contact.</em></div>
+
+      <div class="split" style="margin-top:18px; gap:20px;">
+
+        <div class="split-panel navy-accent" style="padding:20px 22px;">
+          <div class="split-label navy">What goes in</div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; align-items:center; gap:12px; background:var(--navy-pale); border-radius:8px; padding:12px 14px;">
+              <span style="font-size:22px; flex-shrink:0;">📷</span>
+              <div>
+                <div style="font-size:13px; font-weight:600; color:var(--navy);">Business card photo</div>
+                <div style="font-size:12px; color:var(--muted);">Name, title, company, phone, email, website</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px; background:var(--navy-pale); border-radius:8px; padding:12px 14px;">
+              <span style="font-size:22px; flex-shrink:0;">🖼️</span>
+              <div>
+                <div style="font-size:13px; font-weight:600; color:var(--navy);">LinkedIn screenshot</div>
+                <div style="font-size:12px; color:var(--muted);">Role, experience, mutual connections, summary</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="split-panel green-accent" style="padding:20px 22px;">
+          <div class="split-label green">What comes out</div>
+          <div class="crm-fields">
+            <div class="crm-field"><span class="crm-field-key">Name</span><span class="crm-field-val">Sarah Chen</span></div>
+            <div class="crm-field"><span class="crm-field-key">Company</span><span class="crm-field-val">Chen Financial Group</span></div>
+            <div class="crm-field"><span class="crm-field-key">Role</span><span class="crm-field-val">Principal</span></div>
+            <div class="crm-field"><span class="crm-field-key">Email</span><span class="crm-field-val">sarah@chenfinancial.com</span></div>
+            <div class="crm-field"><span class="crm-field-key">LinkedIn</span><span class="crm-field-val">linkedin.com/in/sarahchen</span></div>
+            <div class="crm-field"><span class="crm-field-key">Met at</span><span class="crm-field-val">25N Networking Event, May 2026</span></div>
+            <div class="crm-field"><span class="crm-field-key">Context</span><span class="crm-field-val">Discussed AI for client intake; exploring tools to reduce onboarding time</span></div>
+            <div class="crm-field"><span class="crm-field-key">Talking points</span><span class="crm-field-val">Estate planning practice; team of 4; manually re-entering intake data across 3 systems</span></div>
+          </div>
+        </div>
+
+      </div>
+      <p class="slide-support">The enrichment skill inside LaymanCRM reads both inputs simultaneously — card photo and LinkedIn screenshot — and produces a structured JSON contact entry. It extracts factual fields from the card, supplements them with context from LinkedIn, and adds the event context. The output is richer than anything you would have time to type manually, and it is immediately ready for outreach.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 11 — DEMO: BRAND VOICE OUTREACH
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-10">
+    <div class="slide-content">
+      <div class="label">LaymanCRM &nbsp;·&nbsp; The outreach email</div>
+      <div class="slide-title">It sounds<br>like <em>you.</em></div>
+
+      <div class="email-card">
+        <div class="email-chrome">
+          <div class="email-chrome-row">
+            <span class="email-chrome-label">To</span>
+            <span class="email-chrome-value">Sarah Chen &nbsp;·&nbsp; Chen Financial Group</span>
+          </div>
+          <div class="email-chrome-row">
+            <span class="email-chrome-label">Subject</span>
+            <span class="email-chrome-value">Great connecting at 25N — following up on our conversation</span>
+          </div>
+        </div>
+        <div class="email-body-text">
+          Hi Sarah,<br><br>
+          Really enjoyed our conversation at the 25N event this week. Your point about intake data living in three different systems resonated — that kind of friction adds up quietly and is exactly the kind of thing AI handles well.<br><br>
+          I'd love to walk you through what a simple system could look like for your onboarding process. No commitment, just a practical conversation.<br><br>
+          Would Tuesday or Thursday work for a 20-minute call?<br><br>
+          — Raj
+        </div>
+      </div>
+
+      <div style="margin-top:16px; display:flex; align-items:flex-start; gap:12px; background:var(--navy-pale); border-radius:10px; padding:14px 18px;">
+        <span style="font-size:18px; flex-shrink:0; margin-top:2px;">🎙️</span>
+        <p style="font-size:13px; color:var(--navy-mid); line-height:1.6;">The <strong>brand voice skill</strong> knows how Raj writes — his rhythm, his directness, his warmth. It produced this from the enriched CRM entry in seconds. It is not a template. It is a trained voice that sounds like a real person, because it learned from one.</p>
+      </div>
+
+      <p class="slide-support">The brand voice skill is a separate Cowork skill configured with writing samples and tone guidelines. It reads the enriched contact record, pulls the relevant context, and produces a personalized email that reflects the actual conversation from the event. The result feels handwritten — because the pattern it follows was built from real writing, not generic prompts.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 12 — WHAT JUST HAPPENED = A SYSTEM
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-11">
+    <div class="slide-content">
+      <div class="label">Naming what you just saw</div>
+      <div class="slide-title">That was<br><em>a system.</em></div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:24px;">
+
+        <div>
+          <div style="font-size:11px; font-weight:600; color:var(--navy); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; opacity:0.7;">The mental model</div>
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="display:flex; align-items:center; gap:12px; background:var(--bg-card); border:1px solid var(--rule); border-radius:8px; padding:12px 16px; font-size:14px; color:var(--text);">
+              <span style="font-weight:600; color:var(--navy); min-width:52px;">Input</span>
+              <span style="color:var(--muted);">Card photo + LinkedIn screenshot</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px; background:var(--navy); border-radius:8px; padding:12px 16px; font-size:14px; color:white;">
+              <span style="font-weight:600; min-width:52px;">Process</span>
+              <span style="color:rgba(255,255,255,0.75);">Cowork enrichment + brand voice skills</span>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px; background:var(--bg-card); border:1px solid var(--rule); border-radius:8px; padding:12px 16px; font-size:14px; color:var(--text);">
+              <span style="font-weight:600; color:var(--green); min-width:52px;">Output</span>
+              <span style="color:var(--muted);">Enriched CRM entry + personalized email</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <div style="font-size:11px; font-weight:600; color:var(--navy); letter-spacing:0.1em; text-transform:uppercase; margin-bottom:12px; opacity:0.7;">Mapped to AURA</div>
+          <div class="aura-map" style="margin-top:0;">
+            <div class="aura-map-row" style="padding:10px 14px;">
+              <span class="aura-map-letter" style="font-size:18px; width:18px;">A</span>
+              <span class="aura-map-step" style="font-size:10px; min-width:62px;">Activate</span>
+              <span class="aura-map-arrow">→</span>
+              <span class="aura-map-text" style="font-size:12px;">Your contacts are now data</span>
+            </div>
+            <div class="aura-map-row" style="padding:10px 14px;">
+              <span class="aura-map-letter" style="font-size:18px; width:18px;">U</span>
+              <span class="aura-map-step" style="font-size:10px; min-width:62px;">Use</span>
+              <span class="aura-map-arrow">→</span>
+              <span class="aura-map-text" style="font-size:12px;">Run it after every event</span>
+            </div>
+            <div class="aura-map-row" style="padding:10px 14px;">
+              <span class="aura-map-letter" style="font-size:18px; width:18px;">R</span>
+              <span class="aura-map-step" style="font-size:10px; min-width:62px;">Rely</span>
+              <span class="aura-map-arrow">→</span>
+              <span class="aura-map-text" style="font-size:12px;">Post-event routine: 10 min, not zero</span>
+            </div>
+            <div class="aura-map-row" style="padding:10px 14px;">
+              <span class="aura-map-letter" style="font-size:18px; width:18px;">A</span>
+              <span class="aura-map-step" style="font-size:10px; min-width:62px;">Automate</span>
+              <span class="aura-map-arrow">→</span>
+              <span class="aura-map-text" style="font-size:12px;">Runs whenever you add new inputs</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <p class="slide-support">The LaymanCRM demo illustrates every element of the AURA framework in a single workflow. It is not a complex system — it is two skills, two inputs, and two outputs. But because it is repeatable and reliable, it qualifies as a genuine system. That is what creates business value: not sophistication, but consistency.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 13 — THIS PATTERN IS YOURS
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-12">
+    <div class="slide-content">
+      <div class="label">Four more examples</div>
+      <div class="slide-title">The same pattern.<br><em>Different business.</em></div>
+
+      <div class="cards-4" style="margin-top:18px; gap:14px;">
+
+        <div style="background:var(--bg-card); border:1px solid var(--rule); border-radius:12px; padding:18px 16px; display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:24px;">🎙️</div>
+          <div style="font-size:12px; font-weight:600; color:var(--navy); letter-spacing:0.06em; text-transform:uppercase;">After a client call</div>
+          <div style="font-size:11px; color:var(--muted); border-top:1px solid var(--rule); padding-top:8px; line-height:1.5;"><strong style="color:var(--navy);">In:</strong> Voice memo<br><strong style="color:var(--navy);">Out:</strong> Meeting summary + action items in your task list</div>
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--rule); border-radius:12px; padding:18px 16px; display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:24px;">📋</div>
+          <div style="font-size:12px; font-weight:600; color:var(--navy); letter-spacing:0.06em; text-transform:uppercase;">New client intake</div>
+          <div style="font-size:11px; color:var(--muted); border-top:1px solid var(--rule); padding-top:8px; line-height:1.5;"><strong style="color:var(--navy);">In:</strong> Photo of intake form<br><strong style="color:var(--navy);">Out:</strong> Enriched client record, filed and ready</div>
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--rule); border-radius:12px; padding:18px 16px; display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:24px;">📧</div>
+          <div style="font-size:12px; font-weight:600; color:var(--navy); letter-spacing:0.06em; text-transform:uppercase;">New inquiry email</div>
+          <div style="font-size:11px; color:var(--muted); border-top:1px solid var(--rule); padding-top:8px; line-height:1.5;"><strong style="color:var(--navy);">In:</strong> Incoming email<br><strong style="color:var(--navy);">Out:</strong> Draft reply in your brand voice, ready to review</div>
+        </div>
+
+        <div style="background:var(--bg-card); border:1px solid var(--rule); border-radius:12px; padding:18px 16px; display:flex; flex-direction:column; gap:8px;">
+          <div style="font-size:24px;">📄</div>
+          <div style="font-size:12px; font-weight:600; color:var(--navy); letter-spacing:0.06em; text-transform:uppercase;">Scanned invoice</div>
+          <div style="font-size:11px; color:var(--muted); border-top:1px solid var(--rule); padding-top:8px; line-height:1.5;"><strong style="color:var(--navy);">In:</strong> Photo of invoice or receipt<br><strong style="color:var(--navy);">Out:</strong> Categorized expense entry in your log</div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:18px; background:var(--navy-pale); border-radius:10px; padding:14px 20px;">
+        <p style="font-size:clamp(13px,1.5vw,16px); color:var(--navy-mid); line-height:1.6;">Every one of these follows the same structure. <strong>Same input. Same process. Consistent output.</strong> A real estate agent, a therapist, a caterer, an accountant — the pattern is the same. Only the subject matter changes.</p>
+      </div>
+
+      <p class="slide-support">These four examples illustrate that the skill pattern from LaymanCRM is universal. Any business that receives recurring inputs and produces recurring outputs can build a skill for it inside Claude Cowork. The goal is to identify one high-friction, high-frequency workflow and start there.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 14 — FIND YOUR CARD PILE (interactive)
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-13">
+    <div class="slide-content">
+      <div class="label">Your turn</div>
+      <div class="slide-big">What's your<br><em>card pile?</em></div>
+      <div class="slide-rule"></div>
+      <p class="slide-body muted" style="margin-bottom:16px;">The thing that piles up in your business and rarely gets done — not because you don't want to, but because there is no system. That is your starting point.</p>
+
+      <div class="discussion-list">
+        <div class="discussion-item"><span class="ico">📇</span> Business cards from events you haven't followed up on</div>
+        <div class="discussion-item"><span class="ico">📥</span> Client inquiries that didn't get a same-day response</div>
+        <div class="discussion-item"><span class="ico">🗒️</span> Meeting notes that never became action items</div>
+        <div class="discussion-item"><span class="ico">🧾</span> Invoices or receipts that still need to be logged</div>
+        <div class="discussion-item"><span class="ico">✉️</span> Follow-up emails you keep meaning to write</div>
+      </div>
+
+      <div style="margin-top:20px; background:var(--navy); border-radius:12px; padding:16px 22px; display:flex; align-items:center; gap:14px;">
+        <span style="font-size:20px; flex-shrink:0;">💬</span>
+        <p style="font-size:clamp(14px,1.6vw,17px); color:rgba(255,255,255,0.9); line-height:1.6;">What is yours? Take 30 seconds. You already know the answer.</p>
+      </div>
+
+      <p class="slide-support">This is the highest-value moment of the session. Every business owner has at least one workflow that accumulates and goes undone — a stack of friction that quietly costs them time and opportunity. The goal is for each person in the room to name theirs, because naming it is the first step toward building a skill for it.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 15 — THREE QUESTIONS
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-14">
+    <div class="slide-content">
+      <div class="label">Design your first skill</div>
+      <div class="slide-title">Three questions.<br>That is <em>all it takes.</em></div>
+
+      <div class="three-q">
+
+        <div class="three-q-item">
+          <div class="three-q-num">1</div>
+          <div>
+            <div class="three-q-question">What is the input?</div>
+            <div class="three-q-hint">A photo, an email, a voice memo, a form, a document, a screenshot — whatever currently arrives and sits unprocessed.</div>
+          </div>
+        </div>
+
+        <div class="three-q-item">
+          <div class="three-q-num">2</div>
+          <div>
+            <div class="three-q-question">What should the skill do with it?</div>
+            <div class="three-q-hint">Extract information, enrich a record, summarize content, draft a reply, classify and route — or some combination. Describe it in plain language.</div>
+          </div>
+        </div>
+
+        <div class="three-q-item">
+          <div class="three-q-num">3</div>
+          <div>
+            <div class="three-q-question">Where does the output go?</div>
+            <div class="three-q-hint">A CRM entry, an email draft, a task list, a file, a notification. Where does this result need to land to be useful to you?</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div style="margin-top:18px; background:var(--navy-pale); border-radius:10px; padding:14px 20px;">
+        <p style="font-size:clamp(13px,1.5vw,16px); color:var(--navy-mid); line-height:1.6;">If you can answer these three questions, you can build the skill inside Claude Cowork — in plain language, today. No code. No technical background required.</p>
+      </div>
+
+      <p class="slide-support">These three questions are the design framework for any skill built inside Claude Cowork. They force clarity on what the workflow does and why it matters, before any configuration begins. Most business owners can answer all three in under two minutes once they have identified their card pile.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 16 — WHAT TO DO THIS WEEK
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-15">
+    <div class="slide-content">
+      <div class="label">Your next move</div>
+      <div class="slide-title">Start one thing<br><em>this week.</em></div>
+
+      <div class="path-steps" style="margin-top:20px;">
+        <div class="path-step">
+          <div class="path-num">1</div>
+          <div>
+            <div class="path-title">Set up a Claude Cowork project</div>
+            <div class="path-desc">Free or low-cost to start. Create a project. Give it a name that matches your business or workflow. That is your AURA home base.</div>
+          </div>
+        </div>
+        <div class="path-step">
+          <div class="path-num">2</div>
+          <div>
+            <div class="path-title">Go back to your card pile answer</div>
+            <div class="path-desc">The workflow you identified a few slides ago. Write down the three questions for it — input, process, output. Ten minutes of thinking, maximum.</div>
+          </div>
+        </div>
+        <div class="path-step">
+          <div class="path-num">3</div>
+          <div>
+            <div class="path-title">Build the skill in plain language</div>
+            <div class="path-desc">Describe what the skill should do, using your three answers. Paste it into your Cowork project as a skill instruction. That is the whole build process.</div>
+          </div>
+        </div>
+        <div class="path-step" style="background:var(--navy-pale); border-color:rgba(29,53,87,0.15);">
+          <div class="path-num" style="opacity:0.8; color:var(--navy);">4</div>
+          <div>
+            <div class="path-title">Test it with one real input this week</div>
+            <div class="path-desc">One card. One email. One voice memo. See what comes out. Adjust the instructions if needed. That first run is worth more than any planning.</div>
+          </div>
+        </div>
+      </div>
+
+      <p class="slide-support">The most common mistake after a session like this is trying to build everything at once. One skill, one real input, one result this week is the target. The goal is not to automate the whole business — it is to create one moment where a system works and you trust it. Everything else follows from there.</p>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════════════
+       SLIDE 17 — THANK YOU
+  ══════════════════════════════════════════════════════════ -->
+  <div class="slide" id="slide-16">
+    <div class="slide-content">
+      <div class="label">Let us connect</div>
+      <div class="slide-big">Thank you.</div>
+      <div class="slide-rule" style="margin-top:24px;"></div>
+      <p class="slide-body">If you want help setting up your first Cowork project — or thinking through which workflow to start with — I am happy to continue the conversation.</p>
+      <p class="slide-body muted" style="margin-top:8px; font-size:clamp(14px,1.6vw,17px);">No pitch. No pressure. Just a practical conversation.</p>
+
+      <div style="margin-top:24px; padding:22px 28px; background:var(--navy-pale); border-radius:12px; border:1px solid rgba(29,53,87,0.1);">
+        <p style="font-size:clamp(13px,1.5vw,16px); color:var(--muted); line-height:1.7; font-style:italic; margin-bottom:10px;">The local accountant who knew your name. The small firm that actually had time for you.</p>
+        <p style="font-size:clamp(13px,1.5vw,16px); color:var(--muted); line-height:1.7; margin-bottom:14px;">These businesses deserve the same tools the big companies are building for themselves.</p>
+        <p style="font-family:var(--font-head); font-size:clamp(16px,1.9vw,21px); font-style:italic; color:var(--navy); font-weight:600; line-height:1.3;">That is why I am here.</p>
+      </div>
+
+      <div class="close-contact">
+        <div class="contact-item"><strong>The AI Guy</strong> &nbsp;·&nbsp; Raj Sehgal</div>
+        <div class="contact-item"><a href="mailto:raj@theaiguy.dev" style="color:var(--navy); text-decoration:none; font-weight:600;">raj@theaiguy.dev</a> &nbsp;·&nbsp; <a href="https://www.theaiguy.dev" target="_blank" rel="noopener" style="color:var(--navy); text-decoration:none;">theaiguy.dev</a></div>
+        <div class="contact-item" style="font-size:13px; color:var(--muted);">Chicagoland &nbsp;·&nbsp; Proud member, Schaumburg Business Association</div>
+      </div>
+      <p class="slide-support">If this session raised questions about your own business and where a Cowork skill could help, reach out. The best next step is usually a short conversation — not a sales process. Part 3 of this series will go deeper into automating full workflows.</p>
+    </div>
+  </div>
+
+</div><!-- /#app -->
+
+<!-- Navigation -->
+<div id="nav">
+  <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled title="Previous slide (←)">←</button>
+  <span id="slide-counter">1 / 17</span>
+  <button class="nav-btn" id="btn-next" onclick="navigate(1)" title="Next slide (→ or Space)">→</button>
+</div>
+
+<script>
+  const TOTAL = 17;
+  let current = 0;
+
+  const slides      = document.querySelectorAll('.slide');
+  const counter     = document.getElementById('slide-counter');
+  const btnPrev     = document.getElementById('btn-prev');
+  const btnNext     = document.getElementById('btn-next');
+  const progressBar = document.getElementById('progress-bar');
+
+  function goTo(n) {
+    if (n < 0 || n >= TOTAL) return;
+    slides[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    slides[current].scrollTop = 0;
+    counter.textContent = (current + 1) + ' / ' + TOTAL;
+    btnPrev.disabled = current === 0;
+    btnNext.disabled = current === TOTAL - 1;
+    const pct = ((current) / (TOTAL - 1)) * 100;
+    progressBar.style.width = pct + '%';
+  }
+
+  function navigate(dir) { goTo(current + dir); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); navigate(1); }
+    if (e.key === 'ArrowLeft')                   { e.preventDefault(); navigate(-1); }
+    if (e.key === 'ArrowDown')                   { e.preventDefault(); navigate(1); }
+    if (e.key === 'ArrowUp')                     { e.preventDefault(); navigate(-1); }
+  });
+
+  let touchX = 0, touchY = 0;
+  document.addEventListener('touchstart', e => {
+    touchX = e.changedTouches[0].screenX;
+    touchY = e.changedTouches[0].screenY;
+  }, { passive: true });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].screenX - touchX;
+    const dy = e.changedTouches[0].screenY - touchY;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 60) {
+      if (dx < 0) navigate(1); else navigate(-1);
+    }
+  });
+
+  goTo(0);
+  progressBar.style.width = '0%';
+
+  // ── PDF Download ─────────────────────────────────────────
+  function downloadPDF() {
+    const btn   = document.getElementById('pdf-btn');
+    const icon  = document.getElementById('pdf-icon');
+    const label = document.getElementById('pdf-label');
+
+    btn.disabled      = true;
+    label.textContent = 'Opening print view…';
+
+    const styles = Array.from(document.styleSheets).map(ss => {
+      try { return Array.from(ss.cssRules).map(r => r.cssText).join('\n'); }
+      catch(e) { return ''; }
+    }).join('\n');
+
+    const fontLinks = Array.from(document.querySelectorAll('link[rel="stylesheet"]'))
+      .map(l => l.outerHTML).join('\n');
+
+    const slideEls = document.querySelectorAll('.slide');
+    let slidesHTML = '';
+    slideEls.forEach(s => { slidesHTML += `<div class="print-slide">${s.innerHTML}</div>\n`; });
+
+    const printDoc = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  ${fontLinks}
+  <style>
+    ${styles}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; height: auto; overflow: visible; background: #F8F7F3; }
+    .print-slide {
+      width: 1280px; height: 720px; min-height: 720px; max-height: 720px;
+      overflow: hidden; position: relative;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      padding: 60px 80px 80px; background: #F8F7F3;
+      page-break-after: always; break-after: page;
+    }
+    .print-slide .slide-content { width: 100%; max-width: 960px; display: flex; flex-direction: column; animation: none !important; }
+    @page { size: 1280px 720px landscape; margin: 0; }
+    @media print { html, body { width: 1280px; } .print-slide { page-break-after: always; break-after: page; } }
+  </style>
+</head>
+<body>
+  ${slidesHTML}
+  <script>window.onload = function() { setTimeout(function() { window.print(); }, 800); };<\/script>
+</body>
+</html>`;
+
+    const pw = window.open('', '_blank', 'width=1280,height=720');
+    if (!pw) {
+      alert('Please allow popups for this page, then try again.');
+      btn.disabled = false; label.textContent = 'Download PDF';
+      return;
+    }
+    pw.document.open();
+    pw.document.write(printDoc);
+    pw.document.close();
+
+    btn.disabled      = false;
+    icon.textContent  = '📥';
+    label.textContent = 'Download PDF';
+  }
+</script>
+
+</body>
+</html>
