@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ducky Dash Image Generation Approach</title>
+  <style>
+    :root {
+      --blue: #24588d;
+      --red: #be1e2d;
+      --orange: #f15a29;
+      --gold: #fbb040;
+      --ink: #172033;
+      --muted: #637083;
+      --paper: #f7fbff;
+      --line: #d9e4ef;
+      --white: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+      background: var(--blue);
+    }
+
+    .deck {
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .slide {
+      display: none;
+      min-height: 100vh;
+      padding: 54px 64px 72px;
+      background:
+        linear-gradient(90deg, rgba(36, 88, 141, 0.08), rgba(251, 176, 64, 0.12)),
+        var(--paper);
+    }
+
+    .slide.active {
+      display: grid;
+      align-content: center;
+    }
+
+    .hero {
+      min-height: 100vh;
+      color: var(--white);
+      background:
+        linear-gradient(115deg, rgba(36, 88, 141, 0.96), rgba(36, 88, 141, 0.72)),
+        url("assets/ducky-dash/06-silly-hero-chaos.png") center / cover;
+    }
+
+    .hero .eyebrow,
+    .hero .subtitle,
+    .hero .meta {
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .hero h1 {
+      max-width: 820px;
+      color: var(--white);
+      text-shadow: 0 2px 18px rgba(0, 0, 0, 0.28);
+    }
+
+    .hero .accent-bar {
+      background: var(--gold);
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .eyebrow {
+      margin: 0 0 14px;
+      color: var(--red);
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      margin-bottom: 22px;
+      color: var(--blue);
+      font-size: clamp(44px, 7vw, 86px);
+      line-height: 0.98;
+      letter-spacing: 0;
+    }
+
+    h2 {
+      margin-bottom: 20px;
+      color: var(--blue);
+      font-size: clamp(32px, 5vw, 58px);
+      line-height: 1.03;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin-bottom: 12px;
+      color: var(--blue);
+      font-size: 24px;
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 24px;
+      line-height: 1.38;
+    }
+
+    .meta {
+      margin-top: 30px;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.5;
+    }
+
+    .accent-bar {
+      width: 96px;
+      height: 8px;
+      margin: 28px 0;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--red), var(--orange), var(--gold));
+    }
+
+    .two-column {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+      gap: 34px;
+      align-items: center;
+    }
+
+    .image-frame {
+      overflow: hidden;
+      border: 1px solid rgba(36, 88, 141, 0.16);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 24px 60px rgba(23, 32, 51, 0.16);
+    }
+
+    .image-frame img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+    }
+
+    .notes {
+      min-width: 0;
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 14px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--white);
+      background: var(--orange);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .why {
+      margin: 18px 0;
+      padding: 20px;
+      border-left: 6px solid var(--gold);
+      border-radius: 8px;
+      background: var(--white);
+      box-shadow: 0 12px 30px rgba(23, 32, 51, 0.08);
+    }
+
+    .why p {
+      margin: 0;
+      color: var(--ink);
+      font-size: 18px;
+      line-height: 1.45;
+    }
+
+    .prompt {
+      max-height: 300px;
+      overflow: auto;
+      padding: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      color: #20304a;
+      background: #ffffff;
+      font-size: 14px;
+      line-height: 1.48;
+      white-space: pre-wrap;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      padding: 12px 16px;
+      border-radius: 999px;
+      color: var(--blue);
+      background: var(--white);
+      border: 1px solid var(--line);
+      font-weight: 800;
+    }
+
+    .download-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 12px 18px;
+      border-radius: 999px;
+      color: var(--white);
+      background: var(--red);
+      font-size: 15px;
+      font-weight: 900;
+      text-decoration: none;
+      box-shadow: 0 12px 26px rgba(190, 30, 45, 0.28);
+    }
+
+    .download-link:hover,
+    .download-link:focus {
+      background: #a91827;
+      outline: 3px solid rgba(251, 176, 64, 0.55);
+      outline-offset: 3px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .floating-download {
+      position: fixed;
+      top: 18px;
+      right: 22px;
+      z-index: 12;
+      background: var(--gold);
+      color: var(--blue);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    .floating-download:hover,
+    .floating-download:focus {
+      background: #ffd06e;
+    }
+
+    .strategy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 30px;
+    }
+
+    .strategy-card {
+      min-height: 210px;
+      padding: 24px;
+      border-radius: 8px;
+      background: var(--white);
+      border-top: 7px solid var(--orange);
+      box-shadow: 0 16px 44px rgba(23, 32, 51, 0.1);
+    }
+
+    .strategy-card:nth-child(2) {
+      border-top-color: var(--gold);
+    }
+
+    .strategy-card:nth-child(3) {
+      border-top-color: var(--red);
+    }
+
+    .strategy-card p {
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.45;
+    }
+
+    .caption-copy {
+      margin-top: 18px;
+      color: var(--blue);
+      font-size: 22px;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .controls {
+      position: fixed;
+      right: 22px;
+      bottom: 18px;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .controls button {
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      color: var(--blue);
+      background: var(--white);
+      font-size: 22px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+    }
+
+    .progress {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      z-index: 11;
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, 0.25);
+    }
+
+    .progress span {
+      display: block;
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--red), var(--orange), var(--gold));
+      transition: width 0.2s ease;
+    }
+
+    @media (max-width: 900px) {
+      .deck {
+        height: auto;
+        overflow: visible;
+      }
+
+      .slide,
+      .slide.active {
+        display: block;
+        min-height: auto;
+        padding: 32px 20px 56px;
+      }
+
+      .slide {
+        display: block;
+      }
+
+      .two-column,
+      .strategy-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .controls,
+      .progress,
+      .floating-download {
+        display: none;
+      }
+
+      .prompt {
+        max-height: none;
+      }
+    }
+
+    @media print {
+      body {
+        background: var(--white);
+      }
+
+      .deck {
+        height: auto;
+        overflow: visible;
+      }
+
+      .slide,
+      .slide.active {
+        display: grid;
+        min-height: 100vh;
+        break-after: page;
+        padding: 38px;
+      }
+
+      .controls,
+      .progress,
+      .floating-download {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="deck" aria-live="polite">
+    <section class="slide hero active">
+      <div>
+        <p class="eyebrow">Camp I Am Me | Quack for a Cause Ducky Dash</p>
+        <h1>Making the Ducky Dash Look Joyfully Ridiculous</h1>
+        <div class="accent-bar"></div>
+        <p class="subtitle">A prompt strategy for generating fun, silly, scroll-stopping event images that still feel warm, mission-connected, and usable for promotion.</p>
+        <p class="meta">Approach: start with clear nonprofit campaign goals, add absurd duck scenarios, keep every image text-free, then add event details manually in the final design.</p>
+        <div class="hero-actions">
+          <a class="download-link" href="ducky-dash-image-approach.zip" download>Download HTML + Assets ZIP</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div>
+        <p class="eyebrow">The Creative Shift</p>
+        <h2>From Cute Event Promo to Ridiculous Duck Spectacle</h2>
+        <p class="subtitle">The first prompts were clean, cheerful, and nonprofit-safe. The stronger campaign lane came from pushing the visual premise further: ducks behaving like athletes, executives, reporters, pit crews, fans, and champions.</p>
+        <div class="strategy-grid">
+          <div class="strategy-card">
+            <h3>Keep the Core</h3>
+            <p>Every image still shows rubber ducks, water, race energy, and a bright event setting. The fundraiser remains instantly understandable.</p>
+          </div>
+          <div class="strategy-card">
+            <h3>Add the Absurd</h3>
+            <p>The humor comes from treating rubber ducks as if they are taking the race far too seriously.</p>
+          </div>
+          <div class="strategy-card">
+            <h3>Protect the Design</h3>
+            <p>The prompts ask for no readable text or logos, plus open space for headlines, so the final materials stay editable and professional.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div>
+        <p class="eyebrow">Prompt Formula</p>
+        <h2>The Reusable Pattern</h2>
+        <p class="subtitle">Each prompt used the same backbone, then swapped in a different ridiculous scene idea.</p>
+        <pre class="prompt">A silly, over-the-top promotional image for a nonprofit rubber duck race fundraiser, [ridiculous scene idea], bright indoor waterpark setting, yellow rubber ducks, splashing water, joyful chaos, family-friendly humor, warm hopeful nonprofit tone, Camp I Am Me brand colors dark blue #24588D, red #BE1E2D, orange #F15A29, yellow #FBB040, clean composition with space for headline text, high quality playful digital illustration, no readable text, no logos</pre>
+        <div class="pill-list">
+          <span class="pill">Subject: rubber ducks</span>
+          <span class="pill">Setting: waterslide</span>
+          <span class="pill">Tone: silly but warm</span>
+          <span class="pill">Brand: IFSA palette</span>
+          <span class="pill">Output: text-free image</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/01-hero-race.png" alt="Hundreds of rubber ducks racing down a waterslide"></div>
+        <div class="notes">
+          <span class="tag">Baseline Hero Race</span>
+          <h2>The Clean Event Anchor</h2>
+          <div class="why"><p>This prompt established the basic event visual: lots of ducks, water, motion, and family-friendly excitement. It is useful as the straightforward hero before the campaign gets weirder.</p></div>
+          <pre class="prompt">A joyful promotional image for a nonprofit rubber duck race fundraiser, hundreds of numbered yellow rubber ducks racing down a bright indoor waterpark waterslide, splashing water, energetic motion, family-friendly excitement, clean composition, warm hopeful mood, brand colors dark blue #24588D, red #BE1E2D, orange #F15A29, yellow #FBB040, space at top for event title, high quality digital illustration</pre>
+          <p class="caption-copy">Best use: main event awareness or website banner.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/02-adopt-your-duck.png" alt="Single cheerful numbered rubber duck at waterslide starting line"></div>
+        <div class="notes">
+          <span class="tag">Adopt Your Duck</span>
+          <h2>One Duck, One Action</h2>
+          <div class="why"><p>This focused the image around the adoption action. A single duck with a race number gives the audience something to root for and leaves room for a direct call to action.</p></div>
+          <pre class="prompt">A cheerful yellow rubber duck with an official race number on its side, sitting at the top of a waterslide starting line, playful confident expression, bright waterpark setting, clean background, nonprofit fundraiser promotion, warm and family-friendly, Camp I Am Me brand palette of dark blue, red, orange, and yellow, space on the right for text</pre>
+          <p class="caption-copy">Best use: "Adopt yours" posts and ads.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/03-mission-connection.png" alt="Rubber duck floating in water with warm community background"></div>
+        <div class="notes">
+          <span class="tag">Mission Connection</span>
+          <h2>Warmth Behind the Fun</h2>
+          <div class="why"><p>This prompt softened the scene so the campaign could connect the duck race to hope, healing, and community without becoming sad or clinical.</p></div>
+          <pre class="prompt">A heartwarming nonprofit fundraising image with a yellow rubber duck floating in bright blue water, soft background showing a welcoming community celebration, warm smiles, hopeful atmosphere, gentle sunlight, colors inspired by dark blue #24588D, orange #F15A29, yellow #FBB040, clean uncluttered composition, space for text, not medical, not sad</pre>
+          <p class="caption-copy">Best use: donor-facing posts or email headers.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/04-prize-push.png" alt="Three numbered rubber ducks on a winner podium"></div>
+        <div class="notes">
+          <span class="tag">Prize Push</span>
+          <h2>Make Winning Visual</h2>
+          <div class="why"><p>The podium gave the prize message an instant structure. Subtle props suggest cash, bicycles, and a stay without relying on AI-generated text.</p></div>
+          <pre class="prompt">Three cheerful numbered rubber ducks on a winner podium, first place duck celebrating, festive water splash background, subtle prize icons suggesting cash, bicycles, and a resort stay, bright family-friendly nonprofit fundraiser style, clean composition, dark blue #24588D background accents, orange and yellow celebration details, room for headline text</pre>
+          <p class="caption-copy">Best use: prize announcement and reminders.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/05-countdown.png" alt="Rubber duck about to launch down a waterslide"></div>
+        <div class="notes">
+          <span class="tag">Countdown Energy</span>
+          <h2>Urgency Without Pressure</h2>
+          <div class="why"><p>The duck at the edge of the slide creates a natural countdown feeling. It is playful urgency: the race is about to start, so adopt before the moment passes.</p></div>
+          <pre class="prompt">A yellow rubber duck at the edge of a waterslide about to launch into a race, dramatic but playful motion, splashing water, exciting countdown feeling, clean bright indoor waterpark setting, family-friendly nonprofit event promotion, brand colors dark blue, red, orange, yellow, space for short countdown text</pre>
+          <p class="caption-copy">Best use: "Ducks are going fast" or final-week posts.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/06-silly-hero-chaos.png" alt="Rubber ducks racing chaotically down a waterslide"></div>
+        <div class="notes">
+          <span class="tag">Silly Hero Chaos</span>
+          <h2>Start the Chaos</h2>
+          <div class="why"><p>This was the pivot into ridiculous. Goggles, floating spectators, and exaggerated race drama make the event feel like a tiny duck championship.</p></div>
+          <pre class="prompt">A silly, over-the-top promotional image for a nonprofit rubber duck race fundraiser, a huge pack of yellow rubber ducks blasting down a bright indoor waterpark waterslide like an absurd championship race, with one heroic duck in tiny swim goggles dramatically leading the pack, another duck spinning backward in joyful chaos, and a few ducks cheering from inflatable pool floats nearby, bright indoor waterpark setting, splashing water, joyful chaos, family-friendly humor, warm hopeful nonprofit tone, Camp I Am Me brand colors dark blue #24588D, red #BE1E2D, orange #F15A29, yellow #FBB040, clean composition with space for headline text, high quality playful digital illustration, no readable text, no logos</pre>
+          <p class="caption-copy">Overlay idea: Adopt a Duck. Start the Chaos.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/07-board-meeting.png" alt="Rubber ducks having a strategy meeting at a waterslide"></div>
+        <div class="notes">
+          <span class="tag">Board Meeting Gone Wrong</span>
+          <h2>Too Much Strategy</h2>
+          <div class="why"><p>The joke is that ducks do not need a strategy, but they are holding a very serious meeting anyway. That makes the "pure duck-luck" idea visual.</p></div>
+          <pre class="prompt">A ridiculous promotional image for a nonprofit rubber duck race fundraiser, a group of serious-looking rubber ducks having a tiny board meeting at the top of a waterslide before the race, one duck pointing at a race strategy chart with nonsense shapes, another duck wearing tiny glasses, another holding a tiny clipboard, then chaos as the slide is about to start, bright indoor waterpark setting, yellow rubber ducks, splashing water, family-friendly humor, clean composition with space for text, brand colors dark blue #24588D, red #BE1E2D, orange #F15A29, yellow #FBB040, high quality playful digital illustration, no readable text, no logos</pre>
+          <p class="caption-copy">Overlay idea: Race Strategy: Pure Duck-Luck.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/08-training-montage.png" alt="Rubber ducks training for a waterslide race"></div>
+        <div class="notes">
+          <span class="tag">Training Montage</span>
+          <h2>Athletes Who Mostly Float</h2>
+          <div class="why"><p>The sports-movie framing makes the ducks feel comically determined. Sweatbands, goggles, and foam dumbbells are specific enough for the generator to produce a memorable scene.</p></div>
+          <pre class="prompt">A silly promotional image for a nonprofit rubber duck race fundraiser, rubber ducks training intensely for a waterslide race, one duck lifting tiny foam dumbbells, one duck stretching with a sweatband, one duck wearing goggles looking extremely focused, a waterslide race course in the background, bright indoor waterpark setting, playful ridiculous sports-movie energy, yellow ducks, splashing water, family-friendly nonprofit tone, clean open space for headline text, brand colors dark blue, red, orange, yellow, high quality playful digital illustration, no readable text, no logos</pre>
+          <p class="caption-copy">Overlay idea: Training Hard. Floating Harder.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/09-pit-crew.png" alt="Rubber duck pit crew preparing a champion duck"></div>
+        <div class="notes">
+          <span class="tag">Duck Pit Crew</span>
+          <h2>Race Prep, Overdone</h2>
+          <div class="why"><p>The pit crew prompt gives the race a behind-the-scenes story. Tiny helmets, towels, water bottles, and a stopwatch create visual jokes without needing any words.</p></div>
+          <pre class="prompt">A silly and ridiculous promotional image for a nonprofit rubber duck race fundraiser, a rubber duck race pit crew preparing one champion duck before a waterslide launch, tiny helmets, tiny towels, tiny water bottles, one duck checking a stopwatch, another polishing the champion duck, bright indoor waterpark starting line, joyful chaos, splashing water, family-friendly humor, warm nonprofit tone, clean composition with room for headline text, Camp I Am Me brand colors dark blue #24588D, red #BE1E2D, orange #F15A29, yellow #FBB040, high quality playful digital illustration, no readable text, no logos</pre>
+          <p class="caption-copy">Overlay idea: Our Ducks Take This Very Seriously.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/10-this-duck-means-business.png" alt="Serious rubber duck with sunglasses and sweatband"></div>
+        <div class="notes">
+          <span class="tag">This Duck Means Business</span>
+          <h2>Tiny Sunglasses, Big Stakes</h2>
+          <div class="why"><p>This prompt works because it treats one duck like the star of a dramatic race poster. The seriousness is the joke.</p></div>
+          <pre class="prompt">A ridiculous nonprofit fundraiser promo image, one determined yellow rubber duck at the top of a waterslide wearing tiny sunglasses and a sweatband, looking absurdly serious before the big race, dramatic splash lighting, other rubber ducks in the background reacting with excitement, bright indoor waterpark setting, playful comedy, family-friendly, warm and hopeful, dark blue #24588D accents, red #BE1E2D, orange #F15A29, yellow #FBB040, clean negative space for short headline text, polished digital illustration, no readable text, no logos</pre>
+          <p class="caption-copy">Overlay idea: This Duck Came to Dash.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/11-fan-section.png" alt="Crowd of rubber ducks cheering in a fan section"></div>
+        <div class="notes">
+          <span class="tag">Duck Fan Section</span>
+          <h2>The Crowd Goes Wild</h2>
+          <div class="why"><p>The fan section gives the event a game-day feeling. A blank sign was requested so final copy can be added later instead of relying on AI text.</p></div>
+          <pre class="prompt">A funny promotional image for a nonprofit rubber duck race fundraiser, a crowd of rubber ducks in a tiny fan section cheering wildly for a waterslide race, some wearing foam fingers, tiny hats, swim goggles, and silly accessories, one duck holding a blank sign with no readable text, bright indoor waterpark setting, colorful splashes, joyful family-friendly chaos, clean composition with space for event copy, Camp I Am Me brand colors dark blue, red, orange, yellow, high quality playful digital illustration, no readable text, no logos</pre>
+          <p class="caption-copy">Overlay idea: Your Duck Needs Fans.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/12-victory-parade.png" alt="Champion rubber duck in a waterpark victory parade"></div>
+        <div class="notes">
+          <span class="tag">Victory Parade</span>
+          <h2>Celebrate the Imaginary Champion</h2>
+          <div class="why"><p>The parade prompt turns the prize idea into a visual payoff. Trophy, confetti, float, and cheering ducks make the race feel bigger than it has any right to be.</p></div>
+          <pre class="prompt">A silly celebratory image for a nonprofit rubber duck race fundraiser, a champion rubber duck riding a tiny float through a waterpark victory parade, confetti, splashing water, other ducks celebrating, tiny trophy, absurdly joyful scene, bright indoor waterpark setting, family-friendly humor, warm hopeful nonprofit tone, dark blue #24588D, red #BE1E2D, orange #F15A29, yellow #FBB040 accents, clean area for headline text, high quality playful digital illustration, no readable text, no logos</pre>
+          <p class="caption-copy">Overlay idea: Tiny Trophy. Giant Splash.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="two-column">
+        <div class="image-frame"><img src="assets/ducky-dash/13-weather-report.png" alt="Rubber duck weather reporter in front of splash wave"></div>
+        <div class="notes">
+          <span class="tag">Extreme Duck Weather Report</span>
+          <h2>Forecast: Ducks</h2>
+          <div class="why"><p>This prompt creates a funny campaign lane for announcements. The weather reporter idea naturally supports countdowns, updates, and "breaking news" posts.</p></div>
+          <pre class="prompt">A ridiculous promotional image for a nonprofit rubber duck race fundraiser, a yellow rubber duck pretending to be a weather reporter in front of a giant waterslide splash wave, tiny microphone, dramatic water forecast energy, other ducks racing behind it, bright indoor waterpark setting, silly family-friendly humor, warm nonprofit tone, clean space for headline text, brand colors dark blue #24588D, red #BE1E2D, orange #F15A29, yellow #FBB040, polished playful digital illustration, no readable text, no logos</pre>
+          <p class="caption-copy">Overlay idea: Today's Forecast: 100% Chance of Ducks.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div>
+        <p class="eyebrow">Practical Rules</p>
+        <h2>What Made the Prompts Work</h2>
+        <div class="strategy-grid">
+          <div class="strategy-card">
+            <h3>Specific Props Beat Vague Humor</h3>
+            <p>Goggles, clipboards, foam dumbbells, microphones, trophies, and blank signs gave the image model concrete comedy to render.</p>
+          </div>
+          <div class="strategy-card">
+            <h3>No Text Inside the Image</h3>
+            <p>The final event name, logo, date, pricing, and adoption CTA should be added afterward for accuracy and brand control.</p>
+          </div>
+          <div class="strategy-card">
+            <h3>Mission in the Caption</h3>
+            <p>The image earns attention with humor. The caption or overlay connects that attention back to Camp I Am Me and burn survivor support.</p>
+          </div>
+        </div>
+        <p class="subtitle" style="margin-top: 32px;">Recommended line to pair with the silly visuals: Every duck adopted helps support Camp I Am Me's free programs for burn survivors.</p>
+      </div>
+    </section>
+
+    <section class="slide">
+      <div class="center">
+        <p class="eyebrow">Next Campaign Step</p>
+        <h2>Build a Rotating Set of Funny Social Posts</h2>
+        <p class="subtitle" style="margin-left: auto; margin-right: auto;">Use the funniest images as the top of the funnel, then rotate prize, adoption, countdown, and mission messages as people get closer to adopting a duck.</p>
+        <div class="pill-list" style="justify-content: center;">
+          <span class="pill">Adopt a Duck. Start the Chaos.</span>
+          <span class="pill">Race Strategy: Pure Duck-Luck.</span>
+          <span class="pill">Training Hard. Floating Harder.</span>
+          <span class="pill">Today's Forecast: 100% Chance of Ducks.</span>
+        </div>
+        <p style="margin-top: 34px;">
+          <a class="download-link" href="ducky-dash-image-approach.zip" download>Download the Full Presentation Package</a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <a class="download-link floating-download" href="ducky-dash-image-approach.zip" download>Download ZIP</a>
+
+  <div class="controls" aria-label="Presentation controls">
+    <button type="button" id="prev" aria-label="Previous slide">‹</button>
+    <span id="counter">1 / 18</span>
+    <button type="button" id="next" aria-label="Next slide">›</button>
+  </div>
+  <div class="progress" aria-hidden="true"><span id="progress"></span></div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const counter = document.querySelector("#counter");
+    const progress = document.querySelector("#progress");
+    let current = 0;
+
+    function showSlide(index) {
+      current = Math.max(0, Math.min(index, slides.length - 1));
+      slides.forEach((slide, slideIndex) => {
+        slide.classList.toggle("active", slideIndex === current);
+      });
+      counter.textContent = `${current + 1} / ${slides.length}`;
+      progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+      window.location.hash = `slide-${current + 1}`;
+    }
+
+    document.querySelector("#next").addEventListener("click", () => showSlide(current + 1));
+    document.querySelector("#prev").addEventListener("click", () => showSlide(current - 1));
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === " ") {
+        event.preventDefault();
+        showSlide(current + 1);
+      }
+      if (event.key === "ArrowLeft" || event.key === "PageUp") {
+        event.preventDefault();
+        showSlide(current - 1);
+      }
+      if (event.key === "Home") {
+        event.preventDefault();
+        showSlide(0);
+      }
+      if (event.key === "End") {
+        event.preventDefault();
+        showSlide(slides.length - 1);
+      }
+    });
+
+    const match = window.location.hash.match(/slide-(\d+)/);
+    showSlide(match ? Number(match[1]) - 1 : 0);
+  </script>
+</body>
+</html>
