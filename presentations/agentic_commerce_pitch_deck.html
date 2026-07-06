@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agentic Commerce Product Intelligence Platform — 90-Day Validation Pitch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: #F7F2E7;
+    --paper-deep: #EEE5D2;
+    --ink: #20281F;
+    --ink-soft: #57614F;
+    --teal: #2F6B63;
+    --teal-deep: #1D423C;
+    --gold: #B8862F;
+    --brick: #9C4A38;
+    --line: #D9CFB8;
+    --radius: 4px;
+  }
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+    font-size:18px;
+    line-height:1.55;
+  }
+  h1,h2,h3{ font-family:'Fraunces', serif; font-weight:600; margin:0; }
+  .mono{ font-family:'IBM Plex Mono', monospace; }
+
+  /* ---------- Deck shell ---------- */
+  .deck{
+    scroll-snap-type:y mandatory;
+    overflow-y:scroll;
+    height:100vh;
+  }
+  .slide{
+    scroll-snap-align:start;
+    min-height:100vh;
+    width:100%;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:6vh 8vw;
+    position:relative;
+    opacity:0;
+    transform:translateY(16px);
+    transition:opacity .7s ease, transform .7s ease;
+  }
+  .slide.in-view{ opacity:1; transform:translateY(0); }
+  .slide-inner{ max-width:1120px; width:100%; }
+
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.85rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--teal-deep);
+    margin-bottom:1.2rem;
+    display:flex;
+    align-items:center;
+    gap:.6rem;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px; height:1px;
+    background:var(--gold);
+    display:inline-block;
+  }
+
+  .ref-tag{
+    position:absolute;
+    bottom:2.4rem;
+    left:8vw;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.7rem;
+    letter-spacing:.04em;
+    color:var(--ink-soft);
+    opacity:.7;
+  }
+  .src-tag{
+    position:absolute;
+    bottom:2.4rem;
+    right:8vw;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.7rem;
+    color:var(--ink-soft);
+    opacity:.7;
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    position:fixed;
+    top:0; left:0; right:0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:1rem 1.4rem;
+    z-index:50;
+    pointer-events:none;
+  }
+  .topbar-left{ font-family:'IBM Plex Mono', monospace; font-size:.75rem; color:var(--ink-soft); pointer-events:auto; }
+  .topbar-right{ display:flex; gap:.6rem; pointer-events:auto; }
+  .btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.72rem;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    background:var(--paper);
+    color:var(--ink);
+    border:1px solid var(--ink);
+    padding:.5rem .9rem;
+    border-radius:var(--radius);
+    cursor:pointer;
+    text-decoration:none;
+  }
+  .btn:hover{ background:var(--ink); color:var(--paper); }
+  .btn:focus-visible, .navdot:focus-visible, a:focus-visible{
+    outline:2px solid var(--teal); outline-offset:2px;
+  }
+
+  /* ---------- Side nav ---------- */
+  .navrail{
+    position:fixed;
+    right:1.4rem;
+    top:50%;
+    transform:translateY(-50%);
+    display:flex;
+    flex-direction:column;
+    gap:.6rem;
+    z-index:50;
+  }
+  .navdot{
+    width:8px; height:8px;
+    border-radius:50%;
+    background:transparent;
+    border:1.4px solid var(--ink-soft);
+    padding:0;
+    cursor:pointer;
+  }
+  .navdot.active{ background:var(--teal); border-color:var(--teal); width:10px; height:10px; }
+
+  /* ---------- Typography helpers ---------- */
+  .thesis{
+    font-size:clamp(2.4rem, 5.2vw, 4.2rem);
+    line-height:1.14;
+    max-width:15ch;
+  }
+  .thesis-full{
+    font-size:clamp(2rem, 4vw, 3rem);
+    line-height:1.22;
+    max-width:20ch;
+  }
+  p.lead{ font-size:1.4rem; color:var(--ink-soft); max-width:60ch; }
+  .kicker-name{ font-family:'IBM Plex Mono', monospace; font-size:.85rem; color:var(--ink-soft); letter-spacing:.06em; }
+
+  /* ---------- Slide 1 title ---------- */
+  #s1{ align-items:flex-start; }
+  #s1 .slide-inner{ max-width:760px; }
+  .title-name{ font-size:clamp(2.8rem, 6.4vw, 5rem); margin-bottom:.8rem; line-height:1.08; }
+  .title-sub{ font-family:'IBM Plex Mono', monospace; font-size:1.05rem; color:var(--ink-soft); margin-bottom:3.2rem; }
+  .title-thesis{
+    border-left:3px solid var(--gold);
+    padding-left:1.4rem;
+    font-size:clamp(1.3rem, 2.6vw, 1.9rem);
+    font-style:italic;
+    max-width:36ch;
+  }
+
+  /* ---------- Stat row (slide 2) ---------- */
+  .stat-row{ display:flex; gap:2.4rem; flex-wrap:wrap; margin-top:2rem; }
+  .stat{ flex:1; min-width:200px; }
+  .stat-num{ font-family:'Fraunces', serif; font-weight:600; font-size:clamp(2.6rem,5vw,4rem); color:var(--teal-deep); }
+  .stat-label{ font-size:1.05rem; color:var(--ink-soft); margin-top:.5rem; }
+
+  /* ---------- Buyer questions (slide 3) ---------- */
+  .q-grid{ display:flex; flex-direction:column; gap:1rem; margin-top:2rem; }
+  .q-card{
+    background:var(--paper-deep);
+    border-left:3px solid var(--teal);
+    padding:1.2rem 1.6rem;
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:1.45rem;
+  }
+  .catalog-strip{
+    margin-top:2rem;
+    display:flex;
+    gap:.5rem;
+    flex-wrap:wrap;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.72rem;
+    color:var(--ink-soft);
+  }
+  .chip{ border:1px solid var(--line); padding:.3rem .6rem; border-radius:999px; }
+
+  /* ---------- Not-just-feed (slide 4) ---------- */
+  .split{ display:flex; gap:2rem; margin-top:2.2rem; flex-wrap:wrap; }
+  .split-col{ flex:1; min-width:260px; padding:1.8rem; border-radius:var(--radius); font-size:1.1rem; }
+  .split-col.no{ background:transparent; border:1px solid var(--line); }
+  .split-col.yes{ background:var(--teal-deep); color:var(--paper); }
+  .split-label{ font-family:'IBM Plex Mono', monospace; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase; margin-bottom:.6rem; opacity:.75; }
+
+  /* ---------- Table (slide 5) ---------- */
+  table.comp{ width:100%; border-collapse:collapse; margin-top:2rem; font-size:1.08rem; }
+  table.comp th, table.comp td{ text-align:left; padding:1rem 1rem; border-bottom:1px solid var(--line); vertical-align:top; }
+  table.comp th{ font-family:'IBM Plex Mono', monospace; font-size:.78rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); font-weight:500; }
+  .callout{
+    margin-top:1.6rem;
+    background:var(--paper-deep);
+    border-left:3px solid var(--gold);
+    padding:1.1rem 1.4rem;
+    font-size:1.08rem;
+  }
+
+  /* ---------- Differentiation (slide 6) ---------- */
+  .diff-grid{ display:flex; gap:1.6rem; margin-top:2rem; flex-wrap:wrap; }
+  .diff-card{ flex:1; min-width:230px; }
+  .diff-num{ font-family:'IBM Plex Mono', monospace; color:var(--gold); font-size:.8rem; margin-bottom:.5rem; }
+  .diff-title{ font-family:'Fraunces', serif; font-weight:600; font-size:1.35rem; margin-bottom:.5rem; }
+  .diff-body{ font-size:1.05rem; color:var(--ink-soft); }
+
+  /* ---------- 90-day timeline (slide 7, signature) ---------- */
+  .timeline{ margin-top:2.4rem; }
+  .phase{ display:flex; align-items:flex-start; gap:1.4rem; margin-bottom:0; }
+  .phase-rail{ display:flex; flex-direction:column; align-items:center; width:24px; }
+  .gate-line{ width:2px; flex:1; background:var(--line); min-height:70px; }
+  .gate-node{
+    width:16px; height:16px;
+    background:var(--gold);
+    transform:rotate(45deg);
+    flex-shrink:0;
+    box-shadow:0 0 0 4px var(--paper);
+  }
+  .gate-node.final{ background:var(--brick); }
+  .phase-content{ padding-bottom:1.8rem; }
+  .phase-days{ font-family:'IBM Plex Mono', monospace; font-size:.72rem; color:var(--ink-soft); letter-spacing:.06em; text-transform:uppercase; }
+  .phase-title{ font-family:'Fraunces', serif; font-weight:600; font-size:1.55rem; margin:.3rem 0 .4rem; }
+  .phase-gate{ font-size:1rem; color:var(--teal-deep); margin-top:.5rem; }
+  .phase-gate b{ font-weight:600; }
+
+  /* ---------- Funding ladder (slide 8) ---------- */
+  .ladder{ margin-top:2.2rem; display:flex; flex-direction:column; gap:.9rem; }
+  .rung{ display:flex; align-items:center; gap:1rem; }
+  .rung-bar{ height:38px; background:var(--teal); border-radius:2px; display:flex; align-items:center; padding-left:1rem; color:var(--paper); font-family:'IBM Plex Mono', monospace; font-size:.8rem; }
+  .rung-label{ width:230px; font-size:.88rem; color:var(--ink-soft); flex-shrink:0; }
+
+  /* ---------- Must prove (slide 9) ---------- */
+  .prove-list{ margin-top:2rem; display:flex; flex-direction:column; gap:0; }
+  .prove-item{ display:flex; gap:1rem; padding:1rem 0; border-bottom:1px solid var(--line); }
+  .prove-mark{ font-family:'IBM Plex Mono', monospace; color:var(--brick); flex-shrink:0; }
+  .prove-text{ font-size:1.02rem; }
+
+  /* ---------- Revenue chart (slide 10) ---------- */
+  .chart-wrap{ margin-top:1.6rem; }
+  .legend{ display:flex; gap:1.6rem; margin-top:1rem; font-family:'IBM Plex Mono', monospace; font-size:.85rem; flex-wrap:wrap; }
+  .legend span{ display:flex; align-items:center; gap:.5rem; }
+  .swatch{ width:18px; height:4px; border-radius:2px; display:inline-block; }
+
+  /* ---------- Risks (slide 11) ---------- */
+  .risk-grid{ display:flex; gap:1.6rem; margin-top:2rem; flex-wrap:wrap; }
+  .risk-card{ flex:1; min-width:250px; border-top:3px solid var(--brick); padding-top:1rem; }
+  .risk-title{ font-family:'Fraunces', serif; font-weight:600; font-size:1.3rem; margin-bottom:.6rem; }
+  .risk-body{ font-size:1.02rem; color:var(--ink-soft); }
+
+  /* ---------- Ask / decision (slide 12) ---------- */
+  .decision-grid{ display:flex; gap:1rem; margin-top:2.2rem; flex-wrap:wrap; }
+  .decision-card{ flex:1; min-width:180px; border:1px solid var(--line); padding:1.1rem; border-radius:var(--radius); position:relative; }
+  .decision-card::before{ content:""; position:absolute; top:-7px; left:1.1rem; width:12px; height:12px; background:var(--gold); transform:rotate(45deg); }
+  .decision-title{ font-family:'Fraunces', serif; font-weight:600; font-size:1.25rem; margin:.5rem 0 .5rem; }
+  .decision-body{ font-size:1rem; color:var(--ink-soft); }
+  .ask-line{ margin-top:2.4rem; font-size:1.35rem; }
+
+  @media (max-width: 720px){
+    .navrail{ display:none; }
+    .slide{ padding:5vh 6vw; }
+    table.comp{ font-size:.8rem; }
+    table.comp th:nth-child(3), table.comp td:nth-child(3){ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .slide{ transition:none; opacity:1; transform:none; }
+  }
+
+  @media print{
+    .topbar, .navrail{ display:none !important; }
+    .deck{ height:auto; overflow:visible; }
+    .slide{ min-height:100vh; page-break-after:always; opacity:1 !important; transform:none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left mono"><span id="counter">01 / 12</span></div>
+  <div class="topbar-right">
+    <a class="btn" id="downloadBtn" href="#">Download PDF</a>
+  </div>
+</div>
+
+<div class="navrail" id="navrail"></div>
+
+<div class="deck" id="deck">
+
+  <!-- 1 — TITLE / THESIS -->
+  <section class="slide" id="s1">
+    <div class="slide-inner">
+      <div class="title-sub mono">SKUFORCE · 90-DAY VALIDATION PROPOSAL</div>
+      <h1 class="title-name">Agentic Commerce<br>Product Intelligence Platform</h1>
+      <p class="title-thesis">Turn a basic commerce catalog into a product knowledge system AI shopping agents can understand, compare, trust, and recommend.</p>
+    </div>
+    <div class="ref-tag">REFERENCE — EXECUTIVE SUMMARY</div>
+  </section>
+
+  <!-- 2 — MARKET SHIFT -->
+  <section class="slide" id="s2">
+    <div class="slide-inner">
+      <div class="eyebrow">The shift is already underway</div>
+      <h2 class="thesis">Product discovery is moving into AI conversations</h2>
+      <p class="lead">OpenAI and Google have both moved past pilot status. Consumer behavior is following.</p>
+      <div class="stat-row">
+        <div class="stat">
+          <div class="stat-num">7</div>
+          <div class="stat-label">Named retailers already live on ACP for discovery — Target, Best Buy, Walmart, Home Depot, Wayfair, Nordstrom, Sephora</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">393%</div>
+          <div class="stat-label">Year-over-year growth in AI-driven traffic to retail websites, Q1 2026 <span class="mono">[1]</span></div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">45%</div>
+          <div class="stat-label">Of surveyed consumers now use AI somewhere in their buying journey <span class="mono">[2]</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="ref-tag">REFERENCE — SECTIONS 1–2</div>
+    <div class="src-tag">SOURCES [1][2] IN APPENDIX</div>
+  </section>
+
+  <!-- 3 — THE PROBLEM -->
+  <section class="slide" id="s3">
+    <div class="slide-inner">
+      <div class="eyebrow">The merchant problem</div>
+      <h2 class="thesis">Ordinary catalogs can't answer the questions agents get asked</h2>
+      <div class="q-grid">
+        <div class="q-card">"Is this appropriate for a beginner?"</div>
+        <div class="q-card">"Which accessory is compatible with this product?"</div>
+        <div class="q-card">"What should I buy if durability matters more than price?"</div>
+      </div>
+      <div class="catalog-strip">
+        <span class="chip">SKU</span><span class="chip">title</span><span class="chip">price</span><span class="chip">inventory</span><span class="chip">basic attributes</span>
+        <span style="margin-left:.6rem; color:var(--brick);">↑ that's what most catalogs contain today</span>
+      </div>
+    </div>
+    <div class="ref-tag">REFERENCE — SECTION 3</div>
+  </section>
+
+  <!-- 4 — NOT JUST A FEED FIX -->
+  <section class="slide" id="s4">
+    <div class="slide-inner">
+      <div class="eyebrow">Positioning</div>
+      <h2 class="thesis">This is not a better feed exporter</h2>
+      <div class="split">
+        <div class="split-col no">
+          <div class="split-label">Not this</div>
+          <div>Better-written descriptions. Faster feed syndication. ACP/UCP compliance as the finish line.</div>
+        </div>
+        <div class="split-col yes">
+          <div class="split-label">This</div>
+          <div>A system that knows <em>what an agent still needs to know</em> before it can confidently recommend a product — and where the evidence for that knowledge comes from.</div>
+        </div>
+      </div>
+    </div>
+    <div class="ref-tag">REFERENCE — SECTION 6</div>
+  </section>
+
+  <!-- 5 — COMPETITIVE TABLE -->
+  <section class="slide" id="s5">
+    <div class="slide-inner">
+      <div class="eyebrow">Competitive landscape</div>
+      <h2 class="thesis" style="max-width:22ch;">Four groups are circling. None own this question yet</h2>
+      <table class="comp">
+        <tr><th>Category</th><th>Players</th><th>Core strength</th><th>Gap we target</th></tr>
+        <tr><td>Feed management</td><td>Feedonomics, GoDataFeed</td><td>Transform &amp; distribute feeds</td><td>Product-level reasoning</td></tr>
+        <tr><td>PIM / PXM</td><td>Salsify, Akeneo</td><td>Governance, workflow</td><td>Lightweight, no PIM replacement</td></tr>
+        <tr><td>GEO / AI visibility</td><td>Profound, Lantern</td><td>Monitoring &amp; citations</td><td>Catalog-level enrichment</td></tr>
+        <tr><td>Commerce platforms</td><td>Shopify &amp; peers</td><td>System of record</td><td>Independent, cross-platform</td></tr>
+      </table>
+      <div class="callout">Feedonomics' Agentic Catalog Exports (April 2026) is the clearest warning — but it's explicitly <b>enterprise-only</b> today, with self-serve access described as a future roadmap item. <span class="mono">[5]</span> That's our window.</div>
+    </div>
+    <div class="ref-tag">REFERENCE — SECTION 6</div>
+  </section>
+
+  <!-- 6 — DIFFERENTIATION -->
+  <section class="slide" id="s6">
+    <div class="slide-inner">
+      <div class="eyebrow">Why this is hard to copy</div>
+      <h2 class="thesis" style="max-width:20ch;">Three ideas, not a feature list</h2>
+      <div class="diff-grid">
+        <div class="diff-card">
+          <div class="diff-num">01</div>
+          <div class="diff-title">Adaptive, not fixed</div>
+          <div class="diff-body">The audit model is generated per merchant, per category. No universal SEO checklist.</div>
+        </div>
+        <div class="diff-card">
+          <div class="diff-num">02</div>
+          <div class="diff-title">Evidence &amp; provenance</div>
+          <div class="diff-body">Every claim traces to merchant, manufacturer, or confirmed data. Unsupported inferences become questions, not facts.</div>
+        </div>
+        <div class="diff-card">
+          <div class="diff-num">03</div>
+          <div class="diff-title">A learning loop</div>
+          <div class="diff-body">Merchant approvals and corrections improve the model over time — an asset that gets harder to replace, not easier.</div>
+        </div>
+      </div>
+    </div>
+    <div class="ref-tag">REFERENCE — SECTION 7</div>
+  </section>
+
+  <!-- 7 — 90 DAY TIMELINE (signature slide) -->
+  <section class="slide" id="s7">
+    <div class="slide-inner">
+      <div class="eyebrow">The ask is 90 days, not a platform</div>
+      <h2 class="thesis" style="max-width:20ch;">Three gates. Kill it early if the evidence says no</h2>
+      <div class="timeline">
+        <div class="phase">
+          <div class="phase-rail"><div class="gate-node"></div><div class="gate-line"></div></div>
+          <div class="phase-content">
+            <div class="phase-days">Days 1–30</div>
+            <div class="phase-title">Prove the problem</div>
+            <div>Smallest adaptive audit engine. Interview 10 merchants, 5 agencies, 3 catalog types.</div>
+            <div class="phase-gate"><b>Gate 1 —</b> 3 catalog types produce meaningfully different rubrics; 3 prospects agree to a deeper pilot.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-rail"><div class="gate-node"></div><div class="gate-line"></div></div>
+          <div class="phase-content">
+            <div class="phase-days">Days 31–60</div>
+            <div class="phase-title">Prove willingness to pay</div>
+            <div>Begin charging. Target 10 paid audits, $5,000 cumulative revenue.</div>
+            <div class="phase-gate"><b>Gate 2 —</b> A large free user base is not enough. We need real dollars.</div>
+          </div>
+        </div>
+        <div class="phase">
+          <div class="phase-rail"><div class="gate-node final"></div></div>
+          <div class="phase-content">
+            <div class="phase-days">Days 61–90</div>
+            <div class="phase-title">Prove repeatability</div>
+            <div>Only build integrations paying customers demand. Target 5–10 recurring customers, 2 agency pilots.</div>
+            <div class="phase-gate"><b>Day 90 —</b> Invest, Adjust, Partner, or Stop.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ref-tag">REFERENCE — SECTION 13</div>
+  </section>
+
+  <!-- 8 — STAGED INVESTMENT -->
+  <section class="slide" id="s8">
+    <div class="slide-inner">
+      <div class="eyebrow">Staged, not upfront</div>
+      <h2 class="thesis" style="max-width:20ch;">$24,000 maximum exposure — released in three gated stages</h2>
+      <div class="ladder">
+        <div class="rung">
+          <div class="rung-label">Stage 1 — Problem validation</div>
+          <div class="rung-bar" style="width:20%;">$4,000</div>
+        </div>
+        <div class="rung">
+          <div class="rung-label">Stage 2 — Paid validation (after Gate 1)</div>
+          <div class="rung-bar" style="width:30%;">up to $8,000</div>
+        </div>
+        <div class="rung">
+          <div class="rung-label">Stage 3 — Repeatability (after Gate 2)</div>
+          <div class="rung-bar" style="width:50%;">up to $12,000</div>
+        </div>
+      </div>
+      <p class="lead" style="margin-top:1.6rem;">Primary investment in Stage 1 is founder time and AI-assisted development, not cash.</p>
+    </div>
+    <div class="ref-tag">REFERENCE — SECTION 14</div>
+  </section>
+
+  <!-- 9 — WHAT MUST BE TRUE -->
+  <section class="slide" id="s9">
+    <div class="slide-inner">
+      <div class="eyebrow">Honest about what's unproven</div>
+      <h2 class="thesis" style="max-width:18ch;">What we must prove — not assume</h2>
+      <div class="prove-list">
+        <div class="prove-item"><div class="prove-mark">→</div><div class="prove-text">Merchants will actually pay for the audit.</div></div>
+        <div class="prove-item"><div class="prove-mark">→</div><div class="prove-text">The adaptive engine beats a fixed checklist.</div></div>
+        <div class="prove-item"><div class="prove-mark">→</div><div class="prove-text">Human review can shrink enough to support healthy margins.</div></div>
+        <div class="prove-item"><div class="prove-mark">→</div><div class="prove-text">Agency distribution can meaningfully lower acquisition cost.</div></div>
+      </div>
+    </div>
+    <div class="ref-tag">REFERENCE — SECTION 16</div>
+  </section>
+
+  <!-- 10 — REVENUE SCENARIOS -->
+  <section class="slide" id="s10">
+    <div class="slide-inner">
+      <div class="eyebrow">Three-year scenarios, not forecasts</div>
+      <h2 class="thesis" style="max-width:20ch;">The base case is the plan. Upside is a distribution bet</h2>
+      <div class="chart-wrap">
+        <svg viewBox="0 0 760 300" width="100%" style="max-width:700px;">
+          <line x1="60" y1="10" x2="60" y2="280" stroke="#D9CFB8" stroke-width="1"/>
+          <line x1="60" y1="280" x2="700" y2="280" stroke="#D9CFB8" stroke-width="1"/>
+          <!-- conservative -->
+          <polyline points="60,266.5 380,203.8 700,160.6" fill="none" stroke="#9C4A38" stroke-width="3" stroke-dasharray="6,4"/>
+          <!-- base -->
+          <polyline points="60,202.2 380,127.5 700,74.1" fill="none" stroke="#2F6B63" stroke-width="4.5"/>
+          <!-- upside -->
+          <polyline points="60,153.7 380,73.3 700,14" fill="none" stroke="#B8862F" stroke-width="3" stroke-dasharray="1,5"/>
+          <circle cx="700" cy="160.6" r="5" fill="#9C4A38"/>
+          <circle cx="700" cy="74.1" r="5" fill="#2F6B63"/>
+          <circle cx="700" cy="14" r="5" fill="#B8862F"/>
+          <text x="710" y="164" font-family="IBM Plex Mono" font-size="14" font-weight="600" fill="#9C4A38">$958K</text>
+          <text x="710" y="78" font-family="IBM Plex Mono" font-size="14" font-weight="600" fill="#2F6B63">$4.91M</text>
+          <text x="710" y="18" font-family="IBM Plex Mono" font-size="14" font-weight="600" fill="#B8862F">$15.3M</text>
+          <text x="55" y="296" font-family="IBM Plex Mono" font-size="13" fill="#57614F" text-anchor="middle">Yr 1</text>
+          <text x="380" y="296" font-family="IBM Plex Mono" font-size="13" fill="#57614F" text-anchor="middle">Yr 2</text>
+          <text x="695" y="296" font-family="IBM Plex Mono" font-size="13" fill="#57614F" text-anchor="middle">Yr 3</text>
+        </svg>
+        <div class="legend" style="font-size:.9rem;">
+          <span><span class="swatch" style="background:#9C4A38;"></span>Conservative — 160 customers</span>
+          <span><span class="swatch" style="background:#2F6B63;"></span>Base — 600 customers</span>
+          <span><span class="swatch" style="background:#B8862F;"></span>Upside — 1,500 customers</span>
+        </div>
+      </div>
+    </div>
+    <div class="ref-tag">REFERENCE — SECTION 12</div>
+    <div class="src-tag">LOG SCALE · INCLUDES ONE-TIME AUDIT REVENUE</div>
+  </section>
+
+  <!-- 11 — TOP RISKS -->
+  <section class="slide" id="s11">
+    <div class="slide-inner">
+      <div class="eyebrow">The risks that matter most</div>
+      <h2 class="thesis" style="max-width:18ch;">Three risks carry the decision</h2>
+      <div class="risk-grid">
+        <div class="risk-card">
+          <div class="risk-title">Established vendors move fast</div>
+          <div class="risk-body">Build around adaptive intelligence and the merchant learning loop. Don't compete on feed delivery alone.</div>
+        </div>
+        <div class="risk-card">
+          <div class="risk-title">Interest without payment</div>
+          <div class="risk-body">Charge starting Day 31. A large free user base is not product-market fit.</div>
+        </div>
+        <div class="risk-card">
+          <div class="risk-title">AI enrichment commoditizes</div>
+          <div class="risk-body">The product's value is the evaluation and knowledge-gap system — not generated text.</div>
+        </div>
+      </div>
+    </div>
+    <div class="ref-tag">REFERENCE — SECTION 15, ALL 8 RISKS</div>
+  </section>
+
+  <!-- 12 — ASK / DECISION -->
+  <section class="slide" id="s12">
+    <div class="slide-inner">
+      <div class="eyebrow">The decision in front of you</div>
+      <h2 class="thesis" style="max-width:18ch;">Fund 90 days. Let the evidence decide</h2>
+      <p class="ask-line">We're asking to fund a <b>90-day gated validation program</b>, not a platform build — maximum cash exposure $50,000, released in three stages.</p>
+      <div class="decision-grid">
+        <div class="decision-card"><div class="decision-title">Invest</div><div class="decision-body">Evidence supports continued build and sales.</div></div>
+        <div class="decision-card"><div class="decision-title">Adjust</div><div class="decision-body">Problem is real; pricing or ICP needs to change.</div></div>
+        <div class="decision-card"><div class="decision-title">Partner</div><div class="decision-body">Better distributed through agencies or PIM partners.</div></div>
+        <div class="decision-card"><div class="decision-title">Stop</div><div class="decision-body">Merchants don't pay or act on the findings.</div></div>
+      </div>
+    </div>
+    <div class="ref-tag">REFERENCE — FULL DOCUMENT: AGENTIC COMMERCE PRODUCT INTELLIGENCE PLATFORM</div>
+  </section>
+
+</div>
+
+<script>
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const navrail = document.getElementById('navrail');
+  const counter = document.getElementById('counter');
+
+  slides.forEach((s, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'navdot';
+    dot.setAttribute('aria-label', 'Go to slide ' + (i+1));
+    dot.addEventListener('click', () => s.scrollIntoView({behavior:'smooth'}));
+    navrail.appendChild(dot);
+  });
+  const dots = Array.from(navrail.children);
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const idx = slides.indexOf(entry.target);
+      if(entry.isIntersecting){
+        entry.target.classList.add('in-view');
+      }
+      if(entry.intersectionRatio > 0.55){
+        dots.forEach(d => d.classList.remove('active'));
+        dots[idx].classList.add('active');
+        counter.textContent = String(idx+1).padStart(2,'0') + ' / ' + slides.length;
+      }
+    });
+  }, {threshold:[0, 0.55]});
+  slides.forEach(s => io.observe(s));
+
+  document.addEventListener('keydown', (e) => {
+    const deck = document.getElementById('deck');
+    const current = slides.findIndex(s => {
+      const r = s.getBoundingClientRect();
+      return r.top >= -10 && r.top < window.innerHeight/2;
+    });
+    if(e.key === 'ArrowDown' || e.key === 'PageDown'){
+      e.preventDefault();
+      const next = slides[Math.min(current+1, slides.length-1)];
+      next.scrollIntoView({behavior:'smooth'});
+    } else if(e.key === 'ArrowUp' || e.key === 'PageUp'){
+      e.preventDefault();
+      const prev = slides[Math.max(current-1, 0)];
+      prev.scrollIntoView({behavior:'smooth'});
+    }
+  });
+
+  document.getElementById('downloadBtn').addEventListener('click', (e) => {
+    e.preventDefault();
+    window.print();
+  });
+</script>
+
+</body>
+</html>
